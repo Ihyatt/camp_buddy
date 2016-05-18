@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<form action="/register" method="POST">
+  <div class="form-group">
+    <h1> Registration </h1>
+    <label for="username">Username</label>
+    <input type="username" name = "username" class="form-control" id="exampleInputEmail1" placeholder="Username">
+  </div>
+  <div class="form-group">
+    <label for="Email">Email</label>
+    <input type="email" name ="email"class="form-control" id="exampleInputPassword1" placeholder="Email">
+  </div>
+   <div class="form-group">
+    <label for="exampleInputPassword1">Password</label>
+    <input type="password" name ="password"class="form-control" id="exampleInputPassword1" placeholder="Password">
+  </div>
+   <div class="form-group">
+    <label for="exampleInputPassword1">Age</label>
+    <input type="age" name ="age"class="form-control" id="exampleInputPassword1" placeholder="Age">
+  </div>
+   <div class="form-group">
+    <label for="exampleInputPassword1">City</label>
+    <input type="city" name ="city"class="form-control" id="exampleInputPassword1" placeholder="City">
+  </div>
+   <div class="form-group">
+    <label for="exampleInputPassword1">State</label>
+    <input type="state" name ="state"class="form-control" id="exampleInputPassword1" placeholder="State">
+  </div>
+   <div class="form-group">
+    <label for="exampleInputPassword1">Boot Camp Name</label>
+    <input type="boot_camp_name" name ="boot_camp_name"class="form-control" id="exampleInputPassword1" placeholder="Bootcamp Name">
+  </div>
+  
+
+  
+  <button type="submit" class="btn btn-default" value="Submit">Submit</button>
+</form>
+
+{% endblock %}

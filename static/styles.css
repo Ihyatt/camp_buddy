@@ -1,0 +1,34 @@
+.form-group {
+	width: 25%;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+.btn {
+	width: 10%;
+	margin-left: 45%;
+	
+}
+
+li {
+	list-style-type: none;
+}
+
+body {
+  background-color: #eaeaea;
+}
+
+img.avatar {
+  border: 1px solid #eee;
+  height: 10%;
+}
+
+.only-bottom-margin {
+  margin-top: 0px;
+}
+
+.activity-mini {
+  padding-right: 15px;
+  float: left;
+}
+
