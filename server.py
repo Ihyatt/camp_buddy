@@ -53,20 +53,17 @@ def register_process():
     else:
         
         flash('You were successfully logged in')
-        user = User(email=email, password=password)
-        db.session.add(user)
-        db.session.commit()
-
     
         new_user = User(username=username, email=email, password=password, age=age, city=city, state=state, boot_camp_name=boot_camp_name)
         db.session.add(new_user)
         db.session.commit()
 
 
-        profile = ProfilePage(user_id=new_user.user_id, about_me="", image_url="", linkedin_url="", github_url="")
+        profile = ProfilePage(user_id=new_user.user_id, about_me="", image_url="http://cdn.someecards.com/posts/cat-banana-year-of-the-monkey-costume-tY9.jpg", linkedin_url="", github_url="")
+        
         db.session.add(profile)
-
         db.session.commit()
+
         user = User.query.filter_by(email=email).first()
         session["user_id"] = user.user_id
 
