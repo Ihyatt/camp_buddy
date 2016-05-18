@@ -170,6 +170,25 @@ def view_profile():
 #todo get question running for render template and do modal later
 #make a notification whenever a question is answered 
 #allow user acces to their own question
+@app.route("/ask_question", methods=['POST'])
+def ask_question():
+    """Allows user to ask questions and post to forum"""
+
+    ask = Question(user_id = session["user_id"], question = "")
+    user = User.query.get(session["user_id"])
+
+    db.session.add(ask)
+    db.session.commit()
+
+    ask.question = request.form.get("question")
+    db.session.commit()
+
+    return redirect("/users/%s" % user.user_id)
+
+
+
+
+
 
 
 

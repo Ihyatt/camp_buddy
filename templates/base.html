@@ -4,17 +4,19 @@
   <title>{% block title %} {% endblock %}</title> 
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
   <link href="/static/styles.css" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js" integrity="sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7" crossorigin="anonymous"></script>
 </head>
 
 <body>
 <ul>
-              {% if "user_id" in session %}
-                  <li><a href="/users/{{ session['user_id'] }}">Profile</a></li>
-                  <li><a href="/logout">Logout</a></li>
-              {% else %}
-                  <li><a href="/register">Register</a></li>
-                  <li><a href="/login">Login</a></li>
-              {% endif %}
+{% if "user_id" in session %}
+  <li><a href="/users/{{ session['user_id'] }}">Profile</a></li>
+  <li><a href="/logout">Logout</a></li>
+    {% else %}
+  <li><a href="/register">Register</a></li>
+  <li><a href="/login">Login</a></li>
+    {% endif %}
 </ul>
 
 

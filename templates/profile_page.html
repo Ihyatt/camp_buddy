@@ -52,6 +52,10 @@
       </div>
     </div>
   </div>
+  <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+  Launch demo modal
+</button>
+
 </div> 
 <button type="submit" id = "edit_profile" >Submit</button>
 </form>
@@ -59,6 +63,31 @@
 <input type="submit" value = 'view profile'>
 </form>
 
+ <form action="/ask_question", method="POST">
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+      </div>
+      <div class="modal-body">
+      
+        <input type = "question" name ="question" id="question" placeholder="Ask a question...">
+    
+       <!--  ...#put in form for input text, then put in flask route-->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Ask Question</button>
+      </div>
+    </div>
+  </div>
+</div>
+ </form>
 
 
 
