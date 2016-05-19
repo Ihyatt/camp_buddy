@@ -86,8 +86,10 @@ class Comment(db.Model):
     comment= db.Column(db.String(1000), nullable=True)
     
 
-    question = db.relationship("Question", backref="comments")
+    question = db.relationship("Question", backref=db.backref("comments"))
     #make a test without question_id and keep backref
+    #question gets you eerything in question table related to current comment
+    #comments is everythin in comment table from question instance
 
     def __repr__(self):
         return "<Comment comment_id=%s user_id=%s comment_timestamp=%s question_id=%s comment=%s>" % (

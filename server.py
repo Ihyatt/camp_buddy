@@ -1,8 +1,10 @@
 """Camp Buddy"""
-
+from datetime import datetime
 from jinja2 import StrictUndefined 
 
-from flask import Flask, render_template, redirect, request, flash, session, jsonify
+
+from flask import Flask, render_template, redirect, request, flash, session, jsonify, abort
+
 from flask_debugtoolbar import DebugToolbarExtension
 
 from model import User, ProfilePage, Question, Comment, Vote, connect_to_db, db
@@ -184,6 +186,66 @@ def ask_question():
     db.session.commit()
 
     return redirect("/users/%s" % user.user_id)
+
+@app.route("/view_questions")
+def view_questions():
+    """Allows user to view previously asked questions"""
+    user_id = session.get("user_id")
+    if user_id:
+        questions = Question.query.filter_by(user_id = user_id).all()
+
+    return render_template("question_list.html", questions = questions)
+
+
+@app.route("/add-comment", methods=['POST'])
+def add_comment():
+    
+    comment = request.form.get("comment")
+    question_id = request.form.get("question_id")
+
+    commented_item = Comment(user_id = session["user_id"], comment_timestamp = datetime.now(), question_id = question_id, comment = comment) 
+    db.session.add(commented_item)
+    db.session.commit()
+
+    return "comment added to database"
+
+
+@app.route("/question_and_comment/<int:question_id>")
+def view_question_comments(question_id):
+    ask = Question.query.get(question_id) 
+
+    return render_template("question_and_comment.html", ask=ask)
+
+
+@app.route("/add_vote/<int:comment_id>", methods=['POST'])
+def add_vote(comment_id):
+
+    direction = request.form.get("direction")
+   
+    if direction == "up":
+        up_vote = True
+    elif direction == "down":
+        up_vote = False
+    else: 
+        abort(400)
+
+    vote = Vote(user_id = session["user_id"], up_vote=up_vote, comment_id=comment_id)
+    db.session.add(vote)
+    db.session.commit()
+
+    return "vote counted"
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
