@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{{ask.question}}
+
+<ul>
+	{% for comment in ask.comments %}
+	<li>
+		{{comment.comment}}
+		<button class ="vote" data-direction = "up" data-comment-id= "{{comment.comment_id}}"> up </button>
+		<button class ="vote" data-direction = "down" data-comment-id = "{{comment.comment_id}}"> down </button>
+	</li>
+	{% endfor %}
+</ul>
+<div id = "comments"></div>	
+<input type = "text" name = "comment" placeholder = "write a comment" id = "write-comment">
+
+<input type="button" value="add comment" id = "add-comment">
+
+
+
+
+
+<script>
+function showResult(resp){
+$("#comments").append("<li>" + $("#write-comment").val() + "</li>")
+$("#write-comment").val("")
+}
+
+function submitComment(evt) {
+	var comment = {
+		"comment": $("#write-comment").val(),
+		"question_id": getQuestionId()
+	};
+
+	$.post("/add-comment", comment, showResult);
+
+}
+
+function getQuestionId() {
+	componenets = window.location.href.split("/")
+	idx = componenets.length - 1
+
+	return componenets[idx]
+}
+
+
+$("#add-comment").on("click", submitComment);
+
+// *******************************************
+function showVote(resp) {
+	alert("vote counted")
+}
+
+function submitVote(evt) {
+
+	var vote = {
+		"direction": $(evt.target).data("direction")
+		
+	};
+	var comment_id = $(evt.target).data("comment-id")
+	$.post("/add_vote/" + comment_id, vote, showVote);
+}
+
+$(".vote").on("click", submitVote);
+
+</script>
+
+
+{% endblock %}
