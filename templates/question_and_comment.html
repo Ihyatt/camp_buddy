@@ -8,8 +8,9 @@
 	<li>
 		{{comment.comment}}
 		<button class ="vote" data-direction = "up" data-comment-id= "{{comment.comment_id}}"> up </button>
+		<p class = "up">{{comment.up_vote_count()}}</p>
 		<button class ="vote" data-direction = "down" data-comment-id = "{{comment.comment_id}}"> down </button>
-		{{comment.down_vote_count()}}
+		<p class = "down" data-comment-id = "{{comment.comment_id}}">{{comment.down_vote_count()}}</p>
 	</li>
 	{% endfor %}
 </ul>
@@ -19,7 +20,7 @@
 <input type="button" value="add comment" id = "add-comment">
 
 
-#redirect back to page rather than using ajax
+
 
 
 <script>
@@ -28,12 +29,23 @@ function showResult(resp){
 
 	$("#comments").append("<li>" + $("#write-comment").val()  )
 		.append('<button class ="vote" data-direction = "up" data-comment-id= "' + resp.comment_id + '"> up </button>')
+		.append('<p class = "up" data-comment-id= "' + resp.comment_id + '"> 0 </p>')
 		.append('<button class ="vote" data-direction = "down" data-comment-id="' + resp.comment_id +'"> down </button>')
+		.append('<p class= "down" data-comment-id= "' + resp.comment_id + '"> 0 </p>')
 		.append('</li>');
 
 	$("#write-comment").val("");
 
 	$("button[data-comment-id='"+resp.comment_id+"']").on("click", submitVote);
+
+
+	$("button[data-comment-id='"+resp.comment_id+"']").click(function() {
+		down = $("p.down[data-comment-id='"+resp.comment_id+"']");
+	    counter = down.text();
+	    counter++;
+	  	console.log(counter);
+	    down.text(counter);
+	});
 
 }
 
@@ -59,8 +71,8 @@ $("#add-comment").on("click", submitComment);
 
 // *******************************************
 function showVote(resp) {
-	alert("vote counted")
-	
+	console.log("vote counted")
+
 }
 
 function submitVote(evt) {
@@ -75,7 +87,24 @@ function submitVote(evt) {
 
 $(".vote").on("click", submitVote);
 
+// ***************************************
+
+
+
+// $("button[data-comment-id='"+resp.comment_id+"']").click(function() {
+// 	down = $("p.down[data-comment-id='"+resp.comment_id+"']");
+//     console.log(down)
+  
+// });
+
+
+
+
 </script>
+#1.use javascript once everything is loaded to get all data
+#2. Json already contains comments, loop through comments, attach function that updates counter
+#or
+#3.or use a this
 
 
 {% endblock %}

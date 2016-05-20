@@ -203,13 +203,12 @@ def add_comment():
     comment = request.form.get("comment")
     question_id = request.form.get("question_id")
 
-    commented_item = Comment(user_id = session["user_id"], comment_timestamp = datetime.now(), question_id = question_id, comment = comment, up_vot= 0, down_vote = 0) 
+    commented_item = Comment(user_id = session["user_id"], comment_timestamp = datetime.now(), question_id = question_id, comment = comment) 
     db.session.add(commented_item)
     db.session.commit()
 
     result = {'comment_id': commented_item.comment_id}
 
-    print result
 
     return jsonify(result)
 
@@ -225,11 +224,11 @@ def view_question_comments(question_id):
 def add_vote(comment_id):
 
     direction = request.form.get("direction")
-    comment = Comment.query.get(comment_id)
+   
     if direction == "up":
-        comment.up_vote += 1
+        up_vote = True
     elif direction == "down":
-        comment.down_vote += 1
+        up_vote = False
     else: 
         abort(400)
 
@@ -237,9 +236,7 @@ def add_vote(comment_id):
     db.session.add(vote)
     db.session.commit()
 
-    # return "vote counted"
-    retu
-
+    return "vote counted"
 
 
 
@@ -278,6 +275,6 @@ if __name__ == "__main__":
     connect_to_db(app)
 
     # Use the DebugToolbar
-    DebugToolbarExtension(app)
+    # DebugToolbarExtension(app)
 
     app.run()

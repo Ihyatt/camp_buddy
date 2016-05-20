@@ -84,8 +84,6 @@ class Comment(db.Model):
     comment_timestamp = db.Column(db.DateTime) #flask app will render current date and time once ran in templates through 
     question_id = db.Column(db.Integer, db.ForeignKey('questions.question_id'))
     comment= db.Column(db.String(1000), nullable=True)
-    # up_vote = db.column(db.Integer)
-    #down_vote = db.column(db.Integer)
     
 
     question = db.relationship("Question", backref=db.backref("comments"))
@@ -96,11 +94,11 @@ class Comment(db.Model):
     def up_vote_count(self):
         #query where commentid is = to comment id and where upvote is eqal to true and use comment to get therea and votes to get back
         count = 0 
-        up_vote_count = db.session.query.filter(self.comment_id, Vote.up_vote).join(Vote).all()
-        for comment_id, up_vote in up_vote_count:
-            if comment_id == self.comment_id:
-                if up_vote == t:
-                    count += 1
+        
+        for vote in self.votes:
+            if vote.up_vote is True:
+                count += 1
+        return count
 
 
         return count
@@ -108,13 +106,10 @@ class Comment(db.Model):
     def down_vote_count(self):
         #query where commentid is = to comment id and where upvote is eqal to true and use comment to get therea and votes to get back
         count = 0 
-        # down_vote_count = self.votes
+        
         for vote in self.votes:
             if vote.up_vote is False:
                 count += 1
-            # if comment_id == self.comment_id:
-            #     if up_vote == f:
-            #         count += 1
         return count
 
 
