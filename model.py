@@ -84,12 +84,39 @@ class Comment(db.Model):
     comment_timestamp = db.Column(db.DateTime) #flask app will render current date and time once ran in templates through 
     question_id = db.Column(db.Integer, db.ForeignKey('questions.question_id'))
     comment= db.Column(db.String(1000), nullable=True)
+    # up_vote = db.column(db.Integer)
+    #down_vote = db.column(db.Integer)
     
 
     question = db.relationship("Question", backref=db.backref("comments"))
     #make a test without question_id and keep backref
     #question gets you eerything in question table related to current comment
     #comments is everythin in comment table from question instance
+
+    def up_vote_count(self):
+        #query where commentid is = to comment id and where upvote is eqal to true and use comment to get therea and votes to get back
+        count = 0 
+        up_vote_count = db.session.query.filter(self.comment_id, Vote.up_vote).join(Vote).all()
+        for comment_id, up_vote in up_vote_count:
+            if comment_id == self.comment_id:
+                if up_vote == t:
+                    count += 1
+
+
+        return count
+
+    def down_vote_count(self):
+        #query where commentid is = to comment id and where upvote is eqal to true and use comment to get therea and votes to get back
+        count = 0 
+        # down_vote_count = self.votes
+        for vote in self.votes:
+            if vote.up_vote is False:
+                count += 1
+            # if comment_id == self.comment_id:
+            #     if up_vote == f:
+            #         count += 1
+        return count
+
 
     def __repr__(self):
         return "<Comment comment_id=%s user_id=%s comment_timestamp=%s question_id=%s comment=%s>" % (
@@ -108,6 +135,7 @@ class Vote(db.Model):
     comment_id = db.Column(db.Integer, db.ForeignKey('comments.comment_id'))
 
     #make backref from users table for user
+
 
     user = db.relationship("User", backref="votes")
     comment = db.relationship("Comment", backref="votes")

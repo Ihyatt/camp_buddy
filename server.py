@@ -203,11 +203,15 @@ def add_comment():
     comment = request.form.get("comment")
     question_id = request.form.get("question_id")
 
-    commented_item = Comment(user_id = session["user_id"], comment_timestamp = datetime.now(), question_id = question_id, comment = comment) 
+    commented_item = Comment(user_id = session["user_id"], comment_timestamp = datetime.now(), question_id = question_id, comment = comment, up_vot= 0, down_vote = 0) 
     db.session.add(commented_item)
     db.session.commit()
 
-    return "comment added to database"
+    result = {'comment_id': commented_item.comment_id}
+
+    print result
+
+    return jsonify(result)
 
 
 @app.route("/question_and_comment/<int:question_id>")
@@ -221,11 +225,11 @@ def view_question_comments(question_id):
 def add_vote(comment_id):
 
     direction = request.form.get("direction")
-   
+    comment = Comment.query.get(comment_id)
     if direction == "up":
-        up_vote = True
+        comment.up_vote += 1
     elif direction == "down":
-        up_vote = False
+        comment.down_vote += 1
     else: 
         abort(400)
 
@@ -233,7 +237,9 @@ def add_vote(comment_id):
     db.session.add(vote)
     db.session.commit()
 
-    return "vote counted"
+    # return "vote counted"
+    retu
+
 
 
 

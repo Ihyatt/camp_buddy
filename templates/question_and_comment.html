@@ -9,6 +9,7 @@
 		{{comment.comment}}
 		<button class ="vote" data-direction = "up" data-comment-id= "{{comment.comment_id}}"> up </button>
 		<button class ="vote" data-direction = "down" data-comment-id = "{{comment.comment_id}}"> down </button>
+		{{comment.down_vote_count()}}
 	</li>
 	{% endfor %}
 </ul>
@@ -18,13 +19,22 @@
 <input type="button" value="add comment" id = "add-comment">
 
 
-
+#redirect back to page rather than using ajax
 
 
 <script>
 function showResult(resp){
-$("#comments").append("<li>" + $("#write-comment").val() + "</li>")
-$("#write-comment").val("")
+	console.log(resp);
+
+	$("#comments").append("<li>" + $("#write-comment").val()  )
+		.append('<button class ="vote" data-direction = "up" data-comment-id= "' + resp.comment_id + '"> up </button>')
+		.append('<button class ="vote" data-direction = "down" data-comment-id="' + resp.comment_id +'"> down </button>')
+		.append('</li>');
+
+	$("#write-comment").val("");
+
+	$("button[data-comment-id='"+resp.comment_id+"']").on("click", submitVote);
+
 }
 
 function submitComment(evt) {
@@ -50,6 +60,7 @@ $("#add-comment").on("click", submitComment);
 // *******************************************
 function showVote(resp) {
 	alert("vote counted")
+	
 }
 
 function submitVote(evt) {
