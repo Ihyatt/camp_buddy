@@ -15,6 +15,13 @@ Member since {{user.member_since}}<br>
   <a href="{{user.github_url}}"><img border="0" alt="github" src="https://assets-cdn.github.com/images/modules/logos_page/Octocat.png" width="20" height="20"></a>
 </div>
 
+
+<!-- search button -->
+<form action = "/search-questions">
+ <input type = "text" name ="search" id="search" placeholder="What are you looking for...">
+ <button type="submit">Search</button>
+</form>
+
 <!-- Allows user to view past written questions -->
 <form action = "/view_questions">
   <input type="submit" value = 'view questions'>

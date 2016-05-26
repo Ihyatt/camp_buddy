@@ -25,7 +25,7 @@
 <script>
 function showResult(resp){
 
-	$("#comments").append("<li>" + $("#write-comment").val() + '<button class ="vote" data-direction = "up" data-comment-id="' + resp.comment_id + '" id="' + resp.comment_id +'"> ' + resp.vote + ' </button></li>');
+	$("#comments").append("<li>" + $("#write-comment").val() + '<button class ="vote" data-direction = "up" data-comment-id="' + resp.comment_id + '"id="' + resp.comment_id +'"> ' + resp.vote + ' </button></li>');
 		
 	$("#write-comment").val("");
 	$(".vote").click(submitVote);

@@ -156,6 +156,8 @@ def update_user_data():
 
     return redirect("/users/%s" % user.user_id)
 
+
+
 @app.route("/ask_question", methods=['POST'])
 def ask_question():
     """Allows user to ask questions and post to forum"""
@@ -268,7 +270,42 @@ def add_vote():
     return jsonify(result)
 
 
+@app.route("/search-questions", methods=['POST'])
+def search_question(): 
+
+    # list_of_queried_question_objects = []
+    sliced_search = []
+    search_list = []
+    search = request.form.get("search")
     
+    splitted_search = search.split(" ")#returns list of searched words
+    splitted_search_by_phrase = search.split(" ")
+
+    search_match = Question.query.filter(Question.question.like('%' + search + '%') ).all() #returns a list of objects
+    search_list.append(search_match)
+
+    idx = 0 
+    while idx < len(search): 
+        search_parse_phrase = search[idx:]
+        sliced_search.append(search_parse_phrase)
+        idx += 1
+
+    for word in sliced_search:
+        search_match = Question.query.filter(Question.question.like('%' + word + '%') ).all() #returns a list of objects
+        search_list.append(search_match)
+
+    for word in splitted_search:
+        search_match = Question.query.filter(Question.question.like('%' + word + '%') ).all() #returns a list of objects
+        search_list.append(search_match)
+
+    print search_list
+
+    #check for duplicates
+
+    if search_list.empty():
+        return render_template("empty_search.html", search_list=search_list)
+    else:
+        return render_template("question_search.html", search_list=search_list)
 
 
 # @app.route("/more-questions")
@@ -282,17 +319,13 @@ def add_vote():
 
 
 
-
-
-
 if __name__ == "__main__":
-    # We have to set debug=True here, since it has to be True at the point
-    # that we invoke the DebugToolbarExtension
+  
     app.debug = True
 
     connect_to_db(app)
 
-    # Use the DebugToolbar
+  
     DebugToolbarExtension(app)
 
     app.run()
