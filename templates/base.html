@@ -2,10 +2,16 @@
 <html>
 <head>
   <title>{% block title %} {% endblock %}</title> 
+  <script src="https://www.atlasestateagents.co.uk/javascript/tether.min.js"></script><!-- Tether for Bootstrap --> 
+
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
   <link href="/static/styles.css" rel="stylesheet">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js" integrity="sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7" crossorigin="anonymous"></script>
+ <script src="/static/questions.js"></script>
+ <script type="text/javascript" src="script.js"></script>
+
+
 </head>
 
 <body>
@@ -18,9 +24,8 @@
   <li><a href="/login">Login</a></li>
     {% endif %}
 </ul>
-
-
-
+<!-- 
+<label> Upload your image<input type="file" name="hi"></label> -->
 
 {% with messages = get_flashed_messages() %}
   {% if messages %}
@@ -33,13 +38,6 @@
 {% endwith %}
 
 {% block content %} {% endblock %}
-
-
-<!-- <form action = '/logout'>
-<input type="submit" value = 'logout'>
-</form> -->
-
-
 
 </body>
 </html>

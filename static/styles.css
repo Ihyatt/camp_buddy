@@ -32,3 +32,41 @@ img.avatar {
   float: left;
 }
 
+.upload-button {
+    padding: 4px;
+    border: 1px solid black;
+    border-radius: 5px;
+    display: block;
+    float: left;
+}
+
+.profile-pic {
+    max-width: 200px;
+    max-height: 200px;
+    display: block;
+}
+
+.file-upload {
+    display: none;
+}
+/*css for infinite scroll*/
+body {
+    margin: 0;
+    background-color: #F0F0F0;
+    font-family: 'Liberation Sans', Arial, sans-serif;
+}
+
+h1 {
+    text-align: center;
+}
+
+#questions {
+    margin: 2em auto;
+    padding: 0;
+    width: 15em;
+    height: 10em;
+    overflow: auto;
+    text-align: center;
+    list-style-type: none;
+}
+

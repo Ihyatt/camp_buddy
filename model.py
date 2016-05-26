@@ -4,10 +4,9 @@ import datetime
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
+
 db = SQLAlchemy()
 
-
-# psql -d camp_buddy
 
 ##############################################################################
 #Model definitions 
@@ -19,14 +18,30 @@ class User(db.Model):
 
     user_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     username = db.Column(db.String(100), nullable=True)
+    member_since = db.Column(db.DateTime)
     email = db.Column(db.String(70), nullable=True)
     password = db.Column(db.String(70), nullable=True)
     age = db.Column(db.Integer, nullable = True)
     city = db.Column(db.String(15), nullable = True)
     state = db.Column(db.String(15), nullable = True)
     boot_camp_name = db.Column(db.String(200), nullable=True)
+    languages = db.Column(db.String(1000), nullable=True)
+    linkedin_url = db.Column(db.String(200), nullable=True)
+    github_url = db.Column(db.String(200), nullable=True)
 
     user_profile = db.relationship('ProfilePage', uselist=False, backref=db.backref("users"))
+
+    def question_count(self):
+        count = 0 
+        for question in self.questions:
+            count += 1
+        return count
+
+    def comment_count(self):
+        count = 0 
+        for comment in self.comments:
+            count += 1
+        return count
 
 
     def __repr__(self):
@@ -43,31 +58,44 @@ class ProfilePage(db.Model):
 
     profile_page_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
-    about_me = db.Column(db.String(1000), nullable=True)
-    image_url = db.Column(db.String(500), nullable=True)
-    linkedin_url = db.Column(db.String(200), nullable=True)
-    github_url = db.Column(db.String(200), nullable=True)
-
-    
 
     def __repr__(self):
-        return "<ProfilePage profile_page_id=%s user_id=%s about_me=%s linkedin_url=%s github_url=%s>" % (
-            self.profile_page_id, self.user_id, self.about_me, self.linkedin_url, self.github_url)
+        return "<ProfilePage profile_page_id=%s user_id=%s linkedin_url=%s github_url=%s>" % (
+            self.profile_page_id, self.user_id, self.linkedin_url, self.github_url)
 
+##############################################################################
+class Note(db.Model):
+    """Allows user to keep and review study notes written"""
+
+    __tablename__ = "notes"
+
+    notes_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+    title_note = db.Column(db.String(1500), nullable=True)
+    note = db.Column(db.String(1500), nullable=True)
+
+    user = db.relationship('User', backref="notes")
+
+    def __repr__(self):
+        return "Note note_id=%s user_id=%s note=%s" % (self.note_id, self.user_id, self.note)
 
 ##############################################################################
 
+
 class Question(db.Model):
-    """Comment page information"""
+    """Question page information"""
 
     __tablename__ = "questions"
 
     question_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+    title_question = db.Column(db.String(1000), nullable=True)
     question = db.Column(db.String(1000), nullable=True)
     #when pages are rendered, do sql command to show num of comments
 
     user = db.relationship('User', backref="questions")
+
+
     
     def __repr__(self):
         return "<Question question_id=%s user_id=%s question=%s>" % (self.question_id, self.user_id, self.question)
@@ -83,63 +111,27 @@ class Comment(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id')) #user replying to question
     comment_timestamp = db.Column(db.DateTime) #flask app will render current date and time once ran in templates through 
     question_id = db.Column(db.Integer, db.ForeignKey('questions.question_id'))
-    comment= db.Column(db.String(1000), nullable=True)
+    comment = db.Column(db.String(1000), nullable=True)
+    vote = db.Column(db.Integer)
     
 
     question = db.relationship("Question", backref=db.backref("comments"))
-    #make a test without question_id and keep backref
-    #question gets you eerything in question table related to current comment
     #comments is everythin in comment table from question instance
 
-    def up_vote_count(self):
-        #query where commentid is = to comment id and where upvote is eqal to true and use comment to get therea and votes to get back
-        count = 0 
-        
-        for vote in self.votes:
-            if vote.up_vote is True:
-                count += 1
-        return count
+    user = db.relationship('User', backref = db.backref('comments'))
 
-
-        return count
-
-    def down_vote_count(self):
-        #query where commentid is = to comment id and where upvote is eqal to true and use comment to get therea and votes to get back
-        count = 0 
-        
-        for vote in self.votes:
-            if vote.up_vote is False:
-                count += 1
-        return count
+   
 
 
     def __repr__(self):
         return "<Comment comment_id=%s user_id=%s comment_timestamp=%s question_id=%s comment=%s>" % (
             self.comment_id, self.user_id, self.comment_timestamp, self.question_id, self.comment) 
 
+
+
 ##############################################################################
 
-class Vote(db.Model):
-    """Vote information"""
 
-    __tablename__ = "votes"
-
-    vote_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id')) #from users table
-    up_vote = db.Column(db.Boolean, nullable=True) #zeroes represent negative number
-    comment_id = db.Column(db.Integer, db.ForeignKey('comments.comment_id'))
-
-    #make backref from users table for user
-
-
-    user = db.relationship("User", backref="votes")
-    comment = db.relationship("Comment", backref="votes")
-
-
-    def __repr__(self):
-        return "<Vote vote_id=%s user_id=%s up_vote=%s comment_id=%s>" % (self.vote_id, self.user_id, self.up_vote, self.comment_id)
-
-##############################################################################
 
  #Helper functions
 
@@ -152,7 +144,7 @@ def connect_to_db(app):
     db.init_app(app)
 
 
-if __name__ == "__main__": ##allows you to play with data table within command line if result isn't '=='
+if __name__ == "__main__": 
 
     from server import app
     connect_to_db(app)

@@ -2,19 +2,18 @@
 {% block content %}
 
 {{ask.question}}
-
-<ul>
-	{% for comment in ask.comments %}
+<div>
+<ul id = "comments">
+	{% for comment in comments %}
 	<li>
 		{{comment.comment}}
-		<button class ="vote" data-direction = "up" data-comment-id= "{{comment.comment_id}}"> up </button>
-		<p class = "up">{{comment.up_vote_count()}}</p>
-		<button class ="vote" data-direction = "down" data-comment-id = "{{comment.comment_id}}"> down </button>
-		<p class = "down" data-comment-id = "{{comment.comment_id}}">{{comment.down_vote_count()}}</p>
+		<button class="vote" data-direction="up" data-comment-id="{{comment.comment_id}}" id ="{{comment.comment_id}}"> {{comment.vote}} </button>
 	</li>
 	{% endfor %}
 </ul>
-<div id = "comments"></div>	
+
+</div>	
+
 <input type = "text" name = "comment" placeholder = "write a comment" id = "write-comment">
 
 <input type="button" value="add comment" id = "add-comment">
@@ -25,86 +24,56 @@
 
 <script>
 function showResult(resp){
-	console.log(resp);
 
-	$("#comments").append("<li>" + $("#write-comment").val()  )
-		.append('<button class ="vote" data-direction = "up" data-comment-id= "' + resp.comment_id + '"> up </button>')
-		.append('<p class = "up" data-comment-id= "' + resp.comment_id + '"> 0 </p>')
-		.append('<button class ="vote" data-direction = "down" data-comment-id="' + resp.comment_id +'"> down </button>')
-		.append('<p class= "down" data-comment-id= "' + resp.comment_id + '"> 0 </p>')
-		.append('</li>');
-
+	$("#comments").append("<li>" + $("#write-comment").val() + '<button class ="vote" data-direction = "up" data-comment-id="' + resp.comment_id + '" id="' + resp.comment_id +'"> ' + resp.vote + ' </button></li>');
+		
 	$("#write-comment").val("");
+	$(".vote").click(submitVote);
 
-	$("button[data-comment-id='"+resp.comment_id+"']").on("click", submitVote);
 
-
-	$("button[data-comment-id='"+resp.comment_id+"']").click(function() {
-		down = $("p.down[data-comment-id='"+resp.comment_id+"']");
-	    counter = down.text();
-	    counter++;
-	  	console.log(counter);
-	    down.text(counter);
-	});
-
+	
 }
-
 function submitComment(evt) {
 	var comment = {
 		"comment": $("#write-comment").val(),
 		"question_id": getQuestionId()
 	};
 
-	$.post("/add-comment", comment, showResult);
+$.post("/add-comment.json", comment, showResult);
 
 }
 
 function getQuestionId() {
 	componenets = window.location.href.split("/")
 	idx = componenets.length - 1
-
 	return componenets[idx]
 }
-
 
 $("#add-comment").on("click", submitComment);
 
 // *******************************************
-function showVote(resp) {
-	console.log("vote counted")
 
+function updateVote(results) {
+	var updated_vote = results["vote"];
+	$("#"+results['comment_id']).text(updated_vote);
+	console.log("Vote added")
 }
+
 
 function submitVote(evt) {
+	var voted_item = {
+		"voted_item": $(evt.target).data("direction"),
+		"comment_id": $(evt.target).data("comment-id")
+	}
+	
+	$.get("/add-vote.json", voted_item, updateVote);
 
-	var vote = {
-		"direction": $(evt.target).data("direction")
-		
-	};
-	var comment_id = $(evt.target).data("comment-id")
-	$.post("/add_vote/" + comment_id, vote, showVote);
 }
 
-$(".vote").on("click", submitVote);
-
-// ***************************************
-
-
-
-// $("button[data-comment-id='"+resp.comment_id+"']").click(function() {
-// 	down = $("p.down[data-comment-id='"+resp.comment_id+"']");
-//     console.log(down)
-  
-// });
-
-
-
+$(".vote").click(submitVote);
 
 </script>
-#1.use javascript once everything is loaded to get all data
-#2. Json already contains comments, loop through comments, attach function that updates counter
-#or
-#3.or use a this
+
 
 
 {% endblock %}

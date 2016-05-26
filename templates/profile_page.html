@@ -1,110 +1,90 @@
 {% extends 'base.html' %}
 {% block content %}
-<form action="/update-profile", method="POST">
-<br>
-<div class="container">
-  <div class="row">
-    <div class="col-md-9">
-      <div class="panel panel-default">
-        <div class="panel-body">
-          <div class="row">
-            <div class="col-md-12 lead">{{user.username}}<hr></div>
-          </div>
-          <div class="row">
-			<div class="col-md-4 text-center">
-              <img class="img-circle avatar avatar-original" style="-webkit-user-select:none; 
-              display:block; margin:auto;" src="{{profile.image_url}}" width="100">
-            </div>
-            <div class="col-md-8">
-              <div class="row">
-                <div class="col-md-12">
-                  <h1 class="only-bottom-margin">{{user.username}}</h1>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-6">
-                  <span class="text-muted">User Profile Picture:</span><input value = "{{profile.image_url}}" name ="image_url" id="image-url-update"><br>
-                  <span class="text-muted">Email:</span><input value = "{{user.email}}" name ="email" id="email-update"><br>
-                  <span class="text-muted">Age:</span> <input type="number" value = "{{user.age}}" name ="age" id="age-update"><br>
-                  <span class="text-muted">City:</span> <input value = "{{user.city}}" name ="city" id="city-update"> <span class="text-muted">State:</span><input value = "{{user.state}}" name ="state" id="state-update"><br>
-                  <span class="text-muted">Bootcamp:</span><input value = "{{user.boot_camp_name}}" name ="boot_camp_name" id="boot-camp-name-update"><br>
-                  <span class="text-muted">User LinkedIn URL::</span> <input value = "{{profile.linkedin_url}}" name ="linkedin_url" id="linkedin-url-update"><br>
-                  <span class="text-muted">User Github URL:</span><input value = "{{profile.github_url}}" name ="github_url" id="github-url-update"><br>
-                  <br>
-                  <div class="logo">
-                  <a href="{{profile.linkedin_url}}"><img border="0" alt="linkedin" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/LinkedIn_logo_initials.png/768px-LinkedIn_logo_initials.png" width="20" height="20"></a>
-				          <a href="{{profile.github_url}}"><img border="0" alt="github" src="https://assets-cdn.github.com/images/modules/logos_page/Octocat.png" width="20"></a>
-				</div><br>
-				<span class="text-muted">About {{user.username}}:</span><input value = "{{profile.about_me}}" name ="about_me" id="about-me-update"><br>
-				<br>
-      
-                </div>
-            
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-12">
-            
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-  Launch demo modal
-</button>
 
-</div> 
-<button type="submit" id = "edit_profile" >Submit</button>
-</form>
+<!-- display user info -->
+{{user.username}}<br>          
+Email:{{user.email}}<br>
+Age:{{user.age}}<br>
+Location:{{user.city}}, {{user.state}}<br>
+Bootcamp:{{user.boot_camp_name}}<br>
+Languages known:{{user.languages}}<br>
+Member since {{user.member_since}}<br>
 
-<form action = '/view-profile'>
-<input type="submit" value = 'view profile'>
-</form>
+<div class="logo">
+  <a href="{{user.linkedin_url}}"><img border="0" alt="linkedin" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/LinkedIn_logo_initials.png/768px-LinkedIn_logo_initials.png" width="20" height="20"></a>
+  <a href="{{user.github_url}}"><img border="0" alt="github" src="https://assets-cdn.github.com/images/modules/logos_page/Octocat.png" width="20" height="20"></a>
+</div>
 
+<!-- Allows user to view past written questions -->
 <form action = "/view_questions">
-<input type="submit" value = 'view questions'>
+  <input type="submit" value = 'view questions'>
 </form>
 
+<!-- Allows user to view past written notes -->
+<form action = "/view_notes">
+  <input type="submit" value = 'view notes'>
+</form>
+
+<!-- click to edit profile page -->
+<form action = '/edit-profile'>
+<input type="submit" value = 'Edit Page'>
+</form>
+
+<!-- Calls question modal -->
+<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">Ask a question</button>
+
+<!-- Calls notes modal -->
+<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal2">Write a note</button>
 
 
- <form action="/ask_question", method="POST">
-<!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+<!-- Question Modal window -->
+<form action="/ask_question", method="POST">
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        <h4 class="modal-title" id="myModalLabel"><input type = "text" name ="title_question" id="question" placeholder="Write a title..."></h4>
       </div>
-      <div class="modal-body">
-      
-        <input type = "question" name ="question" id="question" placeholder="Ask a question...">
-    
-       <!--  ...#put in form for input text, then put in flask route-->
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Ask Question</button>
-      </div>
+    <div class="modal-body">
+  <!-- Input information within modal -->
+  <input type = "text" name ="question" id="question" placeholder="write something...">
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      <button type="submit" class="btn btn-primary">Submit</button>
     </div>
   </div>
 </div>
- </form>
+</div>
+</form>
 
-
-
-
+<!-- Notes Modal window -->
+<!-- code is overwriting  -->
+<form action="/write_note", method="POST">
+<div class="modal-dialog modal-lg">
+  <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        <h4 class="modal-title" id="myModalLabel"><input type = "text" name ="title_note" id="note-title" placeholder="Write a title..."></h4>
+      </div>
+    <div class="modal-body">
+  <!-- Input information within modal -->
+  <input type = "text" name ="note" id="note" placeholder="write something...">
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+</form>
 {% endblock %}
-
-
-
-
-
-
-
-

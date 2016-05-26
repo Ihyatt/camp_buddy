@@ -2,12 +2,11 @@
 from datetime import datetime
 from jinja2 import StrictUndefined 
 
-
 from flask import Flask, render_template, redirect, request, flash, session, jsonify, abort
 
 from flask_debugtoolbar import DebugToolbarExtension
 
-from model import User, ProfilePage, Question, Comment, Vote, connect_to_db, db
+from model import User, ProfilePage, Question, Note, Comment, connect_to_db, db
 
 app = Flask(__name__)
 
@@ -35,7 +34,6 @@ def register_form():
 @app.route('/register', methods=['POST'])
 def register_process():
     """Process registration."""
-    #datime.now and store to a variable
     username = request.form["username"]
     email = request.form["email"]
     password = request.form["password"]
@@ -43,6 +41,10 @@ def register_process():
     city = request.form["city"]
     state = request.form["state"]
     boot_camp_name = request.form["boot_camp_name"]
+    languages = request.form["languages"]
+    linkedin_url = request.form["languages"]
+    github_url = request.form["github_url"]
+
 
     if User.query.filter(User.email == email).all():
         flash('You are already a user!')
@@ -56,12 +58,12 @@ def register_process():
         
         flash('You were successfully logged in')
     
-        new_user = User(username=username, email=email, password=password, age=age, city=city, state=state, boot_camp_name=boot_camp_name)
+        new_user = User(username=username, member_since = datetime.now(), email=email, password=password, age=age, city=city, state=state, boot_camp_name=boot_camp_name, languages=languages, linkedin_url=linkedin_url, github_url=github_url)
         db.session.add(new_user)
         db.session.commit()
 
 
-        profile = ProfilePage(user_id=new_user.user_id, about_me="", image_url="http://cdn.someecards.com/posts/cat-banana-year-of-the-monkey-costume-tY9.jpg", linkedin_url="", github_url="")
+        profile = ProfilePage(user_id=new_user.user_id)
         
         db.session.add(profile)
         db.session.commit()
@@ -112,6 +114,7 @@ def logout():
 
     return redirect("/login")
 
+
 @app.route("/users/<int:user_id>")
 def user_page(user_id):
     """Users profile"""
@@ -120,6 +123,15 @@ def user_page(user_id):
     profile = user.user_profile
     
     return render_template("profile_page.html", user=user, profile=profile)
+
+
+@app.route('/edit-profile')
+def view_profile():
+    """Allows user to edit their profile"""
+    user = User.query.get(session["user_id"])
+    profile = user.user_profile
+
+    return render_template("editable_profile_page.html", user=user, profile=profile)
 
 
 @app.route("/update-profile", methods=['POST'])
@@ -134,131 +146,137 @@ def update_user_data():
     user.city = request.form.get("city")
     user.state = request.form.get("state")
     user.boot_camp_name = request.form.get("boot_camp_name")
-    profile.about_me = request.form.get("about_me")
-    profile.image_url = request.form.get("image_url")
+    profile.languages = request.form.get("languages")
     profile.linkedin_url = request.form.get("linkedin_url")
     profile.github_url = request.form.get("github_url")
+    profile.profile_image = request.files.get("profile_image")
 
 
-    db.session.commit()
-
-    profile_info = {
-        "email":user.email,
-        "age" : user.age, 
-        "city" : user.city,
-        "boot_camp_name" : user.boot_camp_name,
-        "about_me" : profile.about_me,
-        "image_url" : profile.image_url,
-        "linkedin_url" : profile.linkedin_url,
-        "github_url" : profile.github_url
-
-    }
-    
+    db.session.commit()    
 
     return redirect("/users/%s" % user.user_id)
 
-@app.route('/view-profile')
-def view_profile():
-    """Allows user to view their profile"""
-    user = User.query.get(session["user_id"])
-    profile = user.user_profile
-
-    return render_template("view_profile_page.html", user=user, profile=profile)
-
-
-
-#question 
-#instantiate question when created, question route
-#todo get question running for render template and do modal later
-#make a notification whenever a question is answered 
-#allow user acces to their own question
 @app.route("/ask_question", methods=['POST'])
 def ask_question():
     """Allows user to ask questions and post to forum"""
 
-    ask = Question(user_id = session["user_id"], question = "")
+    ask = Question(user_id = session["user_id"], title_question = "", question = "")
     user = User.query.get(session["user_id"])
 
     db.session.add(ask)
     db.session.commit()
 
+    ask.title_question = request.form.get("title_question")
     ask.question = request.form.get("question")
     db.session.commit()
 
     return redirect("/users/%s" % user.user_id)
 
+@app.route("/write_note", methods=['POST'])
+def write_note():
+    """Allows user to write study notes"""
+    diary = Note(user_id=session["user_id"],title_note = "", note="")
+    user = User.query.get(session["user_id"])
+
+    db.session.add(diary)
+    db.session.commit()
+
+    diary.title_note = request.form.get("title_note")
+    diary.note = request.form.get("note")
+    db.session.commit()
+    print "im here"
+
+    return redirect("/users/%s" % user.user_id)
+
+
+
 @app.route("/view_questions")
 def view_questions():
     """Allows user to view previously asked questions"""
     user_id = session.get("user_id")
+    skip = request.args.get('skip', 0)
     if user_id:
         questions = Question.query.filter_by(user_id = user_id).all()
-
+        
+        
+        
     return render_template("question_list.html", questions = questions)
 
 
-@app.route("/add-comment", methods=['POST'])
-def add_comment():
-    
-    comment = request.form.get("comment")
-    question_id = request.form.get("question_id")
+@app.route("/view_notes")
+def view_notes():
+    """Allows users to view past written notes"""
+    user_id = session.get("user_id")
 
-    commented_item = Comment(user_id = session["user_id"], comment_timestamp = datetime.now(), question_id = question_id, comment = comment) 
-    db.session.add(commented_item)
-    db.session.commit()
+    if user_id:
+        notes = Note.query.filter_by(user_id = user_id).all()
 
-    result = {'comment_id': commented_item.comment_id}
-
-
-    return jsonify(result)
+    return render_template("notes.html", notes = notes)
 
 
 @app.route("/question_and_comment/<int:question_id>")
 def view_question_comments(question_id):
     ask = Question.query.get(question_id) 
+    
+    comments = ask.comments
+    comment_id = []
+    for comment in comments:
+        comment_id.append(comment.comment_id)
+    comment_id.sort()
 
-    return render_template("question_and_comment.html", ask=ask)
+    comments = []
+    for id in comment_id:
+        comment = Comment.query.get(id)
+        comments.append(comment)
+
+    return render_template("question_and_comment.html", ask=ask, comments=comments)
 
 
-@app.route("/add_vote/<int:comment_id>", methods=['POST'])
-def add_vote(comment_id):
+@app.route("/add-comment.json", methods=['POST'])
+def add_comment():
+    
+    comment = request.form.get("comment")
+    question_id = request.form.get("question_id")
 
-    direction = request.form.get("direction")
-   
-    if direction == "up":
-        up_vote = True
-    elif direction == "down":
-        up_vote = False
-    else: 
-        abort(400)
-
-    vote = Vote(user_id = session["user_id"], up_vote=up_vote, comment_id=comment_id)
-    db.session.add(vote)
+    commented_item = Comment(user_id = session["user_id"], comment_timestamp = datetime.now(), question_id = question_id, comment = comment, vote = 0) 
+    db.session.add(commented_item)
     db.session.commit()
 
-    return "vote counted"
+    result = {'comment_id': commented_item.comment_id, 
+              'vote': commented_item.vote}
 
 
+    return jsonify(result)
+
+@app.route("/add-vote.json", methods=['GET']) # pass in comment id
+def add_vote():
+    """allows user to add a vote to a comment"""
+    
+
+    comment_id = request.args.get("comment_id")
+    voted_item = request.args.get("voted_item")
+
+    comment = Comment.query.get(int(comment_id))
+    
+    if voted_item == "up":
+        comment.vote += 1
 
 
+    db.session.commit()
+        
+    result = {'vote': comment.vote, "comment_id": comment_id}
+    return jsonify(result)
 
 
+    
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# @app.route("/more-questions")
+# def get_more_questions():
+#     offset = request.args.get("offset")
+#     print "OFFSET IS %s" % offset
+#     # db query for actual questions, wiht limit and offset
+#     return jsonify({"questions": ["what is a dictionary", "how do you make a list?"]})
 
 
 
@@ -275,6 +293,8 @@ if __name__ == "__main__":
     connect_to_db(app)
 
     # Use the DebugToolbar
-    # DebugToolbarExtension(app)
+    DebugToolbarExtension(app)
 
     app.run()
+
+
