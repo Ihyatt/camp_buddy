@@ -316,41 +316,21 @@ def search_question():
 def return_search_question(): 
 
     # list_of_queried_question_objects = []
-    sliced_search = []
+    query_dict = {}
     search_list = []
-    search = request.form.get("search_item")
-    
+    search = request.args.get("search_item")
+    print search
+    print type(search)
     splitted_search = search.split(" ")#returns list of searched words
-    # splitted_search_by_phrase = search.split(" ")
-
-    # search_match = Question.query.filter(Question.question.like('%' + search + '%') ).all() #returns a list of objects
-    # search_list.append(search_match)
-
-    # idx = 0 
     
-    # while idx < len(search) 
-    #     search_parse_phrase = search[idx:]
-    #     sliced_search.append(search_parse_phrase)
-    #     idx += 1
-
-    # for word in sliced_search:
-    #     search_match = Question.query.filter(Question.question.like('%' + word + '%') ).all() #returns a list of objects
-    #     search_list.append(search_match)
-
     for word in splitted_search:
         search_match = Question.query.filter(Question.question.like('%' + word + '%') ).all() #returns a list of objects
         search_list.extend(search_match)
 
-    result={ "search_results": search_list } 
+    for question in search_list:
+        query_dict[question.question_id]=[question.question, question.title_question]
 
-    return jsonify(result)
-
-    #check forduplicates
-
-    # if search_list.empty():
-    #     return render_template("empty_search.html", search_list=search_list)
-    # else:
-    #     return render_template("question_search.html", search_list=search_list)
+    return jsonify(query_dict)
 
 
 
