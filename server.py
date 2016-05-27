@@ -1,4 +1,6 @@
 """Camp Buddy"""
+import os
+
 from datetime import datetime
 from jinja2 import StrictUndefined 
 
@@ -6,9 +8,15 @@ from flask import Flask, render_template, redirect, request, flash, session, jso
 
 from flask_debugtoolbar import DebugToolbarExtension
 
-from model import User, ProfilePage, Question, Note, Comment, connect_to_db, db
+from model import User, ProfilePage, Image, Question, Note, Comment, connect_to_db, db
+from werkzeug import secure_filename
+
+UPLOAD_FOLDER = '/Users/Inashyatt1/desktop/camp-buddy/static/images'
+ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
 app = Flask(__name__)
+
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # Required to use Flask sessions and the debug toolbar
 app.secret_key = "ABC"
@@ -44,6 +52,9 @@ def register_process():
     languages = request.form["languages"]
     linkedin_url = request.form["languages"]
     github_url = request.form["github_url"]
+    file_ = request.files["image-upload"]
+
+
 
 
     if User.query.filter(User.email == email).all():
@@ -55,12 +66,26 @@ def register_process():
         return render_template("register_form.html")
 
     else:
+
         
         flash('You were successfully logged in')
     
+       
+        if file_:
+            filename = secure_filename(file_.filename)
+            file_.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
         new_user = User(username=username, member_since = datetime.now(), email=email, password=password, age=age, city=city, state=state, boot_camp_name=boot_camp_name, languages=languages, linkedin_url=linkedin_url, github_url=github_url)
         db.session.add(new_user)
-        db.session.commit()
+      
+
+        user = User.query.filter_by(email=email).first()
+        session["user_id"] = user.user_id
+
+        user_image = Image(user_id=session["user_id"],image=filename)
+
+        db.session.add(user_image)
+
 
 
         profile = ProfilePage(user_id=new_user.user_id)
@@ -121,8 +146,10 @@ def user_page(user_id):
 
     user = User.query.get(user_id)
     profile = user.user_profile
+    image = user.images[0]
+
     
-    return render_template("profile_page.html", user=user, profile=profile)
+    return render_template("profile_page.html", user=user, profile=profile, image=image)
 
 
 @app.route('/edit-profile')
@@ -270,42 +297,11 @@ def add_vote():
     return jsonify(result)
 
 
-@app.route("/search-questions", methods=['POST'])
+@app.route("/search-questions")
 def search_question(): 
 
-    # list_of_queried_question_objects = []
-    sliced_search = []
-    search_list = []
-    search = request.form.get("search")
-    
-    splitted_search = search.split(" ")#returns list of searched words
-    splitted_search_by_phrase = search.split(" ")
-
-    search_match = Question.query.filter(Question.question.like('%' + search + '%') ).all() #returns a list of objects
-    search_list.append(search_match)
-
-    idx = 0 
-    while idx < len(search): 
-        search_parse_phrase = search[idx:]
-        sliced_search.append(search_parse_phrase)
-        idx += 1
-
-    for word in sliced_search:
-        search_match = Question.query.filter(Question.question.like('%' + word + '%') ).all() #returns a list of objects
-        search_list.append(search_match)
-
-    for word in splitted_search:
-        search_match = Question.query.filter(Question.question.like('%' + word + '%') ).all() #returns a list of objects
-        search_list.append(search_match)
-
-    print search_list
-
-    #check for duplicates
-
-    if search_list.empty():
-        return render_template("empty_search.html", search_list=search_list)
-    else:
-        return render_template("question_search.html", search_list=search_list)
+   
+    return render_template("question_search.html")
 
 
 # @app.route("/more-questions")
@@ -316,6 +312,45 @@ def search_question():
 #     return jsonify({"questions": ["what is a dictionary", "how do you make a list?"]})
 
 
+@app.route('/return-search')
+def return_search_question(): 
+
+    # list_of_queried_question_objects = []
+    sliced_search = []
+    search_list = []
+    search = request.form.get("search_item")
+    
+    splitted_search = search.split(" ")#returns list of searched words
+    # splitted_search_by_phrase = search.split(" ")
+
+    # search_match = Question.query.filter(Question.question.like('%' + search + '%') ).all() #returns a list of objects
+    # search_list.append(search_match)
+
+    # idx = 0 
+    
+    # while idx < len(search) 
+    #     search_parse_phrase = search[idx:]
+    #     sliced_search.append(search_parse_phrase)
+    #     idx += 1
+
+    # for word in sliced_search:
+    #     search_match = Question.query.filter(Question.question.like('%' + word + '%') ).all() #returns a list of objects
+    #     search_list.append(search_match)
+
+    for word in splitted_search:
+        search_match = Question.query.filter(Question.question.like('%' + word + '%') ).all() #returns a list of objects
+        search_list.extend(search_match)
+
+    result={ "search_results": search_list } 
+
+    return jsonify(result)
+
+    #check forduplicates
+
+    # if search_list.empty():
+    #     return render_template("empty_search.html", search_list=search_list)
+    # else:
+    #     return render_template("question_search.html", search_list=search_list)
 
 
 

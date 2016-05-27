@@ -9,6 +9,8 @@ Location:{{user.city}}, {{user.state}}<br>
 Bootcamp:{{user.boot_camp_name}}<br>
 Languages known:{{user.languages}}<br>
 Member since {{user.member_since}}<br>
+Profile Image <img src="/static/images/{{user.images[0].image}}" width="200">
+<!-- use static because flask looks for files in static folder -->
 
 <div class="logo">
   <a href="{{user.linkedin_url}}"><img border="0" alt="linkedin" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/LinkedIn_logo_initials.png/768px-LinkedIn_logo_initials.png" width="20" height="20"></a>
@@ -17,8 +19,8 @@ Member since {{user.member_since}}<br>
 
 
 <!-- search button -->
-<form action = "/search-questions">
- <input type = "text" name ="search" id="search" placeholder="What are you looking for...">
+<form action = "/search-questions", method="GET">
+<!--  <input type = "text" name ="search" id="search" placeholder="What are you looking for..."> -->
  <button type="submit">Search</button>
 </form>
 

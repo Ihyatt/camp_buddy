@@ -63,7 +63,21 @@ class ProfilePage(db.Model):
         return "<ProfilePage profile_page_id=%s user_id=%s linkedin_url=%s github_url=%s>" % (
             self.profile_page_id, self.user_id, self.linkedin_url, self.github_url)
 
+
 ##############################################################################
+class Image(db.Model):
+    """points to direction of users image"""
+    __tablename__ = "images"
+
+    image_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+    image = db.Column(db.String(1500), nullable=True)
+
+    user = db.relationship("User", backref=db.backref("images"))
+
+##############################################################################
+
+
 class Note(db.Model):
     """Allows user to keep and review study notes written"""
 
