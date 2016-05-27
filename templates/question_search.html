@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h3>Please type in keys words seperate by spaces to allow for best search results</h3>
+ <input type = "text" name ="search" id="search" placeholder="What are you looking for...">
+ <button class = "search-question" type="button">Search</button>
+
+
+
+<div>
+<ul id="questions">
+	
+</ul>
+</div>
+
+
+<script>
+
+function showResults(results){
+	var returnedQuestions = results;
+	console.log("print item")
+	for (var key in returnedQuestions){
+		// returnedQuestions[i].question, returnedQuestions[i].
+		// question = returnedQuestions[i]
+		$("#questions").append("<li><a href='/question_and_comment/'"+ key +">"+ returnedQuestions.key[0] +  returnedQuestions.key[1] + "</a></li>")
+	};
+		
+
+
+}
+
+
+function getMatch() {
+	var searchItem = $("#search").val()
+	var search = {
+		"search_item": searchItem
+	}
+	$.get('/return-search', search, showResults);
+	console.log("found a match");
+}
+
+
+
+
+$(".search-question").click(getMatch)
+
+</script>
+
+
+{% endblock %}

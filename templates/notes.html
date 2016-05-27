@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<div>
+<ul>
+	{% for ask in questions %}
+	<li>
+		{{diary.title_note}}{{diary.notes}}</a>
+	</li>
+	{% endfor %}
+</ul>
+</div>
+{% endblock %}

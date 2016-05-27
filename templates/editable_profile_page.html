@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- form that will update user info -->
+<form action="/update-profile", method="POST">
+{{user.username}}
+Email:<input value = "{{user.email}}" name ="email" id="email-update"><br>
+Age:<input type="number" value = "{{user.age}}" name ="age" id="age-update"><br>
+City:<input value = "{{user.city}}" name ="city" id="city-update"> 
+State:<input value = "{{user.state}}" name ="state" id="state-update"><br>
+Bootcamp:</span><input value = "{{user.boot_camp_name}}" name ="boot_camp_name" id="boot-camp-name-update"><br>
+User LinkedIn URL: <input value = "{{user.linkedin_url}}" name ="linkedin_url" id="linkedin-url-update"><br>
+User Github URL:</span><input value = "{{user.github_url}}" name ="github_url" id="github-url-update"><br>
+Languages:</span><input value = "{{user.languages}}" name ="languages" id="languages-update"><br>
+
+{% endblock %}
+
+
+
+
+
+
+
