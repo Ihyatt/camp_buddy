@@ -2,9 +2,9 @@
 {% block content %}
 <div>
 <ul>
-	{% for ask in questions %}
+	{% for note in notes %}
 	<li>
-		{{diary.title_note}}{{diary.notes}}</a>
+		<a href = '/view_note/{{note.notes_id}}'><p>{{note.title_note}}</p><p>{{note.note}}</p></a>
 	</li>
 	{% endfor %}
 </ul>

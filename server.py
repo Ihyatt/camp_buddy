@@ -1,6 +1,5 @@
 """Camp Buddy"""
 import os
-
 from datetime import datetime
 from jinja2 import StrictUndefined 
 
@@ -11,6 +10,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 from model import User, ProfilePage, Image, Question, Note, Comment, connect_to_db, db
 from werkzeug import secure_filename
 
+
 UPLOAD_FOLDER = '/Users/Inashyatt1/desktop/camp-buddy/static/images'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
@@ -18,11 +18,10 @@ app = Flask(__name__)
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-# Required to use Flask sessions and the debug toolbar
-app.secret_key = "ABC"
 
-# Normally, if you use an undefined variable in Jinja2, it fails silently.
-# This is horrible. Fix this so that, instead, it raises an error.
+app.secret_key = "19kittiesareawesome89"
+
+
 
 app.jinja_env.undefined = StrictUndefined
 
@@ -54,9 +53,6 @@ def register_process():
     github_url = request.form["github_url"]
     file_ = request.files["image-upload"]
 
-
-
-
     if User.query.filter(User.email == email).all():
         flash('You are already a user!')
         return render_template("log_in.html")
@@ -86,8 +82,6 @@ def register_process():
 
         db.session.add(user_image)
 
-
-
         profile = ProfilePage(user_id=new_user.user_id)
         
         db.session.add(profile)
@@ -99,6 +93,7 @@ def register_process():
         flash("User %s added." % username)
 
         return redirect("/users/%s" % new_user.user_id)
+        
 
 @app.route('/login', methods=['GET'])
 def login_form():
@@ -164,8 +159,10 @@ def view_profile():
 @app.route("/update-profile", methods=['POST'])
 def update_user_data():
     """update user data"""
+
+
     user = User.query.get(session["user_id"])
-    profile = user.user_profile
+    user_image = user.images
 
     user.username = request.form.get("username")
     user.email = request.form.get("email")
@@ -173,10 +170,17 @@ def update_user_data():
     user.city = request.form.get("city")
     user.state = request.form.get("state")
     user.boot_camp_name = request.form.get("boot_camp_name")
-    profile.languages = request.form.get("languages")
-    profile.linkedin_url = request.form.get("linkedin_url")
-    profile.github_url = request.form.get("github_url")
-    profile.profile_image = request.files.get("profile_image")
+    user.languages = request.form.get("languages")
+    user.linkedin_url = request.form.get("linkedin_url")
+    user.github_url = request.form.get("github_url")
+    user_image.image = request.files["image-upload"]
+    
+    print user_image.image
+    
+    if user_image.image:
+            filename = secure_filename(user_image.image.filename)
+            user_image.image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+    
 
 
     db.session.commit()    
@@ -213,7 +217,7 @@ def write_note():
     diary.title_note = request.form.get("title_note")
     diary.note = request.form.get("note")
     db.session.commit()
-    print "im here"
+   
 
     return redirect("/users/%s" % user.user_id)
 
@@ -223,7 +227,7 @@ def write_note():
 def view_questions():
     """Allows user to view previously asked questions"""
     user_id = session.get("user_id")
-    skip = request.args.get('skip', 0)
+    # skip = request.args.get('skip', 0)
     if user_id:
         questions = Question.query.filter_by(user_id = user_id).all()
         
@@ -235,12 +239,50 @@ def view_questions():
 @app.route("/view_notes")
 def view_notes():
     """Allows users to view past written notes"""
+    
     user_id = session.get("user_id")
 
     if user_id:
         notes = Note.query.filter_by(user_id = user_id).all()
 
     return render_template("notes.html", notes = notes)
+
+@app.route("/view_note/<int:notes_id>")
+def view_note(notes_id):
+    """Allows user to view an individual note"""
+    
+    user_note = Note.query.get(notes_id)
+
+    return render_template("view_note.html", user_note=user_note)
+
+
+@app.route("/edit-note/<int:notes_id>")
+def note_edit(notes_id):
+    """Allows user to edit note"""
+    
+    user_note = Note.query.get(notes_id)
+
+    return render_template("edit_note.html" , user_note=user_note)
+
+@app.route("/update_note/<int:notes_id>", methods=['POST'])
+def update_note(notes_id):
+    """updates note"""
+    user_note = Note.query.get(notes_id)
+
+    user_note.title_note = request.form.get("title_note")
+    user_note.note = request.form.get("note")
+
+    db.session.commit()
+
+    user_id = session.get("user_id")
+
+    if user_id:
+        notes = Note.query.filter_by(user_id = user_id).all() 
+
+    return render_template("notes.html", note=user_note.note , title_note=user_note.title_note, user_note=user_note, notes=notes)
+       
+
+
 
 
 @app.route("/question_and_comment/<int:question_id>")
@@ -315,7 +357,7 @@ def search_question():
 @app.route('/return-search')
 def return_search_question(): 
 
-    # list_of_queried_question_objects = []
+   
     query_dict = {}
     search_list = []
     search = request.args.get("search_item")
