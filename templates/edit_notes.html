@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<form action="/update_note", method="POST">
+  Note title: <input value="{{user_note.title_note}}" name="title_note">{{user_note.title_note}}<br>
+  Last name: <input value="{{user_note.note}}" name="note">{{user_note.note}}<br>
+  <input type="submit" value="Submit">
+</form>
+
+
+
+{% endblock %}

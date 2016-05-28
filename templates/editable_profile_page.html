@@ -25,7 +25,7 @@ profile image upload <input type="file" name="image-upload" id="upload" class="f
 
 <script>
 function emptyImageString(results){
-	var emptyImage = results;
+	var emptyImage = results["image"];
 
 	$("#upload").val(emptyImage)
 }
@@ -41,7 +41,7 @@ function imageChanged(){
 }
 
 
-$("#upload").on(click, imageChanged)
+$("#upload").click(imageChanged)
 </script>
 
 

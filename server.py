@@ -192,6 +192,8 @@ def update_image():
     image = request.form.get("image")
 
     old_image = Image.query.filter(Image.image == image).first()
+    old_image = Image.query.get(old_image.image_id)
+
 
     db.session.delete(old_image)
     db.session.commit()
