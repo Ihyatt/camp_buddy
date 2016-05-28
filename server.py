@@ -302,6 +302,22 @@ def update_note(notes_id):
     return render_template("notes.html", note=user_note.note , title_note=user_note.title_note, user_note=user_note, notes=notes)
        
 
+@app.route("/delete-note/<int:notes_id>")
+def delete_note(notes_id):
+    """Deletes note"""
+
+    user_note = Note.query.get(notes_id)
+
+    db.session.delete(user_note)
+    db.session.commit()
+
+    user_id = session.get("user_id")
+
+    if user_id:
+        notes = Note.query.filter_by(user_id = user_id).all()
+
+    return render_template("notes.html", notes = notes)
+
 
 
 
@@ -364,14 +380,6 @@ def search_question():
 
    
     return render_template("question_search.html")
-
-
-# @app.route("/more-questions")
-# def get_more_questions():
-#     offset = request.args.get("offset")
-#     print "OFFSET IS %s" % offset
-#     # db query for actual questions, wiht limit and offset
-#     return jsonify({"questions": ["what is a dictionary", "how do you make a list?"]})
 
 
 @app.route('/return-search')
