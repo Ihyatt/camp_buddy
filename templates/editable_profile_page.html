@@ -14,13 +14,18 @@ Languages:</span><input value = "{{user.languages}}" name ="languages" id="langu
 
 <!-- Image upload -->
 
-profile image upload <input type="file" name="image-upload" class="form-control"><br>
+profile image upload <input type="file" name="image-upload" id="upload" class="form-control"><br>
 
 
 <button type="submit" class="btn btn-default" value="Submit">Submit</button>
 </form>
 
 <script>
+function emptyImageString(results){
+	var emptyImage = results;
+	
+	$("#upload").val(emptyImage)
+}
 
 function imageChanged(){
 	var imageItem = $(".image-upload").val()
@@ -28,11 +33,12 @@ function imageChanged(){
 	var profileImage = {
 		"image": imageItem
 	};
-	$.get("/update-image",profileImage, imageUploaded)
+
+	$.post("/update-image",profileImage, emptyImageString);
 }
 
 
-$(".image-upload").on(click, imageChanged)
+$("#upload").on(click, imageChanged)
 </script>
 
 

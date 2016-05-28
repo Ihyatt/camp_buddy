@@ -93,7 +93,7 @@ def register_process():
         flash("User %s added." % username)
 
         return redirect("/users/%s" % new_user.user_id)
-        
+
 
 @app.route('/login', methods=['GET'])
 def login_form():
@@ -187,6 +187,26 @@ def update_user_data():
 
     return redirect("/users/%s" % user.user_id)
 
+@app.route("/update-image.json", methods=['POST'])
+def update_image():
+    """update user image"""
+    image = request.form.get("image")
+
+    old_image = Image.query.filter(Image.image == image).first()
+
+    db.session.delete(old_image)
+    db.session.commit()
+
+    new_image = Image(user_id=session["user_id"], image="")
+
+    db.session.add(new_image)
+    db.session.commit()
+
+    result = {
+        "image":new_image.image
+    }
+
+    return jsonify(result)
 
 
 @app.route("/ask_question", methods=['POST'])
