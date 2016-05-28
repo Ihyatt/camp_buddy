@@ -13,8 +13,11 @@ User Github URL:</span><input value = "{{user.github_url}}" name ="github_url" i
 Languages:</span><input value = "{{user.languages}}" name ="languages" id="languages-update"><br>
 
 <!-- Image upload -->
+<!-- not sure how to delete current image from images file and images database -->
 
 profile image upload <input type="file" name="image-upload" id="upload" class="form-control"><br>
+
+
 
 
 <button type="submit" class="btn btn-default" value="Submit">Submit</button>
@@ -23,12 +26,12 @@ profile image upload <input type="file" name="image-upload" id="upload" class="f
 <script>
 function emptyImageString(results){
 	var emptyImage = results;
-	
+
 	$("#upload").val(emptyImage)
 }
 
 function imageChanged(){
-	var imageItem = $(".image-upload").val()
+	var imageItem = $("#upload").val()
 
 	var profileImage = {
 		"image": imageItem

@@ -10,47 +10,9 @@
 	{% endfor %}
 </ul>
 </div>
-<!-- <button type="button">get more html</button> -->
 
 
 
 
-
-<script>
-$(document).ready(function() {
-	function successFunction(data){
-		console.log('the real callback');
-	}
-	var offset = $('#questions li').length; //gives length of curret questions 
-
-	$('#questions').endlessScroll({
-		fireOnce: false,
-		fireDelay: false,
-		loader: '',
-		insertAfter: '#questions li:last', // insert next set of questions
-		content: function(i) {// html to insert average call. Its a callback but is telling you what insert. additional HTML that is inserted once ajax call occurrs
-			var numQuestions = $('li').length;
-			// alert('Currently, there are ' + numQuestions + ' on the page');
-			var args = {'offset': numQuestions};
-			// create a request that gets next round of questions and append them to list
-			// if at bottom of page add x questions to numquestions
-		
-			$.get("/more-questions", args, successFunction);
-
-
-			return '<li>' + (i + offset) + '</li>';// i is the item offset is the length of questions li 
-			// return 'oooooohhhhhhh ccoool';
-		},
-		// loader: "<div class=\"loading meggeie\"><div>",
-    	callback: function(data){
-    		debugger;
-    	}
-	});
-});
-
-
-
-
-</script>
 
 {% endblock %}

@@ -175,7 +175,6 @@ def update_user_data():
     user.github_url = request.form.get("github_url")
     user_image.image = request.files["image-upload"]
     
-    print user_image.image
     
     if user_image.image:
             filename = secure_filename(user_image.image.filename)
