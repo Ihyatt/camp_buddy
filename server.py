@@ -9,6 +9,8 @@ from flask_debugtoolbar import DebugToolbarExtension
 
 from model import User, ProfilePage, Image, Question, Note, Comment, connect_to_db, db
 from werkzeug import secure_filename
+import smtplib
+from email.mime.text import MIMEText
 
 
 UPLOAD_FOLDER = '/Users/Inashyatt1/desktop/camp-buddy/static/images'
@@ -162,7 +164,7 @@ def update_user_data():
 
 
     user = User.query.get(session["user_id"])
-    user_image = user.images
+    user_image = user.images[0]
 
     user.username = request.form.get("username")
     user.email = request.form.get("email")
@@ -173,12 +175,15 @@ def update_user_data():
     user.languages = request.form.get("languages")
     user.linkedin_url = request.form.get("linkedin_url")
     user.github_url = request.form.get("github_url")
-    user_image.image = request.files["image-upload"]
+    file_ = request.files["image-upload"]
     
     
-    if user_image.image:
-            filename = secure_filename(user_image.image.filename)
-            user_image.image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+    if file_:
+            filename = secure_filename(file_.filename)
+            file_.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+            user_image.image = filename
+            db.session.add(user_image)
     
 
 
@@ -186,28 +191,6 @@ def update_user_data():
 
     return redirect("/users/%s" % user.user_id)
 
-@app.route("/update-image.json", methods=['POST'])
-def update_image():
-    """update user image"""
-    image = request.form.get("image")
-
-    old_image = Image.query.filter(Image.image == image).first()
-    old_image = Image.query.get(old_image.image_id)
-
-
-    db.session.delete(old_image)
-    db.session.commit()
-
-    new_image = Image(user_id=session["user_id"], image="")
-
-    db.session.add(new_image)
-    db.session.commit()
-
-    result = {
-        "image":new_image.image
-    }
-
-    return jsonify(result)
 
 
 @app.route("/ask_question", methods=['POST'])
@@ -353,8 +336,28 @@ def add_comment():
     result = {'comment_id': commented_item.comment_id, 
               'vote': commented_item.vote}
 
+    notify_author_comment(commented_item)
+
 
     return jsonify(result)
+
+def notify_author_comment(comment):
+    content = "Someone has commented on an item"
+    send_mail(to="inas.raheema@gmail.com", from_="admin@campbuddy.com", content=content)
+
+def send_mail(to=None, from_=None, content=None):
+    
+
+    msg = MIMEText(content)
+   
+    msg['Subject'] = 'camp buddy new comment' 
+    msg['From'] = from_
+    msg['To'] = to
+    s = smtplib.SMTP('localhost')
+    s.sendmail(from_, [to], msg.as_string())
+    s.quit()
+
+
 
 @app.route("/add-vote.json", methods=['GET']) # pass in comment id
 def add_vote():
