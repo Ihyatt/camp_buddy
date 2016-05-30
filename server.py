@@ -329,6 +329,12 @@ def add_comment():
     comment = request.form.get("comment")
     question_id = request.form.get("question_id")
 
+    question_info = Question.query.get(question_id)
+    question_author = User.query.filter(User.user_id == question_info.user_id).first()
+    
+
+
+
     commented_item = Comment(user_id = session["user_id"], comment_timestamp = datetime.now(), question_id = question_id, comment = comment, vote = 0) 
     db.session.add(commented_item)
     db.session.commit()
@@ -336,21 +342,23 @@ def add_comment():
     result = {'comment_id': commented_item.comment_id, 
               'vote': commented_item.vote}
 
-    notify_author_comment(commented_item)
+    notify_author_comment(commented_item, question_author.email, question_info.question)
 
 
     return jsonify(result)
 
-def notify_author_comment(comment):
-    content = "Someone has commented on an item"
-    send_mail(to="inas.raheema@gmail.com", from_="admin@campbuddy.com", content=content)
+def notify_author_comment(comment, author_email, question):
+    """notifies author of question when a user has commented on their question"""
+
+    content = "Someone has commented on your question:" + question + "!"
+    send_mail(to=author_email, from_="admin@campbuddy.com", content=content)
 
 def send_mail(to=None, from_=None, content=None):
     
 
     msg = MIMEText(content)
    
-    msg['Subject'] = 'camp buddy new comment' 
+    msg['Subject'] = 'Someone has commented on your question!' 
     msg['From'] = from_
     msg['To'] = to
     s = smtplib.SMTP('localhost')

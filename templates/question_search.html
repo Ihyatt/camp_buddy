@@ -22,7 +22,10 @@ function showResults(results){
 	for (var key in returnedQuestions){
 		// returnedQuestions[i].question, returnedQuestions[i].
 		// question = returnedQuestions[i]
-		$("#questions").append("<li><a href='/question_and_comment/'"+ key +">"+ returnedQuestions[key][0] + "," + returnedQuestions[key][1] + "</a></li>")
+		
+		$("#questions").append("<li><a href='/question_and_comment/"+key+"'>"+ returnedQuestions[key][0] + "," + returnedQuestions[key][1] + "</a></li>")
+		console.log(key);
+			
 	};
 	$("#search").val("")
 
