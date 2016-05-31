@@ -236,6 +236,7 @@ def view_questions():
     # skip = request.args.get('skip', 0)
     if user_id:
         questions = Question.query.filter_by(user_id = user_id).all()
+        print questions
         
         
         
@@ -287,6 +288,16 @@ def update_note(notes_id):
 
     return render_template("notes.html", note=user_note.note , title_note=user_note.title_note, user_note=user_note, notes=notes)
        
+
+@app.route("/delete_note_from_list.json", methods=["POST"])
+def delete_note_from_list():
+    notes_id = request.form.get("note_id")
+    deleted_note = Note.query.filter(Note.notes_id == notes_id).first()
+    db.session.delete(deleted_note)
+    db.session.commit()
+
+    return "note deleted"
+
 
 @app.route("/delete-note/<int:notes_id>")
 def delete_note(notes_id):

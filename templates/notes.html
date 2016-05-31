@@ -4,7 +4,13 @@
 <ul>
 	{% for note in notes %}
 	<li>
-		<a href = '/view_note/{{note.notes_id}}'><div id="note-item"><p data-note-id="{{note.notes_id}}">{{note.title_note}}</p><p>{{note.note}}</p><div></a>
+		<div id="note-item">
+			<a href = '/view_note/{{note.notes_id}}'>
+				<p id="note-title">{{note.title_note}}</p>
+				<p id"note">{{note.note}}</p>
+			</a>
+			<button type="button" data-note-id="{{note.notes_id}}" class="delete-button">Delete Note</button>
+		</div>
 	</li>
 	{% endfor %}
 </ul>
@@ -12,16 +18,23 @@
 
 <script>
 
+function reloadPage(results){
+	location.reload(true);
+}
 
-function deleteNote(){
-	var soonToBeDeleted = $("#note-item").text
+function deleteNote(evt){
+	
 
+	var noteItem = {
+	"note_id": $(evt.target).data("note-id")
+	};
 
-
+	$.post("/delete_note_from_list.json", noteItem, reloadPage);
+	console.log("im in the function");
 }
 
 
-$("#note-item").click(deleteNote)
+$(".delete-button").click(deleteNote)
 </script>
 
 {% endblock %}

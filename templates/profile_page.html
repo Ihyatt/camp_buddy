@@ -109,7 +109,7 @@ function submitNote(){
   var title = $("#note-title").val()
   var note = $("#note").val()
 
-  $("#title").val("")
+  $("#note-title").val("")
   $("#note").val("")
 
   var fullNote = { 
@@ -126,12 +126,17 @@ $("#note-submit").click(submitNote)
 
 function showQuestion(results){
   console.log("question added");
-  // $()
+  var questionCount = parseInt($("#question-count").text());
+  questionCount += 1
+  $("#question-count").text(questionCount)
 }
 
 function submitQuestion(){
   var title = $("#question-title").val()
   var question = $("#question").val()
+  
+  $("#question-title").val("")
+  $("#question").val("")
 
   var fullQuestion = { 
     "title": title,
