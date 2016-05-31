@@ -9,7 +9,7 @@ Location:{{user.city}}, {{user.state}}<br>
 Bootcamp:{{user.boot_camp_name}}<br>
 Languages known:{{user.languages}}<br>
 Member since {{user.member_since}}<br>
-questions asked:{{user.question_count()}}<br>
+questions asked: <p id="question-count">{{user.question_count()}}</p><br>
 questions answered: {{user.comment_count()}}<br>
 Profile Image <img src="/static/images/{{user.images[0].image}}" width="200">
 <!-- use static because flask looks for files in static folder -->
@@ -49,7 +49,7 @@ Profile Image <img src="/static/images/{{user.images[0].image}}" width="200">
 
 
 <!-- Question Modal window -->
-<form action="/ask_question", method="POST">
+<!-- <form action="/ask_question", method="POST"> -->
   <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -57,7 +57,7 @@ Profile Image <img src="/static/images/{{user.images[0].image}}" width="200">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
-        <h4 class="modal-title" id="myModalLabel"><input type = "text" name ="title_question" id="question" placeholder="Write a title..."></h4>
+        <h4 class="modal-title" id="myModalLabel"><input type = "text" name ="title_question" id="question-title" placeholder="Write a title..."></h4>
       </div>
     <div class="modal-body">
   <!-- Input information within modal -->
@@ -65,7 +65,7 @@ Profile Image <img src="/static/images/{{user.images[0].image}}" width="200">
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      <button type="button" class="btn btn-primary">Submit</button>
+      <button type="button" id="question-submit"class="btn btn-primary">Submit</button>
     </div>
   </div>
 </div>
@@ -91,7 +91,7 @@ Profile Image <img src="/static/images/{{user.images[0].image}}" width="200">
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      <button type="button" class="btn btn-primary">Submit</button>
+      <button type="submit" id="note-submit" class="btn btn-primary">Submit</button>
     </div>
   </div>
 </div>
@@ -100,8 +100,51 @@ Profile Image <img src="/static/images/{{user.images[0].image}}" width="200">
 <!-- </form> -->
 
 <script>
+// update note
+function showNote(results){
+  console.log("note added");
+}
+
+function submitNote(){
+  var title = $("#note-title").val()
+  var note = $("#note").val()
+
+  $("#title").val("")
+  $("#note").val("")
+
+  var fullNote = { 
+    "title": title,
+    "note": note
+  };
+  $.post("/write_note.json", fullNote, showNote)
+  $('#myModal2').modal('hide');
+}
+
+$("#note-submit").click(submitNote)
+
+// Update question
+
+function showQuestion(results){
+  console.log("question added");
+  // $()
+}
+
+function submitQuestion(){
+  var title = $("#question-title").val()
+  var question = $("#question").val()
+
+  var fullQuestion = { 
+    "title": title,
+    "question": question
+  };
+  $.post("/ask_question.json", fullQuestion, showQuestion)
+  $('#myModal').modal('hide');
+}
 
 
+$("#question-submit").click(submitQuestion)
+
+// Update number of questions asked and number of comments added by user
 
 
 </script>

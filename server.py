@@ -193,37 +193,39 @@ def update_user_data():
 
 
 
-@app.route("/ask_question", methods=['POST'])
+@app.route("/ask_question.json", methods=['POST'])
 def ask_question():
     """Allows user to ask questions and post to forum"""
+    title_question = request.form.get("title")
+    question = request.form.get("question")
 
-    ask = Question(user_id = session["user_id"], title_question = "", question = "")
-    user = User.query.get(session["user_id"])
+    ask = Question(user_id = session["user_id"], title_question = title_question, question = question)
 
     db.session.add(ask)
     db.session.commit()
 
-    ask.title_question = request.form.get("title_question")
-    ask.question = request.form.get("question")
-    db.session.commit()
+    return "question added"
 
-    return redirect("/users/%s" % user.user_id)
-
-@app.route("/write_note", methods=['POST'])
+@app.route("/write_note.json", methods=['POST'])
 def write_note():
     """Allows user to write study notes"""
-    diary = Note(user_id=session["user_id"],title_note = "", note="")
-    user = User.query.get(session["user_id"])
+
+    title_note = request.form.get("title")
+    note = request.form.get("note")
+
+    diary = Note(user_id=session["user_id"],title_note = title_note, note=note)
+    # user = User.query.get(session["user_id"])
 
     db.session.add(diary)
     db.session.commit()
 
-    diary.title_note = request.form.get("title_note")
-    diary.note = request.form.get("note")
-    db.session.commit()
+    # diary.title_note = request.form.get("title_note")
+    # diary.note = request.form.get("note")
+    # db.session.commit()
    
 
-    return redirect("/users/%s" % user.user_id)
+    # return redirect("/users/%s" % user.user_id)
+    return "note added"
 
 
 

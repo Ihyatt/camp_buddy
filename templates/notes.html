@@ -4,9 +4,24 @@
 <ul>
 	{% for note in notes %}
 	<li>
-		<a href = '/view_note/{{note.notes_id}}'><p>{{note.title_note}}</p><p>{{note.note}}</p></a>
+		<a href = '/view_note/{{note.notes_id}}'><div id="note-item"><p data-note-id="{{note.notes_id}}">{{note.title_note}}</p><p>{{note.note}}</p><div></a>
 	</li>
 	{% endfor %}
 </ul>
 </div>
+
+<script>
+
+
+function deleteNote(){
+	var soonToBeDeleted = $("#note-item").text
+
+
+
+}
+
+
+$("#note-item").click(deleteNote)
+</script>
+
 {% endblock %}
