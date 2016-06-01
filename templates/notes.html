@@ -5,11 +5,11 @@
 	{% for note in notes %}
 	<li>
 		<div id="note-item">
-			<a href = '/view_note/{{note.notes_id}}'>
+			<a href = '/view_note/{{note.note_id}}'>
 				<p id="note-title">{{note.title_note}}</p>
 				<p id"note">{{note.note}}</p>
 			</a>
-			<button type="button" data-note-id="{{note.notes_id}}" class="delete-button">Delete Note</button>
+			<button type="button" data-note-id="{{note.note_id}}" class="delete-button">Delete Note</button>
 		</div>
 	</li>
 	{% endfor %}

@@ -18,7 +18,7 @@ class User(db.Model):
 
     user_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     username = db.Column(db.String(100), nullable=True)
-    member_since = db.Column(db.DateTime)
+    member_since = db.Column(db.String(100), nullable=True)
     email = db.Column(db.String(70), nullable=True)
     password = db.Column(db.String(70), nullable=True)
     age = db.Column(db.Integer, nullable = True)
@@ -83,10 +83,12 @@ class Note(db.Model):
 
     __tablename__ = "notes"
 
-    notes_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    note_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
     title_note = db.Column(db.String(1500), nullable=True)
+    note_created = db.Column(db.String(100), nullable=True)
     note = db.Column(db.String(1500), nullable=True)
+   
 
     user = db.relationship('User', backref="notes")
 
@@ -104,8 +106,9 @@ class Question(db.Model):
     question_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
     title_question = db.Column(db.String(1000), nullable=True)
+    question_created = db.Column(db.String(100), nullable=True)
     question = db.Column(db.String(1000), nullable=True)
-    #when pages are rendered, do sql command to show num of comments
+    
 
     user = db.relationship('User', backref="questions")
 
@@ -123,7 +126,7 @@ class Comment(db.Model):
 
     comment_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id')) #user replying to question
-    comment_timestamp = db.Column(db.DateTime) #flask app will render current date and time once ran in templates through 
+    comment_timestamp = db.Column(db.String(100), nullable=True)
     question_id = db.Column(db.Integer, db.ForeignKey('questions.question_id'))
     comment = db.Column(db.String(1000), nullable=True)
     vote = db.Column(db.Integer)
@@ -134,9 +137,6 @@ class Comment(db.Model):
 
     user = db.relationship('User', backref = db.backref('comments'))
 
-   
-
-
     def __repr__(self):
         return "<Comment comment_id=%s user_id=%s comment_timestamp=%s question_id=%s comment=%s>" % (
             self.comment_id, self.user_id, self.comment_timestamp, self.question_id, self.comment) 
@@ -144,8 +144,6 @@ class Comment(db.Model):
 
 
 ##############################################################################
-
-
 
  #Helper functions
 

@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<form action="/update_note/{{user_note.notes_id}}", method="POST">
+<form action="/update_note/{{user_note.note_id}}", method="POST">
   Note title: <input value="{{user_note.title_note}}" name="title_note"><br>
   Last name: <input value="{{user_note.note}}" name="note"><br>
   <input type="submit" value="Submit">
 </form>
 
-<form action = '/delete-note/{{user_note.notes_id}}'>
+<form action = '/delete-note/{{user_note.note_id}}'>
 <input type="submit" value = 'Delete Note'>
 </form>
 

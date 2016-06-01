@@ -49,21 +49,4 @@ img.avatar {
 .file-upload {
     display: none;
 }
-/*css for infinite scroll*/
-/*body {
-    margin: 0;
-    background-color: #F0F0F0;
-    font-family: 'Liberation Sans', Arial, sans-serif;
-}
 
-h1 {
-    text-align: center;
-}
-
-.upload-button {
-    padding: 4px;
-    border: 1px solid black;
-    border-radius: 5px;
-    display: block;
-    float: left;
-}*/

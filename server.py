@@ -73,7 +73,8 @@ def register_process():
             filename = secure_filename(file_.filename)
             file_.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
-        new_user = User(username=username, member_since = datetime.now(), email=email, password=password, age=age, city=city, state=state, boot_camp_name=boot_camp_name, languages=languages, linkedin_url=linkedin_url, github_url=github_url)
+        date_string = datetime.today().strftime('%Y-%m-%d')
+        new_user = User(username=username, member_since = date_string, email=email, password=password, age=age, city=city, state=state, boot_camp_name=boot_camp_name, languages=languages, linkedin_url=linkedin_url, github_url=github_url)
         db.session.add(new_user)
       
 
@@ -199,7 +200,9 @@ def ask_question():
     title_question = request.form.get("title")
     question = request.form.get("question")
 
-    ask = Question(user_id = session["user_id"], title_question = title_question, question = question)
+    date_string = datetime.today().strftime('%Y-%m-%d')
+    
+    ask = Question(user_id = session["user_id"],question_created=date_string, title_question = title_question, question = question)
 
     db.session.add(ask)
     db.session.commit()
@@ -213,18 +216,13 @@ def write_note():
     title_note = request.form.get("title")
     note = request.form.get("note")
 
-    diary = Note(user_id=session["user_id"],title_note = title_note, note=note)
-    # user = User.query.get(session["user_id"])
+    date_string = datetime.today().strftime('%Y-%m-%d')
+    diary = Note(user_id=session["user_id"],title_note = title_note, note_created=date_string, note=note)
 
     db.session.add(diary)
     db.session.commit()
 
-    # diary.title_note = request.form.get("title_note")
-    # diary.note = request.form.get("note")
-    # db.session.commit()
    
-
-    # return redirect("/users/%s" % user.user_id)
     return "note added"
 
 
@@ -233,11 +231,9 @@ def write_note():
 def view_questions():
     """Allows user to view previously asked questions"""
     user_id = session.get("user_id")
-    # skip = request.args.get('skip', 0)
+   
     if user_id:
         questions = Question.query.filter_by(user_id = user_id).all()
-        print questions
-        
         
         
     return render_template("question_list.html", questions = questions)
@@ -254,27 +250,27 @@ def view_notes():
 
     return render_template("notes.html", notes = notes)
 
-@app.route("/view_note/<int:notes_id>")
-def view_note(notes_id):
+@app.route("/view_note/<int:note_id>")
+def view_note(note_id):
     """Allows user to view an individual note"""
     
-    user_note = Note.query.get(notes_id)
+    user_note = Note.query.get(note_id)
 
     return render_template("view_note.html", user_note=user_note)
 
 
-@app.route("/edit-note/<int:notes_id>")
-def note_edit(notes_id):
+@app.route("/edit-note/<int:note_id>")
+def note_edit(note_id):
     """Allows user to edit note"""
     
-    user_note = Note.query.get(notes_id)
+    user_note = Note.query.get(note_id)
 
     return render_template("edit_note.html" , user_note=user_note)
 
-@app.route("/update_note/<int:notes_id>", methods=['POST'])
-def update_note(notes_id):
+@app.route("/update_note/<int:note_id>", methods=['POST'])
+def update_note(note_id):
     """updates note"""
-    user_note = Note.query.get(notes_id)
+    user_note = Note.query.get(note_id)
 
     user_note.title_note = request.form.get("title_note")
     user_note.note = request.form.get("note")
@@ -291,19 +287,19 @@ def update_note(notes_id):
 
 @app.route("/delete_note_from_list.json", methods=["POST"])
 def delete_note_from_list():
-    notes_id = request.form.get("note_id")
-    deleted_note = Note.query.filter(Note.notes_id == notes_id).first()
+    note_id = request.form.get("note_id")
+    deleted_note = Note.query.filter(Note.note_id == note_id).first()
     db.session.delete(deleted_note)
     db.session.commit()
 
     return "note deleted"
 
 
-@app.route("/delete-note/<int:notes_id>")
-def delete_note(notes_id):
+@app.route("/delete-note/<int:note_id>")
+def delete_note(note_id):
     """Deletes note"""
 
-    user_note = Note.query.get(notes_id)
+    user_note = Note.query.get(note_id)
 
     db.session.delete(user_note)
     db.session.commit()
@@ -314,7 +310,6 @@ def delete_note(notes_id):
         notes = Note.query.filter_by(user_id = user_id).all()
 
     return render_template("notes.html", notes = notes)
-
 
 
 
@@ -344,26 +339,26 @@ def add_comment():
 
     question_info = Question.query.get(question_id)
     question_author = User.query.filter(User.user_id == question_info.user_id).first()
-    
 
-
-
-    commented_item = Comment(user_id = session["user_id"], comment_timestamp = datetime.now(), question_id = question_id, comment = comment, vote = 0) 
+    date_string = datetime.today().strftime('%Y-%m-%d')
+    commented_item = Comment(user_id = session["user_id"], comment_timestamp = date_string, question_id = question_id, comment = comment, vote = 0) 
     db.session.add(commented_item)
     db.session.commit()
+
+    comment_author = User.query.filter(User.user_id == Comment.user_id).first()
 
     result = {'comment_id': commented_item.comment_id, 
               'vote': commented_item.vote}
 
-    notify_author_comment(commented_item, question_author.email, question_info.question)
+    notify_author_comment(commented_item, question_author.email, question_info.question, question_info.title_question, comment_author.username)
 
 
     return jsonify(result)
 
-def notify_author_comment(comment, author_email, question):
+def notify_author_comment(comment, author_email, question, question_title, comment_author):
     """notifies author of question when a user has commented on their question"""
 
-    content = "Someone has commented on your question:" + question + "!"
+    content = "The fellow camper, " + comment_author + " has commented on your question:" + "\n" + question_title + question + "!"
     send_mail(to=author_email, from_="admin@campbuddy.com", content=content)
 
 def send_mail(to=None, from_=None, content=None):
@@ -380,7 +375,7 @@ def send_mail(to=None, from_=None, content=None):
 
 
 
-@app.route("/add-vote.json", methods=['GET']) # pass in comment id
+@app.route("/add-vote.json", methods=['GET']) 
 def add_vote():
     """allows user to add a vote to a comment"""
     
