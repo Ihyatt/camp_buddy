@@ -387,11 +387,14 @@ def add_comment():
     db.session.add(commented_item)
     db.session.commit()
 
-    comment_author = User.query.filter(User.user_id == Comment.user_id).first()
+    comment_author = User.query.filter(User.user_id == commented_item.user_id).first()
+    comment_auth_image = comment_author.images[0]
     
 
     result = {'comment_id': commented_item.comment_id, 
-              'vote': commented_item.vote}
+              'vote': commented_item.vote,
+              'comment_author': comment_author.username,
+              'comment_auth_image':comment_auth_image.image}
 
     notify_author_comment(commented_item, question_author.email, question_info.question, question_info.title_question, comment_author.username)
 
