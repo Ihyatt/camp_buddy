@@ -6,11 +6,12 @@
 	<li>
 		<div id="note-item">
 			<a href = '/view_note/{{note.note_id}}'>
-				<p id="note-title">{{note.title_note}}</p>
+				<p id="note-title">{{note.title_note}}</p></a>
 				<p id"note">{{note.note}}</p>
-				{{user_info.username}}<br>
-			<img src="/static/images/{{user_info.images[0].image}}" width="100">
-			</a>
+				<a href = "/users/{{user_info.user_id}}">{{user_info.username}}</a><br>
+			<img src="/static/images/{{user_info.images[0].image}}" width="100"><br>
+			{{note.note_created}}
+			
 			<button type="button" data-note-id="{{note.note_id}}" class="delete-button">Delete Note</button>
 		</div>
 	</li>

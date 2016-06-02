@@ -7,8 +7,10 @@
 	<li>
 		<div>
 		<a href = '/question_and_comment/{{ask.question_id}}'>{{ask.title_question}}{{ask.question}}</a>
-		{{user_info.username}}<br>
+		<a href = "/users/{{user_info.user_id}}">{{user_info.username}}</a>
+		{{ask.question_created}}<br>
 		<img src="/static/images/{{user_info.images[0].image}}" width="100"><br>
+		comments on question:{{ask.comment_on_question_count()}}<br>
 	</div>
 	</li>
 	{% endfor %}

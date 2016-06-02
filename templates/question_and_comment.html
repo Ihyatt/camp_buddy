@@ -1,16 +1,21 @@
 {% extends 'base.html' %}
 {% block content %}
 
-{{ask.question}}
-{{user_asker.username}}<br>
+{{ask.question}}<br>
+{{ask.question_created}}
+<a href = "/users/{{user_asker.user_id}}">{{user_asker.username}}</a>
+<br>
+
+<p id="comment-count">{{ask.comment_on_question_count()}}</p>
 <img src="/static/images/{{user_asker.images[0].image}}" width="100">
 <div>
 <ul id = "comments">
 	{% for comment in comments %}
 	<li>
-		{{comment.user}}
+		<a href = "/users/{{comment.user_id}}">{{comment.user}}</a>
 		<img src="/static/images/{{comment.image}}" width="100">
-		{{comment.comment}}
+		{{comment.comment}}<br>
+		{{comment.comment_timestamp}}<br>
 		<button class="vote" data-direction="up" data-comment-id="{{comment.comment_id}}" id ="{{comment.comment_id}}"> {{comment.vote}} </button>
 
 	</li>
@@ -29,12 +34,14 @@
 
 <script>
 function showResult(resp){
+	var commentCount = parseInt($("#comment-count").text());
+  	commentCount += 1
+  	$("#comment-count").text(commentCount)
 
-	$("#comments").append("<li>" + resp.comment_author + '<img src="/static/images/' + resp.comment_auth_image + '" width="100">'+ $("#write-comment").val() + '<button class ="vote" data-direction = "up" data-comment-id="' + resp.comment_id + '"id="' + resp.comment_id +'"> ' + resp.vote + ' </button></li>');
+	$("#comments").append("<li>" + '<a href = "/users/' + resp.user_id + '">' + resp.comment_author + '</a>' + '<img src="/static/images/' + resp.comment_auth_image + '" width="100">'+ $("#write-comment").val() + '<button class ="vote" data-direction = "up" data-comment-id="' + resp.comment_id + '"id="' + resp.comment_id +'"> ' + resp.vote + ' </button>' + resp.comment_timestamp + '</li>');
 		
 	$("#write-comment").val("");
 	$(".vote").click(submitVote);
-
 
 	
 }

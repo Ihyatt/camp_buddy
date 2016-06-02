@@ -359,9 +359,11 @@ def view_question_comments(question_id):
         comment_deets["user"] = user_commenter.username
         comment_deets["image"] = user_commenter.images[0].image
         comment_deets["vote"] = comment_obj.vote
-        print comm_id
-        print comment_deets["user"]
-        print comment_deets["image"]
+        comment_deets["comment_timestamp"] = comment_obj.comment_timestamp
+        comment_deets["user_id"] = user_commenter.user_id
+        # print comm_id
+        # print comment_deets["user"]
+        # print comment_deets["image"]
     
         comments.append(comment_deets)
     
@@ -390,7 +392,9 @@ def add_comment():
     result = {'comment_id': commented_item.comment_id, 
               'vote': commented_item.vote,
               'comment_author': comment_author.username,
-              'comment_auth_image':comment_auth_image.image}
+              'comment_auth_image':comment_auth_image.image, 
+              'comment_timestamp': commented_item.comment_timestamp,
+              'user_id': comment_author.user_id}
 
     notify_author_comment(commented_item, question_author.email, question_info.question, question_info.title_question, comment_author.username)
 
@@ -401,7 +405,7 @@ def add_comment():
 def notify_author_comment(comment, author_email, question, question_title, comment_author):
     """notifies author of question when a user has commented on their question"""
 
-    content = "The fellow camper, " + comment_author + " has commented on your question:" + "\n" + question_title + question + "!"
+    content = "The fellow camper, " + comment_author + " has commented on your question:" + "\n" + question_title + "\n" + question + "!"
     send_mail(to=author_email, from_="admin@campbuddy.com", content=content)
 
 def send_mail(to=None, from_=None, content=None):
@@ -467,7 +471,7 @@ def return_search_question():
         question_author = User.query.filter(User.user_id == question.user_id).first()
         question_auth_image = question_author.images[0]
 
-        query_dict[question.question_id]=[question.question, question.title_question, question_author.username, question_auth_image.image, question.comment_on_question_count()]
+        query_dict[question.question_id]=[question.question, question.title_question, question_author.username, question_auth_image.image, question.comment_on_question_count(), question_author.user_id]
 
     return jsonify(query_dict)
 
