@@ -8,6 +8,8 @@
 			<a href = '/view_note/{{note.note_id}}'>
 				<p id="note-title">{{note.title_note}}</p>
 				<p id"note">{{note.note}}</p>
+				{{user_info.username}}<br>
+			<img src="/static/images/{{user_info.images[0].image}}" width="100">
 			</a>
 			<button type="button" data-note-id="{{note.note_id}}" class="delete-button">Delete Note</button>
 		</div>

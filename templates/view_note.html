@@ -2,6 +2,8 @@
 {% block content %}
 
 {{user_note.title_note}}{{user_note.note}}
+{{user_info.username}}<br>
+<img src="/static/images/{{user_info.images[0].image}}" width="100">
 
 <form action = '/edit-note/{{user_note.note_id}}'>
 <input type="submit" value = 'Edit Page'>

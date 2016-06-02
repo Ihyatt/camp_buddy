@@ -6,6 +6,8 @@
   Last name: <input value="{{user_note.note}}" name="note"><br>
   <input type="submit" value="Submit">
 </form>
+{{user_info.username}}<br>
+<img src="/static/images/{{user_info.images[0].image}}" width="100">
 
 <form action = '/delete-note/{{user_note.note_id}}'>
 <input type="submit" value = 'Delete Note'>

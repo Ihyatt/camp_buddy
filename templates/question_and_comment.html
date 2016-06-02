@@ -2,12 +2,17 @@
 {% block content %}
 
 {{ask.question}}
+{{user_asker.username}}<br>
+<img src="/static/images/{{user_asker.images[0].image}}" width="100">
 <div>
 <ul id = "comments">
 	{% for comment in comments %}
 	<li>
+		{{comment.user}}
+		<img src="/static/images/{{comment.image}}" width="100">
 		{{comment.comment}}
 		<button class="vote" data-direction="up" data-comment-id="{{comment.comment_id}}" id ="{{comment.comment_id}}"> {{comment.vote}} </button>
+
 	</li>
 	{% endfor %}
 </ul>

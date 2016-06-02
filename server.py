@@ -221,10 +221,8 @@ def write_note():
 
     db.session.add(diary)
     db.session.commit()
-
    
     return "note added"
-
 
 
 @app.route("/view_questions")
@@ -234,9 +232,12 @@ def view_questions():
    
     if user_id:
         questions = Question.query.filter_by(user_id = user_id).all()
+
+        user_info = User.query.filter(User.user_id == user_id).first()
+        image = user_info.images[0]
         
         
-    return render_template("question_list.html", questions = questions)
+    return render_template("question_list.html", questions = questions, user_info=user_info, image=image)
 
 
 @app.route("/view_notes")
@@ -248,41 +249,62 @@ def view_notes():
     if user_id:
         notes = Note.query.filter_by(user_id = user_id).all()
 
-    return render_template("notes.html", notes = notes)
+        user_info = User.query.filter(User.user_id == user_id).first()
+        image = user_info.images[0]
+
+    return render_template("notes.html", notes = notes, user_info=user_info, image=image)
 
 @app.route("/view_note/<int:note_id>")
 def view_note(note_id):
     """Allows user to view an individual note"""
-    
-    user_note = Note.query.get(note_id)
 
-    return render_template("view_note.html", user_note=user_note)
+    user_id = session.get("user_id")
+
+    if user_id:
+        notes = Note.query.filter_by(user_id = user_id).all()
+
+        user_info = User.query.filter(User.user_id == user_id).first()
+        image = user_info.images[0]
+    
+        user_note = Note.query.get(note_id)
+
+    return render_template("view_note.html", user_note=user_note, user_info=user_info, image=image, notes=notes)
 
 
 @app.route("/edit-note/<int:note_id>")
 def note_edit(note_id):
     """Allows user to edit note"""
-    
-    user_note = Note.query.get(note_id)
+    user_id = session.get("user_id")
 
-    return render_template("edit_note.html" , user_note=user_note)
+    if user_id:
+        notes = Note.query.filter_by(user_id = user_id).all()
+
+        user_info = User.query.filter(User.user_id == user_id).first()
+        image = user_info.images[0]
+    
+        user_note = Note.query.get(note_id)
+
+    return render_template("edit_note.html" , user_note=user_note, user_info=user_info, image=image, notes=notes)
 
 @app.route("/update_note/<int:note_id>", methods=['POST'])
 def update_note(note_id):
     """updates note"""
-    user_note = Note.query.get(note_id)
-
-    user_note.title_note = request.form.get("title_note")
-    user_note.note = request.form.get("note")
-
-    db.session.commit()
-
+    
     user_id = session.get("user_id")
-
     if user_id:
-        notes = Note.query.filter_by(user_id = user_id).all() 
 
-    return render_template("notes.html", note=user_note.note , title_note=user_note.title_note, user_note=user_note, notes=notes)
+        notes = Note.query.filter_by(user_id = user_id).all() 
+        user_note = Note.query.get(note_id)
+        user_info = User.query.filter(User.user_id == user_id).first()
+        image = user_info.images[0]
+
+        user_note.title_note = request.form.get("title_note")
+        user_note.note = request.form.get("note")
+
+        db.session.commit()
+
+
+    return render_template("notes.html", note=user_note.note , title_note=user_note.title_note, user_note=user_note, notes=notes, user_info=user_info, image=image)
        
 
 @app.route("/delete_note_from_list.json", methods=["POST"])
@@ -299,23 +321,26 @@ def delete_note_from_list():
 def delete_note(note_id):
     """Deletes note"""
 
-    user_note = Note.query.get(note_id)
-
-    db.session.delete(user_note)
-    db.session.commit()
-
     user_id = session.get("user_id")
 
     if user_id:
         notes = Note.query.filter_by(user_id = user_id).all()
+        user_note = Note.query.get(note_id)
+        user_info = User.query.get(user_id)
+        image = user_info.images[0]
 
-    return render_template("notes.html", notes = notes)
+        db.session.delete(user_note)
+        db.session.commit()
+
+    return redirect("/view_notes")
 
 
 
 @app.route("/question_and_comment/<int:question_id>")
 def view_question_comments(question_id):
     ask = Question.query.get(question_id) 
+    user_asker = User.query.filter(User.user_id == ask.user_id).first()
+    asker_image = user_asker.images[0]
     
     comments = ask.comments
     comment_id = []
@@ -324,11 +349,28 @@ def view_question_comments(question_id):
     comment_id.sort()
 
     comments = []
-    for id in comment_id:
-        comment = Comment.query.get(id)
-        comments.append(comment)
+    for comm_id in comment_id:
+        comment_deets = {}
+        comment_obj = Comment.query.get(comm_id)
+        comment_deets["comment"] = comment_obj.comment
 
-    return render_template("question_and_comment.html", ask=ask, comments=comments)
+        user_commenter = User.query.filter(User.user_id == comment_obj.user_id).first()
+        comment_deets["comment_id"] = comm_id
+        comment_deets["user"] = user_commenter.username
+        comment_deets["image"] = user_commenter.images[0].image
+        comment_deets["vote"] = comment_obj.vote
+        print comm_id
+        print comment_deets["user"]
+        print comment_deets["image"]
+    
+        comments.append(comment_deets)
+
+    
+    # user_commenter = User.query.filter(User.user_id == Comment.user_id).first()
+    # commenter_image = user_commenter.images[0]
+    
+
+    return render_template("question_and_comment.html", ask=ask, comments=comments, user_asker=user_asker, asker_image=asker_image)
 
 
 @app.route("/add-comment.json", methods=['POST'])
@@ -346,6 +388,7 @@ def add_comment():
     db.session.commit()
 
     comment_author = User.query.filter(User.user_id == Comment.user_id).first()
+    
 
     result = {'comment_id': commented_item.comment_id, 
               'vote': commented_item.vote}
@@ -409,12 +452,14 @@ def return_search_question():
     query_dict = {}
     search_list = []
     search = request.args.get("search_item")
-    print search
-    print type(search)
+    # print search
+    # print type(search)
     splitted_search = search.split(" ")#returns list of searched words
     
     for word in splitted_search:
         search_match = Question.query.filter(Question.question.like('%' + word + '%') ).all() #returns a list of objects
+        search_list.extend(search_match)
+        search_match = Question.query.filter(Question.title_question.like('%' + word + '%') ).all()
         search_list.extend(search_match)
 
     for question in search_list:

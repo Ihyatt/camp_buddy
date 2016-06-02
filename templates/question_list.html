@@ -5,7 +5,11 @@
 <ul id="questions">
 	{% for ask in questions %}
 	<li>
+		<div>
 		<a href = '/question_and_comment/{{ask.question_id}}'>{{ask.title_question}}{{ask.question}}</a>
+		{{user_info.username}}<br>
+		<img src="/static/images/{{user_info.images[0].image}}" width="100"><br>
+	</div>
 	</li>
 	{% endfor %}
 </ul>
