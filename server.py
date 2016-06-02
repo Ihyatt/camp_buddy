@@ -364,10 +364,6 @@ def view_question_comments(question_id):
         print comment_deets["image"]
     
         comments.append(comment_deets)
-
-    
-    # user_commenter = User.query.filter(User.user_id == Comment.user_id).first()
-    # commenter_image = user_commenter.images[0]
     
 
     return render_template("question_and_comment.html", ask=ask, comments=comments, user_asker=user_asker, asker_image=asker_image)
@@ -400,6 +396,7 @@ def add_comment():
 
 
     return jsonify(result)
+
 
 def notify_author_comment(comment, author_email, question, question_title, comment_author):
     """notifies author of question when a user has commented on their question"""
@@ -455,6 +452,7 @@ def return_search_question():
     query_dict = {}
     search_list = []
     search = request.args.get("search_item")
+  
     # print search
     # print type(search)
     splitted_search = search.split(" ")#returns list of searched words
@@ -466,7 +464,10 @@ def return_search_question():
         search_list.extend(search_match)
 
     for question in search_list:
-        query_dict[question.question_id]=[question.question, question.title_question]
+        question_author = User.query.filter(User.user_id == question.user_id).first()
+        question_auth_image = question_author.images[0]
+
+        query_dict[question.question_id]=[question.question, question.title_question, question_author.username, question_auth_image.image, question.comment_on_question_count()]
 
     return jsonify(query_dict)
 

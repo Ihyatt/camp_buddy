@@ -18,12 +18,10 @@
 
 function showResults(results){
 	var returnedQuestions = results;
-	console.log("print item")
+	
 	for (var key in returnedQuestions){
-		// returnedQuestions[i].question, returnedQuestions[i].
-		// question = returnedQuestions[i]
 		
-		$("#questions").append("<li><a href='/question_and_comment/"+key+"'>"+ returnedQuestions[key][0] + "," + returnedQuestions[key][1] + "</a></li>")
+		$("#questions").append("<li>" + returnedQuestions[key][2] +'<img src="/static/images/' + returnedQuestions[key][3] + '" width="100">' +  "<a href='/question_and_comment/"+key+"'>"+ returnedQuestions[key][0] + "," + returnedQuestions[key][1] + "</a>" + "number of comments" + returnedQuestions[key][4] + "</li>")
 		console.log(key);
 			
 	};

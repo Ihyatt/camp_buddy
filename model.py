@@ -112,7 +112,11 @@ class Question(db.Model):
 
     user = db.relationship('User', backref="questions")
 
-
+    def comment_on_question_count(self):
+        count = 0 
+        for comment in self.comments:
+            count += 1
+        return count
     
     def __repr__(self):
         return "<Question question_id=%s user_id=%s question=%s>" % (self.question_id, self.user_id, self.question)
@@ -136,6 +140,8 @@ class Comment(db.Model):
     #comments is everythin in comment table from question instance
 
     user = db.relationship('User', backref = db.backref('comments'))
+
+
 
     def __repr__(self):
         return "<Comment comment_id=%s user_id=%s comment_timestamp=%s question_id=%s comment=%s>" % (
