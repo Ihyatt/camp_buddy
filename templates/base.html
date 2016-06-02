@@ -1,44 +1,136 @@
 <!doctype html>
 <html>
 <head>
-  <title>{% block title %} {% endblock %}</title> 
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>{% block title %} Camp Buddy {% endblock %}</title> 
   <script src="https://www.atlasestateagents.co.uk/javascript/tether.min.js"></script><!-- Tether for Bootstrap --> 
 
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+  <link href='http://fonts.googleapis.com/css?family=Frijole' rel='stylesheet' type='text/css'>
   <link href="/static/styles.css" rel="stylesheet">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js" integrity="sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7" crossorigin="anonymous"></script>
- <script src="/static/questions.js"></script>
- <script type="text/javascript" src="script.js"></script>
 
 
 
+<style>
+/*put base css stuff here*/
+
+</style>
+
+{% block head %}{% endblock %}
 </head>
 
 <body>
-<ul>
-{% if "user_id" in session %}
-  <li><a href="/users/{{ session['user_id'] }}">Profile</a></li>
-  <li><a href="/logout">Logout</a></li>
-    {% else %}
-  <li><a href="/register">Register</a></li>
-  <li><a href="/login">Login</a></li>
-    {% endif %}
-</ul>
-<!-- 
-<label> Upload your image<input type="file" name="hi"></label> -->
+  <nav class="navbar navbar-inverse" style="margin-bottom: 0px">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed"
+                    data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">
+              <span class="glyphicons glyphicons-wifi-alt"></span>
+                <!-- <span class="glyphicon glyphicon-eye-open"></span> -->
+                Camp Buddy
+            </a>
+        </div>
 
-{% with messages = get_flashed_messages() %}
-  {% if messages %}
-    <ul class=flashes>
-    {% for message in messages %}
-      <li>{{ message }}</li>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse"
+             id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="/view_questions">View Questions</a></li>
+                <li><a data-toggle="modal" data-target="#myModal">Ask a Question</a></li>
+                <li><a href="/view_notes">View Notes</a></li>
+                <li><a  data-toggle="modal" data-target="#myModal2">Write a Note</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              {% if "user_id" in session %}
+                  <li><a href="/search-questions", method="GET">Search</a></li>
+                  <li><a href='/edit-profile'>Edit Profile</a></li>
+                  <li><a href="/users/{{ session['user_id'] }}">Profile</a></li>
+                  <li><a href="/logout">Logout</a></li>
+              {% else %}
+                  <li><a href="/register">Register</a></li>
+                  <li><a href="/login">Login</a></li>
+              {% endif %}
+
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
+</nav>
+
+<!-- modal for questions to be asked -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        <h4 class="modal-title" id="myModalLabel"><input type = "text" name ="title_question" id="question-title" placeholder="Write a title..."></h4>
+      </div>
+    <div class="modal-body">
+  <!-- Input information within modal -->
+  <input type = "text" name ="question" id="question" placeholder="write something...">
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      <button type="button" id="question-submit"class="btn btn-primary">Submit</button>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- modal for notes to be written -->
+<div class="modal-dialog modal-lg">
+  <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        <h4 class="modal-title" id="myModalLabel"><input type = "text" name ="title_note" id="note-title" placeholder="Write a title..."></h4>
+      </div>
+    <div class="modal-body">
+  <!-- Input information within modal -->
+  <input type = "text" name ="note" id="note" placeholder="write something...">
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      <button type="submit" id="note-submit" class="btn btn-primary">Submit</button>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+
+<div id="extending">
+    {% for flash in get_flashed_messages() %}
+      <div class="alert alert-danger" style="width:90%; margin:0 auto;">{{ flash }}</div>
     {% endfor %}
-    </ul>
-  {% endif %}
-{% endwith %}
+{% block content %}
+{% endblock %}
+</div>
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+ 
+ <script src="/static/modal.js"></script>
 
-{% block content %} {% endblock %}
+
 
 </body>
 </html>
