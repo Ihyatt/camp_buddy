@@ -77,6 +77,37 @@ body {
   background-color: white;
 }
 
+
+/*input box modal*/
+
+#note-title{
+  height:50px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+#note{
+  height: 300px;
+  border-radius: 10px;
+  
+}
+
+#question-title{
+  height:50px;
+  border-radius: 10px;
+   margin-bottom: 10px;
+}
+
+#question{
+height: 300px;
+border-radius: 10px;
+ 
+}
+
+.btn{
+  width:100px
+}
+
 /*.only-bottom-margin {
   margin-top: 0px;
 }*/
