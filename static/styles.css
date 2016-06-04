@@ -21,6 +21,7 @@ body {
   background-size: 80px 60px;
   background-attachment: fixed;
 
+
   color: #3e3f3a;
 }
 
@@ -48,39 +49,34 @@ body {
 
 /*profile page css*/
 
-#profile-page{
-  max-width: 800px;
- background-color: white;
-
-
-
-
-}
-
-
-#about-user-title{
-  border-bottom: 2px #29abe0 solid;
-  margin-bottom: 10px;
-}
-
 #profile-image{
+  background-color: white;
   text-align: center;
+  border-radius: 25px;
 }
 
-#about-body{
-  background-color:#f47c3c;
-  border-radius: 25px;
+#profile-image-info{
+  background-color: #93c54b;
+  margin-top: 10px;
   padding: 40px;
   color: white;
-
-}
-.text{
-  opacity:0.8;
+  border-radius: 25px;
+  opacity:0.7;
 }
 
-#member-since{
-  text-align: right;
+#profile-info{
+  background-color: #29abe0;
+   margin-top: 55px;
+   padding: 40px;
+   color: white;
+   border-radius: 25px;
+   opacity:0.7;
 }
+
+#main-div{
+  background-color: white;
+}
+
 /*.only-bottom-margin {
   margin-top: 0px;
 }*/
