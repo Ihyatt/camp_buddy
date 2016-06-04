@@ -28,6 +28,7 @@ class User(db.Model):
     languages = db.Column(db.String(1000), nullable=True)
     linkedin_url = db.Column(db.String(200), nullable=True)
     github_url = db.Column(db.String(200), nullable=True)
+    about_user = db.Column(db.String(1000), nullable=True)
 
     user_profile = db.relationship('ProfilePage', uselist=False, backref=db.backref("users"))
 

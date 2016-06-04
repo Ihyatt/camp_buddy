@@ -1,43 +1,50 @@
 
 {% extends 'base.html' %}
 
-{% block head %}
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-{% endblock %}
+
 
 {% block content %}
 
 <!-- display user info -->
 
+<div class="row">
+<div class="col-md-4"></div>
 
-<div class="container">
-  <h2>{{user.username}}</h2>           
-  <img src="/static/images/{{user.images[0].image}}" class="img-thumbnail" alt="Cinque Terre" width="304" height="236"> 
+<div  class= "col-md-4" id="profile-page">
+	<div id="about-user-title">About {{user.username}}</div>
+		<div id="profile-image">	    
+			<img src="/static/images/{{user.images[0].image}}"class="img-rounded" alt="Cinque Terre" width="250"> 
+  			<h2>{{user.username}}</h2> 
+		</div>
+		
+		<div id="about-body">  
+			<span class="text">Email: {{user.email}}<br>
+			<br>
+			Age: {{user.age}}<br>
+			<br>
+			Location: {{user.city}}, {{user.state}}<br>
+			<br>
+			Bootcamp: {{user.boot_camp_name}}<br>
+			<br>
+			Skills: {{user.languages}}<br>
+			<br>
+			Bio:<br>
+			{{user.about_user}}<br>
+			<br>
+			Questions Posted: <span id="question-count">{{user.question_count()}}</span><br>Questions Answered: {{user.comment_count()}}<br>
+			<br>
+		</span>
+			<div>
+			<a href="{{user.linkedin_url}}"><img border="0" alt="linkedin" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/LinkedIn_logo_initials.png/768px-LinkedIn_logo_initials.png"width="20" height="20"></a>
+			<a href="{{user.github_url}}"><img border="0" alt="github" src="https://assets-cdn.github.com/images/modules/logos_page/Octocat.png" width="20" height="20"></a>
+		</div>
+		<br>
+		<div class = "text" id="member-since">Member since: {{user.member_since}}</div>
+	</div>
+
 </div>
-
-        
-Email:{{user.email}}<br>
-Age:{{user.age}}<br>
-Location:{{user.city}}, {{user.state}}<br>
-Bootcamp:{{user.boot_camp_name}}<br>
-Languages known:{{user.languages}}<br>
-Member since {{user.member_since}}<br>
-questions asked: <p id="question-count">{{user.question_count()}}</p><br>
-questions answered: {{user.comment_count()}}<br>
-
-<!-- use static because flask looks for files in static folder -->
-
-<div class="logo">
-  <a href="{{user.linkedin_url}}"><img border="0" alt="linkedin" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/LinkedIn_logo_initials.png/768px-LinkedIn_logo_initials.png" width="20" height="20"></a>
-  <a href="{{user.github_url}}"><img border="0" alt="github" src="https://assets-cdn.github.com/images/modules/logos_page/Octocat.png" width="20" height="20"></a>
+ <div class="col-md-4"></div>
 </div>
-
-
-
-
 
 
 

@@ -54,6 +54,7 @@ def register_process():
     linkedin_url = request.form["languages"]
     github_url = request.form["github_url"]
     file_ = request.files["image-upload"]
+    about_user = request.form["about"]
 
     if User.query.filter(User.email == email).all():
         flash('You are already a user!')
@@ -74,7 +75,7 @@ def register_process():
             file_.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
         date_string = datetime.today().strftime('%Y-%m-%d')
-        new_user = User(username=username, member_since = date_string, email=email, password=password, age=age, city=city, state=state, boot_camp_name=boot_camp_name, languages=languages, linkedin_url=linkedin_url, github_url=github_url)
+        new_user = User(username=username, member_since = date_string, email=email, password=password, age=age, city=city, state=state, boot_camp_name=boot_camp_name, languages=languages, linkedin_url=linkedin_url, github_url=github_url, about_user=about_user)
         db.session.add(new_user)
       
 
@@ -396,7 +397,7 @@ def add_comment():
               'comment_timestamp': commented_item.comment_timestamp,
               'user_id': comment_author.user_id}
 
-    notify_author_comment(commented_item, question_author.email, question_info.question, question_info.title_question, comment_author.username)
+    notify_author_comment(commented_item.comment, question_author.email, question_info.question, question_info.title_question, comment_author.username)
 
 
     return jsonify(result)
@@ -405,7 +406,7 @@ def add_comment():
 def notify_author_comment(comment, author_email, question, question_title, comment_author):
     """notifies author of question when a user has commented on their question"""
 
-    content = "The fellow camper, " + comment_author + " has commented on your question:" + "\n" + question_title + "\n" + question + "!"
+    content = "The fellow camper, " + comment_author + " has commented on your question:" + "\n" + question_title + "\n" + question + "! They have stated the following: " + "\n" + comment
     send_mail(to=author_email, from_="admin@campbuddy.com", content=content)
 
 def send_mail(to=None, from_=None, content=None):

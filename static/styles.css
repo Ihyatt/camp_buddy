@@ -15,38 +15,91 @@ li {
 }
 
 body {
-  background-color: #eaeaea;
+  background-color: white;
+  background-image: url(/static/img/campbackground.jpg);
+  background-repeat: repeat;
+  background-size: 80px 60px;
+  background-attachment: fixed;
+
+  color: #3e3f3a;
 }
 
-img.avatar {
-  border: 1px solid #eee;
-  height: 10%;
+/*nav bar decoration*/
+.navbar-inverse {
+  background-color: #3E3F3A;
+  border-color: #3E3F3A;
+  border-radius: 0;
+  -moz-border-radius: 0;
+  padding-top: 10px;
+  padding-bottom: 10px;
+
+}
+.navbar-inverse .navbar-nav>li>a {
+  color:#98978b;
 }
 
-.only-bottom-margin {
+.navbar-inverse .navbar-brand {
+  color:#ffffff;
+}
+
+.navbar-inverse .navbar-collapse, .navbar-inverse .navbar-form{
+  border-color: #3E3F3A
+}
+
+/*profile page css*/
+
+#profile-page{
+  max-width: 800px;
+ background-color: white;
+
+
+
+
+}
+
+
+#about-user-title{
+  border-bottom: 2px #29abe0 solid;
+  margin-bottom: 10px;
+}
+
+#profile-image{
+  text-align: center;
+}
+
+#about-body{
+  background-color:#f47c3c;
+  border-radius: 25px;
+  padding: 40px;
+  color: white;
+
+}
+.text{
+  opacity:0.8;
+}
+
+#member-since{
+  text-align: right;
+}
+/*.only-bottom-margin {
   margin-top: 0px;
-}
+}*/
 
-.activity-mini {
+/*.activity-mini {
   padding-right: 15px;
   float: left;
-}
+}*/
 
-.upload-button {
+/*.upload-button {
     padding: 4px;
     border: 1px solid black;
     border-radius: 5px;
     display: block;
     float: left;
-}
+}*/
 
-.profile-pic {
-    max-width: 200px;
-    max-height: 200px;
-    display: block;
-}
 
-.file-upload {
+/*.file-upload {
     display: none;
-}
+}*/
 
