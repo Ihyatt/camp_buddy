@@ -3,72 +3,103 @@
 
 
 <!-- question page -->
+
+<!-- question page -->
 <div class="row" id="full-question-layout">
-			<div class="col-md-3"></div>
-
-			<div class="col-md-2" id="question-image">
-		
-				<a href = "/users/{{user_asker.user_id}}"><div id ="question-image-layout">
-					<img src="/static/images/{{user_asker.images[0].image}}" width="100"></a>
-				</div>
-			</div>
-			<!-- <div class="col-md-3"> -->
-
-				<div class="col-md-3" id="question-layout">
-					<span class="tip tip-left"></span>
-					<span>{{user_asker.username}}</span>
-						<span>Comments: {{ask.comment_on_question_count()}}</span>
-							<div>
-								<h3>{{ask.title_question}}</h3><br>{{ask.question}}
-							</div>
-					
-						<div>{{ask.question_created}}</div>
-					
-				</div>
-
-			<div class="col-md-4"></div>
-		</div>
+  <div class="col-md-3"></div>
+  <div class="col-md-2" id="question-image">
+    <a href="/users/{{user_asker.user_id}}">
+      <div id="question-image-layout">
+        <img src="/static/images/{{user_asker.images[0].image}}" width="100">
+      </div>
+    </a>
+  </div>
+  <div class="col-md-3" id="question-layout">
+    <span class="tip tip-left"></span>
+    <span>{{user_asker.username}}</span>
+    <span>Comments: {{ ask.comment_on_question_count() }}</span>
+    <div>
+      <h3>{{ask.title_question}}</h3>
+      <br> {{ask.question}}
+    </div>
+    <div>{{ask.question_created}}</div>
+  </div>
+  <div class="col-md-4"></div>
+</div>
 
 
 
+<!-- comments -->
+
+<div>
+  <ul id="comments">
+
+    {% for comment in comments %}
+    <li>
+      <div class="row" id="full-question-layout">
+        <div class="col-md-3"></div>
+
+      <!--   <div class="col-md-2" id="question-image">
+          <a href="/users/{{comment.user_id}}">
+            <div id="question-image-layout">
+              <img src="/static/images/{{comment.image}}" width="100">
+            </div>
+          </a>
+        </div> -->
+
+        <div class="col-md-3" id="question-layout">
+          <span class="tip tip-left"></span>
+          <span>{{comment.user}}</span>
+          <div>
+            {{comment.comment}}
+          </div>
+          <div>
+            {{comment.comment_timestamp}}
+          </div>
+          <div>
+            <button class="vote" data-direction="up" data-comment-id="{{comment.comment_id}}" id="{{comment.comment_id}}"> {{comment.vote}} 
+        </button>
+          </div>
+        </div>
+
+         <div class="col-md-2" id="question-image">
+          <a href="/users/{{comment.user_id}}">
+            <div id="question-image-layout">
+              <img src="/static/images/{{comment.image}}" width="100">
+            </div>
+          </a>
+        </div>
+
+        <div class="col-md-4"></div>
+      </div>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
 
 
-<div class="row" id="full-question-layout">
-			<div class="col-md-3"></div>
-
-			<div class="col-md-2" id="question-image">
-		
-				<a href = "/users/{{user_asker.user_id}}"><div id ="question-image-layout">
-					<img src="/static/images/{{user_asker.images[0].image}}" width="100"></a>
-				</div>
-			</div>
-			<!-- <div class="col-md-3"> -->
-
-				<div class="col-md-3" id="question-layout">
-					<span class="tip tip-left"></span>
-					<span>{{user_asker.username}}</span>
-						<span>Comments: {{ask.comment_on_question_count()}}</span>
-							<div>
-								<h3>{{ask.title_question}}</h3><br>{{ask.question}}
-							</div>
-					
-						<div>{{ask.question_created}}</div>
-					
-				</div>
-
-			<div class="col-md-4"></div>
-		</div>
 
 
 
 
-<div class="row" id="full-question-layout">
+ <!--  <div class="col-md-4"></div>
+</div> -->
+
+
+<!-- <div class="row" id="full-question-layout">
 	<div class="col-md-3"></div>
+
+		<div class="col-md-2" id="question-image">
 		<ul id = "comments">
 			{% for comment in comments %}
 			<li>
-				<a href = "/users/{{comment.user_id}}">{{comment.user}}</a>
-				<img src="/static/images/{{comment.image}}" width="100">
+				<a href = "/users/{{comment.user_id}}">
+					<div>
+						<img src="/static/images/{{comment.image}}" width="100"></div>
+				
+
+
+
 				{{comment.comment}}<br>
 				{{comment.comment_timestamp}}<br>
 				<button class="vote" data-direction="up" data-comment-id="{{comment.comment_id}}" id ="{{comment.comment_id}}"> {{comment.vote}} </button>
@@ -77,13 +108,14 @@
 		</ul>
 
 	<div class="col-md-4"></div>
-</div>	
+</div> -->	
 
 
-
+<div>
 <input type = "text" name = "comment" placeholder = "write a comment" id = "write-comment">
 
 <input type="button" value="add comment" id = "add-comment">
+</div>
 
 
 

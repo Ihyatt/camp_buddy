@@ -364,9 +364,7 @@ def view_question_comments(question_id):
         comment_deets["vote"] = comment_obj.vote
         comment_deets["comment_timestamp"] = comment_obj.comment_timestamp
         comment_deets["user_id"] = user_commenter.user_id
-        # print comm_id
-        # print comment_deets["user"]
-        # print comment_deets["image"]
+       
     
         comments.append(comment_deets)
     
