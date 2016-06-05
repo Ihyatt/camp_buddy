@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
-<!-- form that will update user info -->
-<form action="/update-profile", method="POST", enctype="multipart/form-data">
+
+<!-- <form action="/update-profile", method="POST", enctype="multipart/form-data">
 {{user.username}}
 Email:<input value = "{{user.email}}" name ="email" id="email-update"><br>
 Age:<input type="number" value = "{{user.age}}" name ="age" id="age-update"><br>
@@ -12,18 +12,136 @@ User LinkedIn URL: <input value = "{{user.linkedin_url}}" name ="linkedin_url" i
 User Github URL:</span><input value = "{{user.github_url}}" name ="github_url" id="github-url-update"><br>
 Languages:</span><input value = "{{user.languages}}" name ="languages" id="languages-update"><br>
 Username:</span><input value = "{{user.username}}" name ="username" id="username-update"><br>
-Member since {{user.member_since}}<br>
+Member since {{user.member_since}}<br> -->
 
 <!-- Image upload -->
 <!-- not sure how to delete current image from images file and images database -->
 
-profile image upload <input type="file" name="image-upload" id="upload" class="form-control"><br>
+<!-- profile image upload <input type="file" name="image-upload" id="upload" class="form-control"><br>
 
 
 
 
 <button type="submit" class="btn btn-default" value="Submit">Submit</button>
 </form>
+  -->
+
+
+
+
+<form action="/update-profile", method="POST", enctype="multipart/form-data">
+<div class="container">
+    <h1>Edit {{user.username}} Profile</h1>
+  	<hr>
+	<div class="row">
+      <!-- left column -->
+      <div class="col-md-3">
+        <div class="text-center">
+          <img src="/static/images/{{user.images[0].image}}" class="img-rounded" alt="Cinque Terre" width="250">  
+          <h6>Upload a different photo...</h6>
+          
+          <input type="file" name="image-upload" id="upload" class="form-control">
+        </div>
+      </div>
+      
+      <!-- edit form column -->
+      <div class="col-md-9 personal-info">
+       
+        <form class="form-horizontal" role="form">
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Bootcamp:</label>
+            <div class="col-lg-8">
+            <input value = "{{user.boot_camp_name}}" name ="boot_camp_name" class="form-control" id="boot-camp-name-update">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Email:</label>
+            <div class="col-lg-8">
+             <input  type="text" value = "{{user.email}}" name ="email" id="email-update" class="form-control">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Age:</label>
+            <div class="col-lg-8">
+              <input type="number" class="form-control" value = "{{user.age}}" name ="age" id="age-update">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">City:</label>
+            <div class="col-lg-8">
+            	<input value = "{{user.city}}" class="form-control" name ="city" id="city-update">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-lg-3 control-label">State:</label>
+            <div class="col-lg-8">
+            	<input value = "{{user.state}}" class="form-control" name ="state" id="state-update">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-lg-3 control-label">LinkedIn:</label>
+            <div class="col-lg-8">
+            	<input value = "{{user.linkedin_url}}"  class="form-control" name ="linkedin_url" id="linkedin-url-update">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Github:</label>
+            <div class="col-lg-8">
+            	<input value = "{{user.github_url}}" class="form-control" name ="github_url" id="github-url-update">
+            	
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Skills:</label>
+            <div class="col-lg-8">
+            	<input value = "{{user.languages}}" class="form-control" name ="languages" id="languages-update">
+            	
+            </div>
+          </div>
+          
+             <div class="form-group">
+            <label class="col-lg-3 control-label">About:</label>
+            <div class="col-lg-8">
+            	<input value = "{{user.about_user}}" size="100" class="form-control" name ="about" id="about-user">	
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-md-3 control-label">Username:</label>
+            <div class="col-md-10">
+            	<input type="text" value = "{{user.username}}" class="form-control" name ="username" id="username-update">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-3 control-label">Password:</label>
+            <div class="col-md-10">
+              <input class="form-control" name="password" type="password" value="{{user.password}}">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-3 control-label">Confirm password:</label>
+            <div class="col-md-10">
+              <input class="form-control" name="password" type="password" value="{{user.password}}">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-md-3 control-label"></label>
+            <div class="col-md-8">
+            <button type="submit" class="btn btn-default" value="Submit">Submit</button>
+            </div>
+          </div>
+        </form>
+      </div>
+  </div>
+</div>
+<hr>
+</form>
+
 
 
 {% endblock %}

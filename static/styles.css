@@ -108,6 +108,59 @@ border-radius: 10px;
   width:100px
 }
 
+/*edit profile*/
+
+#about-user{
+height: 300px;
+width: 300px;
+border-radius: 25px; 
+}
+
+/*question list page*/
+#full-question-layout{
+  margin: 0px 0px 70px 0px; 
+   border-radius: 25px;
+}
+
+#question-layout{
+  background-color: #29abe0;
+  padding: 30px;
+  color: white;
+  text-decoration: none;
+   border-radius: 25px;
+   border:7px solid #29abe0;
+}
+
+#question-layout a {
+ text-decoration: none;
+}
+
+#question-box{
+
+ /* width:100px;
+  height:100px;*/
+}
+
+#question-image{
+ border-radius: 25px; 
+}
+
+.tip {
+  width: 0px;
+  height: 10px;
+  position: absolute;
+  background: transparent;
+  border: 20px solid #29abe0;
+}
+.tip-left {
+  top: 1px;
+  left: -40px;
+  border-top-color: transparent;
+  border-left-color: transparent;
+  border-bottom-color: transparent;  
+}
+
+
 /*.only-bottom-margin {
   margin-top: 0px;
 }*/

@@ -177,6 +177,8 @@ def update_user_data():
     user.languages = request.form.get("languages")
     user.linkedin_url = request.form.get("linkedin_url")
     user.github_url = request.form.get("github_url")
+    user.about_user = request.form.get("about")
+    user.password = request.form.get("password")
     file_ = request.files["image-upload"]
     
     

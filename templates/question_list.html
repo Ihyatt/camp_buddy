@@ -5,13 +5,37 @@
 <ul id="questions">
 	{% for ask in questions %}
 	<li>
+		<div class="row" id="full-question-layout">
+			<div class="col-md-3"></div>
+
+			<div class="col-md-2" id="question-image">
+		
+				<a href = "/users/{{user_info.user_id}}"><div id ="question-image-layout">
+					<img src="/static/images/{{user_info.images[0].image}}" width="100"></a>
+				</div>
+			</div>
+			<!-- <div class="col-md-3"> -->
+
+				<div class="col-md-3" id="question-layout"><a id="question-box" href = '/question_and_comment/{{ask.question_id}}'>
+					<span class="tip tip-left"></span>
+					<span>{{user_info.username}}</span>
+						<span>Comments: {{ask.comment_on_question_count()}}</span>
+							<div>
+								{{ask.title_question}}{{ask.question}}
+							</div>
+					
+						<div>{{ask.question_created}}<div>
+					
+					
+				</div> </a>
+			<!-- </div> -->
+
+			
+			
+
+			<div class="col-md-4"></div>
 		<div>
-		<a href = '/question_and_comment/{{ask.question_id}}'>{{ask.title_question}}{{ask.question}}</a>
-		<a href = "/users/{{user_info.user_id}}">{{user_info.username}}</a>
-		{{ask.question_created}}<br>
-		<img src="/static/images/{{user_info.images[0].image}}" width="100"><br>
-		comments on question:{{ask.comment_on_question_count()}}<br>
-	</div>
+
 	</li>
 	{% endfor %}
 </ul>
