@@ -1,12 +1,12 @@
 .form-group {
-	width: 25%;
-	margin-right: auto;
-	margin-left: auto;
+/*	width: 25%;*/
+/*	margin-right: auto;
+	margin-left: auto;*/
 }
 
 .btn {
-	width: 10%;
-	margin-left: 45%;
+	/*width: 10%;*/
+	/*margin-left: 45%;*/
 	
 }
 
@@ -50,31 +50,41 @@ body {
 /*profile page css*/
 
 #profile-image{
-  background-color: white;
-  text-align: center;
-  border-radius: 25px;
+  margin-top: 20px;
+  border-radius: 5px;
 }
 
 #profile-image-info{
-  background-color: #93c54b;
+  background-color: white;
   margin-top: 10px;
   padding: 40px;
-  color: white;
-  border-radius: 25px;
+  color: black;
   opacity:0.7;
+  border: 1px solid #c6c6c6;
+  border-radius: 5px;
 }
 
 #profile-info{
-  background-color: #29abe0;
-   margin-top: 55px;
-   padding: 40px;
-   color: white;
-   border-radius: 25px;
+  background-color: white;
+   margin-top: 20px;
+   padding: 15px 30px 30px 30px;
+   color: black;
+   border-radius: 5px;
    opacity:0.7;
+   border: 1px solid #c6c6c6;
 }
 
-#main-div{
-  background-color: white;
+#background-div{
+  background-color: #e0e0e0;
+  margin-top: 0px;
+  padding-bottom:60px;
+  padding-top: 30px;
+ 
+}
+
+#profile-top-row{
+  margin-top:-30px;
+  padding:0px;
 }
 
 

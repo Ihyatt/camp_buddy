@@ -8,50 +8,53 @@
 <!-- display user info -->
 
 
-<div class="row">
-	 <div class="col-md-3"></div>
+<div class="row" id="profile-top-row">
+	 
 
-	  		<div id="main-div">
-	  		<div class="col-md-3">
-	  		<div id="profile-image">
-			<h2>{{user.username}}</h2>  
-			<img src="/static/images/{{user.images[0].image}}" class="img-rounded" alt="Cinque Terre" width="250">  
-  			</div>
+	  <div class= "col-md-8 col-md-offset-2" id="background-div">
+	  		<div class="row">
 
-  		<div id="profile-image-info">	
-  		Questions Posted:<span id="question-count">{{user.question_count()}}
-  							 </span>
-  							<br>
-  							 Questions Answered: {{user.comment_count()}}
-							</span> <br>
+	  		
+
+	  		<div class="col-md-4 col-md-offset-2">
+	  			<div id="profile-image">
+					<img src="/static/images/{{user.images[0].image}}" class="img-thumbnail img-responsive" alt="Cinque Terre" width="300">  
+  				</div>
+
+  				<div id="profile-image-info">	
+  					Questions Posted:<span id="question-count">{{user.question_count()}}</span><br>
+  					Questions Answered: {{user.comment_count()}}</span> <br>
 			
-			<a href="{{user.linkedin_url}}"><img border="0" alt="linkedin" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/LinkedIn_logo_initials.png/768px-LinkedIn_logo_initials.png"width="20" height="20"></a>
-			<a href="{{user.github_url}}"><img border="0" alt="github" src="https://assets-cdn.github.com/images/modules/logos_page/Octocat.png" width="20" height="20"></a>
-			
-		<br>
-			Member since: {{user.member_since}}
-		</div>
+					<a href="{{user.linkedin_url}}"><img border="0" alt="linkedin" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/LinkedIn_logo_initials.png/768px-LinkedIn_logo_initials.png"width="20" height="20"></a>
+					<a href="{{user.github_url}}"><img border="0" alt="github" src="https://assets-cdn.github.com/images/modules/logos_page/Octocat.png" width="20" height="20"></a><br>
+					Member since: {{user.member_since}}
+				</div>
 
-		</div>
+			</div>
+							
+				
 		
-  			<div class="col-md-3" id="profile-info">
-  			<h4> About {{user.username}}</h4>
-			<span class="text">Email: {{user.email}}<br>
-			<br>
-			Age: {{user.age}}<br>
-			<br>
-			Location: {{user.city}}, {{user.state}}<br>
-			<br>
-			Bootcamp: {{user.boot_camp_name}}<br>
-			<br>
-			Skills: {{user.languages}}<br>
-			<br>
-			Bio:<br>
-			{{user.about_user}}<br>
+  				<div class="col-md-4" id="profile-info">
+  					<h2>{{user.username}}</h2>
+					<span class="text">Email: {{user.email}}<br>
+					<br>
+					Age: {{user.age}}<br>
+					<br>
+					Location: {{user.city}}, {{user.state}}<br>
+					<br>
+					Bootcamp: {{user.boot_camp_name}}<br>
+					<br>
+					Skills: {{user.languages}}<br>
+					<br>
+					Bio:<br>
+					{{user.about_user}}<br>
+				</div>
+			
 		</div>
 	</div>
 
-<div class="col-md-3"></div>
-<div>
+<!-- wrapper div -->
+	
+</div>
 
 {% endblock %}

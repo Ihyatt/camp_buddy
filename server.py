@@ -56,6 +56,7 @@ def register_process():
     file_ = request.files["image-upload"]
     about_user = request.form["about"]
 
+
     if User.query.filter(User.email == email).all():
         flash('You are already a user!')
         return render_template("log_in.html")
