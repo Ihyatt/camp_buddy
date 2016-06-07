@@ -8,9 +8,10 @@
 
 
 <div>
-<ul id="questions">
-	
-</ul>
+	<ul id="questions">
+
+		
+		</ul>
 </div>
 
 
@@ -22,10 +23,28 @@ function showResults(results){
 	
 	for (var key in returnedQuestions){
 		
-		$("#questions").append("<li>" + '<a href = "/users/' + returnedQuestions[key][5] + '">'+ returnedQuestions[key][2] + '</a>' + '<img src="/static/images/' + returnedQuestions[key][3] + '" width="100">' +  "<a href='/question_and_comment/"+key+"'>"+ returnedQuestions[key][0] + "," + returnedQuestions[key][1] + "</a>" + "number of comments" + returnedQuestions[key][4] + "</li>")
-			console.log(key);
+		$("#questions").append("<li>" + '<div class="row" id="full-question-layout">'+ 
+			'<div class="col-md-2 col-md-offset-3" id="question-image">' +
+				'<a href = "/users/' + returnedQuestions[key][5] + '">' + 
+					'<div id ="question-image-layout">' + 
+								'<img src="/static/images/' + returnedQuestions[key][3] + '" class="img-thumbnail img-responsive" width="100">' + 
+							'</div>' + 
+						'</a>' +
+						'<div>' + returnedQuestions[key][2] + '</div>' + 
+					'</div>' + 
+					'<a href = "/question_and_comment/' + key + '">' + 
+					'<div class="col-md-3" id="question-layout">' + 
+						'<span class="tip tip-left"></span>' + 
 
-			
+							'<div>' + 
+								returnedQuestions[key][1] + '<br>' + returnedQuestions[key][0] + 
+							'</div>' + 
+							'<div id="timestamp">' + returnedQuestions[key][6] + '</div>' + 
+							'</div>' +  '</a>' + 
+							'<ul class="nav nav-pills">' + 
+								'<li>Comments' +  '<span class="badge" id="comment-count">' + returnedQuestions[key][4] + '</span>' + '</li>' + 
+							'</ul>' + 
+				'<div>' + "</li>")		
 	};
 	$("#search").val("")
 console.log("im here");

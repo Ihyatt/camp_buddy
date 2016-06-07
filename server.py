@@ -492,7 +492,7 @@ def return_search_question():
         question_author = User.query.filter(User.user_id == question.user_id).first()
         question_auth_image = question_author.images[0]
 
-        query_dict[question.question_id]=[question.question, question.title_question, question_author.username, question_auth_image.image, question.comment_on_question_count(), question_author.user_id]
+        query_dict[question.question_id]=[question.question, question.title_question, question_author.username, question_auth_image.image, question.comment_on_question_count(), question_author.user_id, question.question_created]
 
     return jsonify(query_dict)
 

@@ -306,7 +306,11 @@ text-align: right;
   height:50px;
   border-bottom: 1px solid #c6c6c6;
 
+
 }
+
+
+
 
 /*view note page*/
 #edit-button{
@@ -315,6 +319,23 @@ text-align: right;
 #delete-button{
   display: inline-block;
 }
+
+
+/*notes edit modal*/
+
+#note-edit{
+ height: 300px;
+  border-radius: 10px;
+}
+
+#note-edit-title{
+  height:50px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+
+
 
 /*
 button {

@@ -65,7 +65,9 @@ Note created: {{user_note.note_created}}<br>
     <div class="modal-body">
   <!-- Input information within modal -->
   <input type = "text" value="{{user_note.title_note}}" size="75" name ="title_note" id="note-edit-title" class="form-control" placeholder="Write a title...">
-  <textarea name ="note" value ="{{user_note.note}}" size="75" id="note-edit" class="form-control" placeholder="{{user_note.note}}"></textarea>
+
+  <textarea name ="note" size="75" id="note-edit" class="form-control">{{user_note.note}}</textarea>
+
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -79,7 +81,7 @@ Note created: {{user_note.note_created}}<br>
 <script>
 function showNote(results){
   console.log("note added");
-  location.reload(true);
+  // location.reload(true);
 }
 
 function submitNote(){
