@@ -257,6 +257,65 @@ border-radius: 25px;
   margin-top: 10px;
 }
 
+#timestamp{
+  font-size:8px
+}
+#comment-wrapper{
+  text-align: center;
+}
+.inline{
+  display: inline-block;
+
+}
+
+
+
+/*Notes page*/
+
+.delete-button{
+  display: inline-block;
+}
+.view-button{
+display: inline-block;
+}
+
+#note-item{
+ 
+  border: 1px solid #c6c6c6;
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+}
+.note-row{
+  margin:auto auto 40px auto; 
+}
+
+#note-page{
+  height: 300px;
+  margin-top: 10px;
+
+
+}
+
+.note-timestamp{
+text-align: right;
+}
+
+#note-title-page{
+  text-align: center;
+  height:50px;
+  border-bottom: 1px solid #c6c6c6;
+
+}
+
+/*view note page*/
+#edit-button{
+  display: inline-block;
+}
+#delete-button{
+  display: inline-block;
+}
+
 /*
 button {
 

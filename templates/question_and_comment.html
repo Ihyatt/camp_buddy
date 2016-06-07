@@ -8,6 +8,7 @@
 <div class="row" id="full-question-layout">
   <div class="col-md-3"></div>
   <div class="col-md-2" id="question-image">
+    <span>{{user_asker.username}}</span>
     <a href="/users/{{user_asker.user_id}}">
       <div id="question-image-layout">
         <img src="/static/images/{{user_asker.images[0].image}}" class="img-thumbnail img-responsive" width="100">
@@ -16,16 +17,21 @@
   </div>
   <div class="col-md-3" id="question-layout">
     <span class="tip tip-left"></span>
-    <span>{{user_asker.username}}</span>
-    <span>Comments: {{ ask.comment_on_question_count() }}</span>
     <div>
-      <h3>{{ask.title_question}}</h3>
+      {{ask.title_question}}:
       <br> {{ask.question}}
     </div>
-    <div>{{ask.question_created}}</div>
+    <div id="timestamp">{{ask.question_created}}</div>
   </div>
+  <ul class="nav nav-pills">
+ <!--  Comments <span id = "comment-count">{{ ask.comment_on_question_count() }}</span> -->
+
+   <li>Comments  <span class="badge" id="comment-count">{{ ask.comment_on_question_count() }}</span></li>
+  </ul>
   <div class="col-md-4"></div>
 </div>
+
+
 
 
 
@@ -37,40 +43,32 @@
     {% for comment in comments %}
     <li>
       <div class="row" id="full-comment-layout">
-        <div class="col-md-3"></div>
+       
 
-      <!--   <div class="col-md-2" id="question-image">
-          <a href="/users/{{comment.user_id}}">
-            <div id="question-image-layout">
-              <img src="/static/images/{{comment.image}}" width="100">
-            </div>
-          </a>
-        </div> -->
-
-        <div class="col-md-3" id="comment-layout">
+        <div class="col-md-3 col-md-offset-3" id="comment-layout">
           <span class="tip-right tip-two"></span>
-          <span>{{comment.user}}</span>
+          
           <div>
             {{comment.comment}}
           </div>
-          <div>
-            {{comment.comment_timestamp}}
+          <div id="timestamp">
+          {{comment.comment_timestamp}}
           </div>
           <div>
-            <button class="vote" data-direction="up" data-comment-id="{{comment.comment_id}}" id="{{comment.comment_id}}">{{comment.vote}} 
-            </button>
           </div>
         </div>
 
          <div class="col-md-2" id="comment-image">
+           <span>{{comment.user}}</span>
           <a href="/users/{{comment.user_id}}">
             <div id="question-image-layout">
               <img src="/static/images/{{comment.image}}" width="100" class="img-thumbnail img-responsive">
             </div>
           </a>
+       
         </div>
-
-        <div class="col-md-4"></div>
+        <button class="vote" data-direction="up" data-comment-id="{{comment.comment_id}}" id="{{comment.comment_id}}">{{comment.vote}}</button>
+        
       </div>
     </li>
     {% endfor %}
@@ -110,12 +108,18 @@
 	<div class="col-md-4"></div>
 </div> -->	
 
+<div class="row">
+<div class="col-md-3 col-md-offset-3" id="comment-wrapper">
+ <img src="/static/images/{{user.images[0].image}}" class="img-responsive" class ="inline" alt="Cinque Terre" width="70">  
+<textarea name = "comment" class ="inline" placeholder = "write a comment" id = "write-comment"></textarea>  
+<!-- <input type = "text" name = "comment" placeholder = "write a comment" id = "write-comment"> -->
 
-<div>
-<input type = "text" name = "comment" placeholder = "write a comment" id = "write-comment">
+<input class ="inline" type="button" value="add comment" id = "add-comment">
 
-<input type="button" value="add comment" id = "add-comment">
 </div>
+</div>
+
+
 
 
 
@@ -128,6 +132,7 @@ function showResult(resp){
 	var commentCount = parseInt($("#comment-count").text());
   	commentCount += 1
   	$("#comment-count").text(commentCount)
+
 
 	$("#comments").append("<li>" + '<a href = "/users/' + resp.user_id + '">' + resp.comment_author + '</a>' + '<img src="/static/images/' + resp.comment_auth_image + '" width="100">'+ $("#write-comment").val() + '<button class ="vote" data-direction = "up" data-comment-id="' + resp.comment_id + '"id="' + resp.comment_id +'"> ' + resp.vote + ' </button>' + resp.comment_timestamp + '</li>');
 		

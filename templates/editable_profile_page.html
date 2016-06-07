@@ -3,118 +3,116 @@
 
 
 <form action="/update-profile", method="POST", enctype="multipart/form-data">
-<div class="container">
-    <h1>Edit {{user.username}} Profile</h1>
-  	<hr>
-	<div class="row">
+
+ <div class="row">
       <!-- left column -->
+      
       <div class="col-md-4 col-md-offset-2">
-        <div class="text-center">
-          <img src="/static/images/{{user.images[0].image}}" class="img-thumbnail img-responsive" alt="Cinque Terre" width="300">  
-          <h6>Upload a different photo...</h6>
-          
-          <input type="file" name="image-upload" id="upload" class="form-control">
+         
+        <div class="text-center" id = "register-image">
+           <h1>Sign up!</h1>
+          <img src="/static/img/balloonicorn.png" class="img-thumbnail img-responsive" alt="Cinque Terre" width="300">  
+            <label class="btn btn-default btn-file">Upload!<input type="file" name="image-upload" id="upload" style="display: none;"></label>
         </div>
       </div>
       
       <!-- edit form column -->
-      <div class="col-md-9 personal-info">
-       
-        <form class="form-horizontal" role="form">
+      <div class="col-md-4 personal-info">
+
           <div class="form-group">
-            <label class="col-lg-3 control-label">Bootcamp:</label>
-            <div class="col-lg-8">
-            <input value = "{{user.boot_camp_name}}" name ="boot_camp_name" class="form-control" id="boot-camp-name-update">
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-lg-3 control-label">Email:</label>
-            <div class="col-lg-8">
-             <input  type="text" value = "{{user.email}}" name ="email" id="email-update" class="form-control">
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-lg-3 control-label">Age:</label>
-            <div class="col-lg-8">
-              <input type="number" class="form-control" value = "{{user.age}}" name ="age" id="age-update">
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-lg-3 control-label">City:</label>
-            <div class="col-lg-8">
-            	<input value = "{{user.city}}" class="form-control" name ="city" id="city-update">
+            <label class="col-lg-5 control-label">Bootcamp:</label>
+            <div class="col-lg-10">
+            <input type ="text" value = "{{user.boot_camp_name}}" name ="boot_camp_name" class="form-control" id="boot-camp-name-update" placeholder="{{user.boot_camp_name}}">
             </div>
           </div>
 
           <div class="form-group">
-            <label class="col-lg-3 control-label">State:</label>
-            <div class="col-lg-8">
-            	<input value = "{{user.state}}" class="form-control" name ="state" id="state-update">
+            <label class="col-lg-5 control-label">Email:</label>
+            <div class="col-lg-10">
+             <input  type="text" value = "{{user.email}}" name ="email" id="email-update" class="form-control" placeholder="{{user.email}}">
             </div>
           </div>
 
           <div class="form-group">
-            <label class="col-lg-3 control-label">LinkedIn:</label>
-            <div class="col-lg-8">
-            	<input value = "{{user.linkedin_url}}"  class="form-control" name ="linkedin_url" id="linkedin-url-update">
+            <label class="col-lg-5 control-label">Age:</label>
+            <div class="col-lg-10">
+              <input type="number" value = "{{user.age}}" class="form-control"  name ="age" id="age-update" placeholder="{{user.age}}">
             </div>
           </div>
 
           <div class="form-group">
-            <label class="col-lg-3 control-label">Github:</label>
-            <div class="col-lg-8">
-            	<input value = "{{user.github_url}}" class="form-control" name ="github_url" id="github-url-update">
-            	
+            <label class="col-lg-5 control-label">City:</label>
+            <div class="col-lg-10">
+              <input  type="text" value = "{{user.city}}" class="form-control" name ="city" id="city-update" placeholder="{{user.city}}">
             </div>
           </div>
 
           <div class="form-group">
-            <label class="col-lg-3 control-label">Skills:</label>
-            <div class="col-lg-8">
-            	<input value = "{{user.languages}}" class="form-control" name ="languages" id="languages-update">
-            	
+            <label class="col-lg-5 control-label">State:</label>
+            <div class="col-lg-10">
+              <input  type="text" value = "{{user.state}}" class="form-control" name ="state" id="state-update" placeholder="{{user.state}}">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-lg-5 control-label">LinkedIn:</label>
+            <div class="col-lg-10">
+              <input type="text" value = "{{user.linkedin_url}}" class="form-control" name ="linkedin_url" id="linkedin-url-update" placeholder="{{user.linkedin_url}}">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-lg-5 control-label">Github:</label>
+            <div class="col-lg-10">
+              <input  type="text" value = "{{user.github_url}}" class="form-control" name ="github_url" id="github-url-update" placeholder="{{user.github_url}}">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-lg-5 control-label">Skills:</label>
+            <div class="col-lg-10">
+              <input  type="text" value = "{{user.languages}}" class="form-control" name ="languages" id="languages-update" placeholder="{{user.languages}}"> 
             </div>
           </div>
           
-             <div class="form-group">
-            <label class="col-lg-3 control-label">About:</label>
+          <div class="form-group">
+            <label class="col-lg-5 control-label">About:</label>
             <div class="col-lg-8">
-            	<textarea value = "{{user.about_user}}" size="100" class="form-control" name ="about" id="about-user">{{user.about_user}}</textarea>
+              <textarea class="form-control" value = "{{user.about_user}}" name ="about" id="about-user" placeholder="{{user.about_user}}"></textarea>
             </div>
           </div>
 
           <div class="form-group">
-            <label class="col-md-3 control-label">Username:</label>
-            <div class="col-md-10">
-            	<input type="text" value = "{{user.username}}" class="form-control" name ="username" id="username-update">
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-md-3 control-label">Password:</label>
-            <div class="col-md-10">
-              <input class="form-control" name="password" type="password" value="{{user.password}}">
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-md-3 control-label">Confirm password:</label>
-            <div class="col-md-10">
-              <input class="form-control" name="password" type="password" value="{{user.password}}">
+            <label class="col-lg-5 control-label">Username:</label>
+            <div class="col-lg-10">
+              <input type="text" class="form-control" value = "{{user.username}}" name ="username" id="username" palceholder="{{user.username}}">
             </div>
           </div>
 
           <div class="form-group">
-            
+            <label class="col-lg-5 control-label">Password:</label>
+            <div class="col-lg-10">
+              <input class="form-control" value="{{user.password}}" name="password" type="password">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-lg-5 control-label">Confirm password:</label>
+            <div class="col-lg-10">
+              <input class="form-control" value="{{user.password}}" name="password" type="password">
+            </div>
+          </div>
+
+          <div class="form-group">
             <div class="col-md-10"><br>
             <button type="submit" class="btn btn-default" value="Submit">Submit
             </button>
           </div>
 
-
-        </form>
       </div>
-  </div>
-</div>
-<hr>
+
+
+
 </form>
 
 

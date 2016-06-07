@@ -229,6 +229,23 @@ def write_note():
     return "note added"
 
 
+@app.route("/edit_current_note.json", methods=['POST'])
+def edit_current_note():
+    """Allows user to edit study notes"""
+    note_id = request.form.get("note_id")
+
+    edited_note = Note.query.get(note_id)
+
+    edited_note.title_note = request.form.get("title")
+    edited_note.note = request.form.get("note")
+
+
+    db.session.commit()
+   
+    return "note edited"
+
+
+
 @app.route("/view_questions")
 def view_questions():
     """Allows user to view previously asked questions"""
@@ -275,40 +292,40 @@ def view_note(note_id):
     return render_template("view_note.html", user_note=user_note, user_info=user_info, image=image, notes=notes)
 
 
-@app.route("/edit-note/<int:note_id>")
-def note_edit(note_id):
-    """Allows user to edit note"""
-    user_id = session.get("user_id")
+# @app.route("/edit-note/<int:note_id>")
+# def note_edit(note_id):
+#     """Allows user to edit note"""
+#     user_id = session.get("user_id")
 
-    if user_id:
-        notes = Note.query.filter_by(user_id = user_id).all()
+#     if user_id:
+#         notes = Note.query.filter_by(user_id = user_id).all()
 
-        user_info = User.query.filter(User.user_id == user_id).first()
-        image = user_info.images[0]
+#         user_info = User.query.filter(User.user_id == user_id).first()
+#         image = user_info.images[0]
     
-        user_note = Note.query.get(note_id)
+#         user_note = Note.query.get(note_id)
 
-    return render_template("edit_note.html" , user_note=user_note, user_info=user_info, image=image, notes=notes)
+#     return render_template("edit_note.html" , user_note=user_note, user_info=user_info, image=image, notes=notes)
 
-@app.route("/update_note/<int:note_id>", methods=['POST'])
-def update_note(note_id):
-    """updates note"""
+# @app.route("/update_note/<int:note_id>", methods=['POST'])
+# def update_note(note_id):
+#     """updates note"""
     
-    user_id = session.get("user_id")
-    if user_id:
+#     user_id = session.get("user_id")
+#     if user_id:
 
-        notes = Note.query.filter_by(user_id = user_id).all() 
-        user_note = Note.query.get(note_id)
-        user_info = User.query.filter(User.user_id == user_id).first()
-        image = user_info.images[0]
+#         notes = Note.query.filter_by(user_id = user_id).all() 
+#         user_note = Note.query.get(note_id)
+#         user_info = User.query.filter(User.user_id == user_id).first()
+#         image = user_info.images[0]
 
-        user_note.title_note = request.form.get("title_note")
-        user_note.note = request.form.get("note")
+#         user_note.title_note = request.form.get("title_note")
+#         user_note.note = request.form.get("note")
 
-        db.session.commit()
+#         db.session.commit()
 
 
-    return render_template("notes.html", note=user_note.note , title_note=user_note.title_note, user_note=user_note, notes=notes, user_info=user_info, image=image)
+#     return render_template("notes.html", note=user_note.note , title_note=user_note.title_note, user_note=user_note, notes=notes, user_info=user_info, image=image)
        
 
 @app.route("/delete_note_from_list.json", methods=["POST"])
@@ -342,6 +359,8 @@ def delete_note(note_id):
 
 @app.route("/question_and_comment/<int:question_id>")
 def view_question_comments(question_id):
+    user = User.query.get(session["user_id"])
+
     ask = Question.query.get(question_id) 
     user_asker = User.query.filter(User.user_id == ask.user_id).first()
     asker_image = user_asker.images[0]
@@ -370,7 +389,7 @@ def view_question_comments(question_id):
         comments.append(comment_deets)
     
 
-    return render_template("question_and_comment.html", ask=ask, comments=comments, user_asker=user_asker, asker_image=asker_image)
+    return render_template("question_and_comment.html", ask=ask, comments=comments, user_asker=user_asker, asker_image=asker_image, user=user)
 
 
 @app.route("/add-comment.json", methods=['POST'])

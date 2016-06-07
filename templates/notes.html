@@ -4,20 +4,37 @@
 <ul>
 	{% for note in notes %}
 	<li>
-		<div id="note-item">
-			<a href = '/view_note/{{note.note_id}}'>
-				<p id="note-title">{{note.title_note}}</p></a>
-				<p id"note">{{note.note}}</p>
-				<a href = "/users/{{user_info.user_id}}">{{user_info.username}}</a><br>
-			<img src="/static/images/{{user_info.images[0].image}}" width="100"><br>
-			{{note.note_created}}
-			
-			<button type="button" data-note-id="{{note.note_id}}" class="delete-button">Delete Note</button>
+		<div class = "row note-row">
+			<div class="col-md-3 col-md-offset-2">
+				<span>{{user_info.username}}</span>
+				<a href = "/users/{{user_info.user_id}}">
+				<div id="note-image">
+					<img src="/static/images/{{user_info.images[0].image}}"  class="img-thumbnail img-responsive" width="100">
+				</div>
+				</a>
+			</div>
+
+			<div class="col-md-6">
+				<div id="note-item">
+					<div id="note-title-page">{{note.title_note}}</div>
+					<div id="note-page">{{note.note}}</div>
+				
+				<div id="timestamp" class="note-timestamp">
+					{{note.note_created}}
+				</div>
+				</div>
+
+				<button type="button" data-note-id="{{note.note_id}}" class="delete-button">Delete Note</button>
+					<button type="button" data-note-id="{{note.note_id}}" class="view-button"><a href ='/view_note/{{note.note_id}}'>View Note</a></button>
+			</div>
 		</div>
 	</li>
 	{% endfor %}
 </ul>
 </div>
+
+
+
 
 <script>
 
