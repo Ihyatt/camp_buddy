@@ -292,42 +292,6 @@ def view_note(note_id):
     return render_template("view_note.html", user_note=user_note, user_info=user_info, image=image, notes=notes)
 
 
-# @app.route("/edit-note/<int:note_id>")
-# def note_edit(note_id):
-#     """Allows user to edit note"""
-#     user_id = session.get("user_id")
-
-#     if user_id:
-#         notes = Note.query.filter_by(user_id = user_id).all()
-
-#         user_info = User.query.filter(User.user_id == user_id).first()
-#         image = user_info.images[0]
-    
-#         user_note = Note.query.get(note_id)
-
-#     return render_template("edit_note.html" , user_note=user_note, user_info=user_info, image=image, notes=notes)
-
-# @app.route("/update_note/<int:note_id>", methods=['POST'])
-# def update_note(note_id):
-#     """updates note"""
-    
-#     user_id = session.get("user_id")
-#     if user_id:
-
-#         notes = Note.query.filter_by(user_id = user_id).all() 
-#         user_note = Note.query.get(note_id)
-#         user_info = User.query.filter(User.user_id == user_id).first()
-#         image = user_info.images[0]
-
-#         user_note.title_note = request.form.get("title_note")
-#         user_note.note = request.form.get("note")
-
-#         db.session.commit()
-
-
-#     return render_template("notes.html", note=user_note.note , title_note=user_note.title_note, user_note=user_note, notes=notes, user_info=user_info, image=image)
-       
-
 @app.route("/delete_note_from_list.json", methods=["POST"])
 def delete_note_from_list():
     note_id = request.form.get("note_id")

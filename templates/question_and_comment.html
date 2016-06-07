@@ -61,13 +61,14 @@
          <div class="col-md-2" id="comment-image">
            <span>{{comment.user}}</span>
           <a href="/users/{{comment.user_id}}">
-            <div id="question-image-layout">
+            <div id="comment-image-layout">
               <img src="/static/images/{{comment.image}}" width="100" class="img-thumbnail img-responsive">
             </div>
           </a>
        
         </div>
-        <button class="vote" data-direction="up" data-comment-id="{{comment.comment_id}}" id="{{comment.comment_id}}">{{comment.vote}}</button>
+        <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+        <button class="vote" data-direction="up" data-comment-id="{{comment.comment_id}}" id="{{comment.comment_id}}"> {{comment.vote}}</button>
         
       </div>
     </li>
@@ -79,44 +80,21 @@
 
 
 
-
- <!--  <div class="col-md-4"></div>
-</div> -->
-
-
-<!-- <div class="row" id="full-question-layout">
-	<div class="col-md-3"></div>
-
-		<div class="col-md-2" id="question-image">
-		<ul id = "comments">
-			{% for comment in comments %}
-			<li>
-				<a href = "/users/{{comment.user_id}}">
-					<div>
-						<img src="/static/images/{{comment.image}}" width="100"></div>
-				
-
-
-
-				{{comment.comment}}<br>
-				{{comment.comment_timestamp}}<br>
-				<button class="vote" data-direction="up" data-comment-id="{{comment.comment_id}}" id ="{{comment.comment_id}}"> {{comment.vote}} </button>
-			</li>
-			{% endfor %}
-		</ul>
-
-	<div class="col-md-4"></div>
-</div> -->	
-
 <div class="row">
-<div class="col-md-3 col-md-offset-3" id="comment-wrapper">
- <img src="/static/images/{{user.images[0].image}}" class="img-responsive" class ="inline" alt="Cinque Terre" width="70">  
-<textarea name = "comment" class ="inline" placeholder = "write a comment" id = "write-comment"></textarea>  
-<!-- <input type = "text" name = "comment" placeholder = "write a comment" id = "write-comment"> -->
 
-<input class ="inline" type="button" value="add comment" id = "add-comment">
 
+<div class="col-md-6 col-md-offset-2" id="comment-wrapper">
+<textarea name = "comment" class ="inline form-control" placeholder = "write a comment" id = "write-comment"></textarea> 
+<br>
+<input class ="form-control" type="button" value="add comment" id= "add-comment"> 
 </div>
+
+<div class="col-md-2">
+  <span>{{user.username}}</span>
+ <img src="/static/images/{{user.images[0].image}}" class="img-responsive img-thumbnail" class ="inline" alt="Cinque Terre" width="70">
+</div>
+
+
 </div>
 
 
@@ -134,7 +112,14 @@ function showResult(resp){
   	$("#comment-count").text(commentCount)
 
 
-	$("#comments").append("<li>" + '<a href = "/users/' + resp.user_id + '">' + resp.comment_author + '</a>' + '<img src="/static/images/' + resp.comment_auth_image + '" width="100">'+ $("#write-comment").val() + '<button class ="vote" data-direction = "up" data-comment-id="' + resp.comment_id + '"id="' + resp.comment_id +'"> ' + resp.vote + ' </button>' + resp.comment_timestamp + '</li>');
+	$("#comments").append("<li>" + '<div class="col-md-3 col-md-offset-3" id="comment-layout">' +
+          '<span class="tip-right tip-two">' + '</span>' + '<div>' + $("#write-comment").val() + '</div>' + '<div id="timestamp">'+ 
+          resp.comment_timestamp + '</div>' + '<div>' + '</div>' + '</div>' + '<div class="col-md-2" id="comment-image">'
+           + '<span>' + resp.user + '</span>' + '<a href="/users/' +  resp.user_id + '">' + '<div id="comment-image-layout">' + 
+              '<img src="/static/images/' + resp.comment_auth_image + '" width="100" class="img-thumbnail img-responsive">' + 
+            '</div>' + '</a>' + '</div>' + '<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>' + 
+        '<button class="vote" data-direction="up" data-comment-id="' + resp.comment_id + '" id="' +  resp.comment_id + '" >' +  resp.vote +  '</button>'+ '</div>'
++ "</li>");
 		
 	$("#write-comment").val("");
 	$(".vote").click(submitVote);
