@@ -8,10 +8,7 @@
 <!-- display user info -->
 
 
-<div class="row" id="profile-top-row">
-	 
 
-	  <div class= "col-md-8 col-md-offset-2" id="background-div">
 	  		<div class="row">
 
 	  		
@@ -33,9 +30,13 @@
 			</div>
 							
 				
-		
-  				<div class="col-md-4" id="profile-info">
-  					<h2>{{user.username}}</h2>
+				
+  				<div class="col-md-4" >
+  					<div id="username">
+  					<h1 >{{user.username}}</h1>
+  					</div>
+  					<div  id="profile-info">
+  					<!-- <h2>{{user.username}}</h2> -->
 					<span class="text">Email: {{user.email}}<br>
 					<br>
 					Age: {{user.age}}<br>
@@ -49,10 +50,9 @@
 					Bio:<br>
 					{{user.about_user}}<br>
 				</div>
+				</div>
 			
-		</div>
-	</div>
-
+	
 <!-- wrapper div -->
 	
 </div>

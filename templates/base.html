@@ -129,13 +129,28 @@
 </div>
 
 
-<div id="extending">
-    {% for flash in get_flashed_messages() %}
-      <div class="alert alert-success" style="width:90%; margin:0 auto;">{{ flash }}</div>
-    {% endfor %}
-{% block content %}
-{% endblock %}
+
+
+
+<div class="row" id="profile-top-row">
+
+  <div class= "col-md-8 col-md-offset-2" id="background-div">
+    <div id="extending">
+      {% for flash in get_flashed_messages() %}
+        <div class="alert alert-success">
+          <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        {{ flash }} </div>
+      {% endfor %}
+    </div>
+    {% block content %}
+    {% endblock %}    
+      
+  </div>
 </div>
+
+
+
+
 
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>

@@ -10,7 +10,7 @@
   <div class="col-md-2" id="question-image">
     <a href="/users/{{user_asker.user_id}}">
       <div id="question-image-layout">
-        <img src="/static/images/{{user_asker.images[0].image}}" width="100">
+        <img src="/static/images/{{user_asker.images[0].image}}" class="img-thumbnail img-responsive" width="100">
       </div>
     </a>
   </div>
@@ -36,7 +36,7 @@
 
     {% for comment in comments %}
     <li>
-      <div class="row" id="full-question-layout">
+      <div class="row" id="full-comment-layout">
         <div class="col-md-3"></div>
 
       <!--   <div class="col-md-2" id="question-image">
@@ -47,8 +47,8 @@
           </a>
         </div> -->
 
-        <div class="col-md-3" id="question-layout">
-          <span class="tip tip-left"></span>
+        <div class="col-md-3" id="comment-layout">
+          <span class="tip-right tip-two"></span>
           <span>{{comment.user}}</span>
           <div>
             {{comment.comment}}
@@ -57,15 +57,15 @@
             {{comment.comment_timestamp}}
           </div>
           <div>
-            <button class="vote" data-direction="up" data-comment-id="{{comment.comment_id}}" id="{{comment.comment_id}}"> {{comment.vote}} 
-        </button>
+            <button class="vote" data-direction="up" data-comment-id="{{comment.comment_id}}" id="{{comment.comment_id}}">{{comment.vote}} 
+            </button>
           </div>
         </div>
 
-         <div class="col-md-2" id="question-image">
+         <div class="col-md-2" id="comment-image">
           <a href="/users/{{comment.user_id}}">
             <div id="question-image-layout">
-              <img src="/static/images/{{comment.image}}" width="100">
+              <img src="/static/images/{{comment.image}}" width="100" class="img-thumbnail img-responsive">
             </div>
           </a>
         </div>
