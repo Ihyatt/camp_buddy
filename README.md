@@ -7,25 +7,26 @@ Camp Buddy is a fun social platform that is designed to allow coding boot-camper
 
 ##Contents
 
-⋅⋅* Technologies Used
-Features
-User Profile Page
-Search Function
-Comment Forum
+* Technologies Used
+* Features
+* User Profile Page
+* Search Function
+* Comment Forum
 
 ###Technologies Used
 
-SQLAlchemy
-PostgreSQL
-Python
-Flask
-Jinja
-Javascript
-JQuery
-JSON
-HTML/CSS
-Bootstrap
-MailDev
+* [SQLAlchemy](http://www.sqlalchemy.org/)
+* [PostgreSQL](https://www.postgresql.org/)
+* [Python](https://www.python.org/)
+* [Flask](http://flask.pocoo.org/)
+* [Jinja](http://jinja.pocoo.org/)
+* [Javascript](https://www.javascript.com/)
+* [JQuery](https://jquery.com/)
+* [JSON](http://www.json.org/)
+* [AJAX](http://api.jquery.com/jquery.ajax/)
+* [HTML/CSS](http://www.w3schools.com/html/html_css.asp)
+* [Bootstrap](http://getbootstrap.com/)
+* [MailDev](https://www.npmjs.com/package/maildev)
 
 ###Features
 
