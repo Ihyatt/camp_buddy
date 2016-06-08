@@ -32,21 +32,21 @@ Camp Buddy is a fun social platform that is designed to allow coding boot-camper
 
 ####Current
 
-User login and registration
-Editable profile page with an image upload
-User may ask questions which are then searchable by other users
-User may view past questions
-User my write private notes
-User my edit or delete private notes
-User may search for posted questions and then relayed on page using AJAX request
-User may comment on other user's questions 
+- [x] User login and registration
+- [x] Editable profile page with an image upload
+- [x] User may ask questions which are then searchable by other users
+- [x] User may view past questions
+- [x] User my write private notes
+- [x] User my edit or delete private notes
+- [x] User may search for posted questions and then relayed on page using AJAX request
+- [x] User may comment on other user's questions 
 
 ####Future
 
-AJAX request on image upload where image upload reflects current uploaded image
-Graphs using D3 to illustrate user interaction with Camp Buddy
-Message inbox for each user
-OAuth for user login
+- [ ] AJAX request on image upload where image upload reflects current uploaded image
+- [ ] Graphs using D3 to illustrate user interaction with Camp Buddy
+- [ ] Message inbox for each user
+- [ ] OAuth for user login
 
 #####User Profile Page
 
