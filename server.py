@@ -95,7 +95,7 @@ def register_process():
         user = User.query.filter_by(email=email).first()
         session["user_id"] = user.user_id
 
-        flash("User %s added." % username)
+        flash("Hello %s!" % username)
 
         return redirect("/users/%s" % new_user.user_id)
 
@@ -125,7 +125,7 @@ def login_process():
 
     session["user_id"] = user.user_id
 
-    flash("Logged in")
+    flash("Welcome Back! %s" % user.username)
 
     return redirect("/users/%s" % user.user_id)
 

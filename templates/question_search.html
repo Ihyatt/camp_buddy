@@ -1,23 +1,29 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h3>Please type in keys words seperate by spaces to allow for best search results</h3>
+<div class = "row" id = "search-box">
+			<div class="col-md-6 col-md-offset-2">
+<h3>Camp Buddy Search!</h3>
  <input type = "text" name ="search" id="search" class="form-control" placeholder="What are you looking for...">
- <button class = "search-question form-control"  type="button">Search</button>
+ <button class = "search-question" type="button">Search</button>
+</div>
+</div>
 
 
-<div>
+<div class = "row">
+<div class="col-md-11" id="full-question-layout">
 	<ul id="questions">
 
 		
-		</ul>
+	</ul>
+</div>
 </div>
 
 
 <script>
 
 function showResults(results){
-	
+	 
 	var returnedQuestions = results;
 	
 	for (var key in returnedQuestions){

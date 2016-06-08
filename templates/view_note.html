@@ -1,20 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-<!-- 
-{{user_note.title_note}}{{user_note.note}}
 
-<a href = "/users/{{user_info.user_id}}">{{user_info.username}}</a>
-
-Note created: {{user_note.note_created}}<br>
-<img src="/static/images/{{user_info.images[0].image}}" width="100">
-
-<form action = '/edit-note/{{user_note.note_id}}'>
-<input type="submit" value = 'Edit Page'>
-</form>
-
-<form action = '/delete-note/{{user_note.note_id}}'>
-<input type="submit" value = 'Delete Note'>
-</form> -->
 
 
 <div class = "row note-row">
@@ -36,18 +22,19 @@ Note created: {{user_note.note_created}}<br>
 					{{user_note.note_created}}
 				</div>
 				</div>
-
+<div class = "note-button">
 				<span id="edit-button">
 					<!-- <form action = '/edit-note/{{user_note.note_id}}'> -->
-<input type="submit" value = 'Edit Note' data-toggle="modal" data-target="#myModal3">
+  <input type="submit" class="view-button" value = 'Edit Note' data-toggle="modal" data-target="#myModal3">
 <!-- </form> -->
 </span>
 
 <span id="delete-button">
 	<form action = '/delete-note/{{user_note.note_id}}'>
-<input type="submit" value = 'Delete Note'>
+<input type="submit" class="delete-button" value = 'Delete Note'>
 </form></span>
 			</div>
+    </div>
 		</div>
 
 

@@ -2,18 +2,19 @@
 {% block content %}
 
 
-<!-- question page -->
+
 
 <!-- question page -->
 <div class="row" id="full-question-layout">
   <div class="col-md-3"></div>
   <div class="col-md-2" id="question-image">
-    <span>{{user_asker.username}}</span>
+  <!--   <span>{{user_asker.username}}</span> -->
     <a href="/users/{{user_asker.user_id}}">
       <div id="question-image-layout">
         <img src="/static/images/{{user_asker.images[0].image}}" class="img-thumbnail img-responsive" width="100">
       </div>
     </a>
+    <span>{{user_asker.username}}</span>
   </div>
   <div class="col-md-3" id="question-layout">
     <span class="tip tip-left"></span>
@@ -24,8 +25,6 @@
     <div id="timestamp">{{ask.question_created}}</div>
   </div>
   <ul class="nav nav-pills">
- <!--  Comments <span id = "comment-count">{{ ask.comment_on_question_count() }}</span> -->
-
    <li>Comments  <span class="badge" id="comment-count">{{ ask.comment_on_question_count() }}</span></li>
   </ul>
   <div class="col-md-4"></div>
@@ -45,7 +44,7 @@
       <div class="row" id="full-comment-layout">
        
 
-        <div class="col-md-3 col-md-offset-3" id="comment-layout">
+        <div class="col-md-4 col-md-offset-2" id="comment-layout">
           <span class="tip-right tip-two"></span>
           
           <div>
@@ -59,12 +58,13 @@
         </div>
 
          <div class="col-md-2" id="comment-image">
-           <span>{{comment.user}}</span>
+          
           <a href="/users/{{comment.user_id}}">
             <div id="comment-image-layout">
               <img src="/static/images/{{comment.image}}" width="100" class="img-thumbnail img-responsive">
             </div>
           </a>
+          <span>{{comment.user}}</span>
        
         </div>
         <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
@@ -82,7 +82,6 @@
 
 <div class="row">
 
-
 <div class="col-md-6 col-md-offset-2" id="comment-wrapper">
 <textarea name = "comment" class ="inline form-control" placeholder = "write a comment" id = "write-comment"></textarea> 
 <br>
@@ -90,10 +89,10 @@
 </div>
 
 <div class="col-md-2">
-  <span>{{user.username}}</span>
+ 
  <img src="/static/images/{{user.images[0].image}}" class="img-responsive img-thumbnail" class ="inline" alt="Cinque Terre" width="70">
+ <span>{{user.username}}</span>
 </div>
-
 
 </div>
 
@@ -112,13 +111,14 @@ function showResult(resp){
   	$("#comment-count").text(commentCount)
 
 
-	$("#comments").append("<li>" + '<div class="col-md-3 col-md-offset-3" id="comment-layout">' +
+	$("#comments").append("<li>" + '<div class="row" id="full-comment-layout">' + 
+       '<div class="col-md-4 col-md-offset-2" id="comment-layout">' +
           '<span class="tip-right tip-two">' + '</span>' + '<div>' + $("#write-comment").val() + '</div>' + '<div id="timestamp">'+ 
           resp.comment_timestamp + '</div>' + '<div>' + '</div>' + '</div>' + '<div class="col-md-2" id="comment-image">'
-           + '<span>' + resp.user + '</span>' + '<a href="/users/' +  resp.user_id + '">' + '<div id="comment-image-layout">' + 
+            + '<a href="/users/' +  resp.user_id + '">' + '<div id="comment-image-layout">' + 
               '<img src="/static/images/' + resp.comment_auth_image + '" width="100" class="img-thumbnail img-responsive">' + 
-            '</div>' + '</a>' + '</div>' + '<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>' + 
-        '<button class="vote" data-direction="up" data-comment-id="' + resp.comment_id + '" id="' +  resp.comment_id + '" >' +  resp.vote +  '</button>'+ '</div>'
+            '</div>' + '</a>'   + '<span>' + resp.comment_author + '</span>' +'</div>' + ' <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>' + 
+        ' <button class="vote" data-direction="up" data-comment-id="' + resp.comment_id + '" id="' +  resp.comment_id + '" >' +  resp.vote +  '</button>'+ '</div>'
 + "</li>");
 		
 	$("#write-comment").val("");
