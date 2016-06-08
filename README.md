@@ -7,7 +7,7 @@ Camp Buddy is a fun social platform that is designed to allow coding boot-camper
 
 ##Contents
 
-* Technologies Used
+* [Technologies Used](url){:target="_blank"}
 * Features
 * User Profile Page
 * Search Function
