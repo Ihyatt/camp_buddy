@@ -198,7 +198,7 @@ def update_user_data():
 
 
 
-@app.route("/ask_question.json", methods=['POST'])
+@app.route("/ask_question", methods=['POST'])
 def ask_question():
     """Allows user to ask questions and post to forum"""
     title_question = request.form.get("title")
@@ -213,7 +213,7 @@ def ask_question():
 
     return "question added"
 
-@app.route("/write_note.json", methods=['POST'])
+@app.route("/write_note", methods=['POST'])
 def write_note():
     """Allows user to write study notes"""
 
@@ -229,7 +229,7 @@ def write_note():
     return "note added"
 
 
-@app.route("/edit_current_note.json", methods=['POST'])
+@app.route("/edit_current_note", methods=['POST'])
 def edit_current_note():
     """Allows user to edit study notes"""
     note_id = request.form.get("note_id")
@@ -292,7 +292,7 @@ def view_note(note_id):
     return render_template("view_note.html", user_note=user_note, user_info=user_info, image=image, notes=notes)
 
 
-@app.route("/delete_note_from_list.json", methods=["POST"])
+@app.route("/delete_note_from_list", methods=["POST"])
 def delete_note_from_list():
     note_id = request.form.get("note_id")
     deleted_note = Note.query.filter(Note.note_id == note_id).first()
@@ -442,8 +442,6 @@ def return_search_question():
     search_list = []
     search = request.args.get("search_item")
   
-    # print search
-    # print type(search)
     splitted_search = search.split(" ")#returns list of searched words
     
     for word in splitted_search:

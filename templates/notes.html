@@ -50,7 +50,7 @@ function deleteNote(evt){
 	"note_id": $(evt.target).data("note-id")
 	};
 
-	$.post("/delete_note_from_list.json", noteItem, reloadPage);
+	$.post("/delete_note_from_list", noteItem, reloadPage);
 	console.log("im in the function");
 }
 

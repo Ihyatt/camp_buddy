@@ -24,7 +24,7 @@
 				</div>
 <div class = "note-button">
 				<span id="edit-button">
-					<!-- <form action = '/edit-note/{{user_note.note_id}}'> -->
+					
   <input type="submit" class="view-button" value = 'Edit Note' data-toggle="modal" data-target="#myModal3">
 <!-- </form> -->
 </span>
@@ -92,7 +92,7 @@ function getNoteId() {
 }
 
 
-  $.post("/edit_current_note.json", fullNote, showNote)
+  $.post("/edit_current_note", fullNote, showNote)
 
   $('#myModal3').modal('hide');
 }
