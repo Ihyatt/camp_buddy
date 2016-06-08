@@ -7,8 +7,8 @@
 		<li>
 
 			<div class="row" id="full-question-layout">
-				<div class="col-md-3"></div>
-				<div class="col-md-2" id="question-image">
+				
+				<div class="col-md-2 col-md-offset-1" id="question-image">
 					<a href = "/users/{{user_info.user_id}}">
 						<div id ="question-image-layout">
 							<img src="/static/images/{{user_info.images[0].image}}" class="img-thumbnail img-responsive" width="100">
@@ -17,13 +17,13 @@
 					<div>{{user_info.username}}</div>
 				</div>
 				<a href = '/question_and_comment/{{ask.question_id}}'>
-				<div class="col-md-3" id="question-layout">
+				<div class="col-md-5" id="question-layout">
 					<span class="tip tip-left"></span>
 	
 						<div>
 							{{ask.title_question}} <br>{{ask.question}}
 						</div>
-						<div id="timestamp">{{ask.question_created}}</div>
+						<div class="time-stamp" id="timestamp">{{ask.question_created}}</div>
 						</div> </a>
 						<ul class="nav nav-pills">
 							<li>Comments  <span class="badge" id="comment-count">{{ ask.comment_on_question_count() }}</span></li>

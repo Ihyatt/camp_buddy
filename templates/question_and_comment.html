@@ -1,13 +1,10 @@
+
 {% extends 'base.html' %}
 {% block content %}
-
-
-
-
 <!-- question page -->
 <div class="row" id="full-question-layout">
-  <div class="col-md-3"></div>
-  <div class="col-md-2" id="question-image">
+ 
+  <div class="col-md-2 col-md-offset-1" id="question-image">
  
     <a href="/users/{{user_asker.user_id}}">
       <div id="question-image-layout">
@@ -16,7 +13,7 @@
     </a>
     <span>{{user_asker.username}}</span>
   </div>
-  <div class="col-md-3" id="question-layout">
+  <div class="col-md-5" id="question-layout">
     <span class="tip tip-left"></span>
     <div>
       {{ask.title_question}}:
@@ -44,7 +41,7 @@
       <div class="row" id="full-comment-layout">
        
 
-        <div class="col-md-4 col-md-offset-2" id="comment-layout">
+        <div class="col-md-6 col-md-offset-1" id="comment-layout">
           <span class="tip-right tip-two"></span>
           
           <div>
@@ -102,12 +99,10 @@
 
 <script>
 function showResult(resp){
-	var commentCount = parseInt($("#comment-count").text());
-  	commentCount += 1
-  	$("#comment-count").text(commentCount)
-
-
-	$("#comments").append("<li>" + '<div class="row" id="full-comment-layout">' + 
+  var commentCount = parseInt($("#comment-count").text());
+    commentCount += 1
+    $("#comment-count").text(commentCount)
+  $("#comments").append("<li>" + '<div class="row" id="full-comment-layout">' + 
        '<div class="col-md-4 col-md-offset-2" id="comment-layout">' +
           '<span class="tip-right tip-two">' + '</span>' + '<div>' + $("#write-comment").val() + '</div>' + '<div id="timestamp">'+ 
           resp.comment_timestamp + '</div>' + '<div>' + '</div>' + '</div>' + '<div class="col-md-2" id="comment-image">'
@@ -116,51 +111,39 @@ function showResult(resp){
             '</div>' + '</a>'   + '<span>' + resp.comment_author + '</span>' +'</div>' + ' <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>' + 
         ' <button class="vote" data-direction="up" data-comment-id="' + resp.comment_id + '" id="' +  resp.comment_id + '" >' +  resp.vote +  '</button>'+ '</div>'
 + "</li>");
-		
-	$("#write-comment").val("");
-	$(".vote").click(submitVote);
-
-	
+    
+  $("#write-comment").val("");
+  $(".vote").click(submitVote);
+  
 }
 function submitComment(evt) {
-	var comment = {
-		"comment": $("#write-comment").val(),
-		"question_id": getQuestionId()
-	};
-
+  var comment = {
+    "comment": $("#write-comment").val(),
+    "question_id": getQuestionId()
+  };
 $.post("/add-comment.json", comment, showResult);
-
 }
-
 function getQuestionId() {
-	componenets = window.location.href.split("/")
-	idx = componenets.length - 1
-	return componenets[idx]
+  componenets = window.location.href.split("/")
+  idx = componenets.length - 1
+  return componenets[idx]
 }
-
 $("#add-comment").on("click", submitComment);
-
 // *******************************************
-
 function updateVote(results) {
-	var updated_vote = results["vote"];
-	$("#"+results['comment_id']).text(updated_vote);
-	console.log("Vote added")
+  var updated_vote = results["vote"];
+  $("#"+results['comment_id']).text(updated_vote);
+  console.log("Vote added")
 }
-
-
 function submitVote(evt) {
-	var voted_item = {
-		"voted_item": $(evt.target).data("direction"),
-		"comment_id": $(evt.target).data("comment-id")
-	}
-	
-	$.get("/add-vote.json", voted_item, updateVote);
-
+  var voted_item = {
+    "voted_item": $(evt.target).data("direction"),
+    "comment_id": $(evt.target).data("comment-id")
+  }
+  
+  $.get("/add-vote.json", voted_item, updateVote);
 }
-
 $(".vote").click(submitVote);
-
 </script>
 
 
