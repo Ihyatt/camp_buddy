@@ -33,14 +33,14 @@ Camp Buddy is a fun social platform that is designed to allow coding boot-camper
 
 ####Current
 
-- [x] User login and registration which are tracked by sessions
+- [x] User login and registration
 - [x] Editable profile page with a Flask image upload 
 - [x] User may ask questions which are then searchable by other users
-- [x] User may view past questions
+- [x] User may view past written questions
 - [x] User my write private notes
 - [x] User my edit or delete private notes. Notes are deleted in real time using an AJAX request
-- [x] User may search for posted questions and then relayed on page using AJAX request
-- [x] User may comment on other user's questions in a comment forum. Comments are posted through an AJAX request 
+- [x] User may search for posted questions which are then relayed on the same page using an AJAX request
+- [x] User may comment on other user's questions in a comment forum. Comments are posted through an AJAX request. Users may also vote on the helpfulness of a comment 
 
 ####Future
 
@@ -55,7 +55,7 @@ When a user registers with Camp Buddy, their information is immediately saved in
 
 #####Search Function
 
-When a user is on the "search" page, they are able to input a set of keywords seperated by commas to search past written questions. The result of this search is then rendered in real time on the search page via an AJAX request. Within the AJAX request url, there is a query, that queries the question database. The matches along with the relevant information of the author is placed into a JSON object and then deleviered back to the search page.  
+When a user is on the "search" page, they are able to input a set of keywords seperated by commas to search past written questions. The result of this search is then rendered in real time on the search page via an AJAX request. Within the AJAX request url, there is a query, that queries the question database. The matches along with relevant information of the author is placed into a JSON object and then deleviered back and displayed on the search page.  
 
 #####Comment Forum
 
