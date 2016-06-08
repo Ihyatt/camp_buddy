@@ -7,7 +7,7 @@ Camp Buddy is a fun social platform that is designed to allow coding boot-camper
 
 ##Contents
 
-* [Technologies Used](url){:target="_blank"}
+* Technologies Used
 * Features
 * User Profile Page
 * Search Function
@@ -27,35 +27,36 @@ Camp Buddy is a fun social platform that is designed to allow coding boot-camper
 * [HTML/CSS](http://www.w3schools.com/html/html_css.asp)
 * [Bootstrap](http://getbootstrap.com/)
 * [MailDev](https://www.npmjs.com/package/maildev)
+* [Sessions](http://www.allaboutcookies.org/cookies/session-cookies-used-for.html)
 
 ###Features
 
 ####Current
 
-- [x] User login and registration
-- [x] Editable profile page with an image upload
+- [x] User login and registration which are tracked by sessions
+- [x] Editable profile page with a Flask image upload 
 - [x] User may ask questions which are then searchable by other users
 - [x] User may view past questions
 - [x] User my write private notes
-- [x] User my edit or delete private notes
+- [x] User my edit or delete private notes. Notes are deleted in real time using an AJAX request
 - [x] User may search for posted questions and then relayed on page using AJAX request
-- [x] User may comment on other user's questions 
+- [x] User may comment on other user's questions in a comment forum. Comments are posted through an AJAX request 
 
 ####Future
 
-- [ ] AJAX request on image upload where image upload reflects current uploaded image
+- [ ] AJAX request on image upload where visually the upload reflects current uploaded image
 - [ ] Graphs using D3 to illustrate user interaction with Camp Buddy
 - [ ] Message inbox for each user
-- [ ] OAuth for user login
+- [ ] OAuth for user login using either Facebook or Google
 
 #####User Profile Page
 
-When a user registers, their information is saved into a SQLAlchemy database. 
+When a user registers with Camp Buddy, their information is immediately saved into a SQLAlchemy database. This information is both editable and displayed on their profile page. 
 
 #####Search Function
 
-Using an Ajax request, the value typed into the input box is then split and regerence with every word within both question and question title
+When a user is on the "search" page, they are able to input a set of keywords seperated by commas to search past written questions. The result of this search is then rendered in real time on the search page via an AJAX request. Within the AJAX request url, there is a query, that queries the question database. The matches along with the relevant information of the author is placed into a JSON object and then deleviered back to the search page.  
 
 #####Comment Forum
 
-Comments may be added using an ajax request and then are appended to the page.
+The comment forum is one of my favorie features of Camp Buddy. Next to the comment box, there is the current user's profile image. When a user comments on a question, the author of th question is immediatley notified via MailDev. This notification includes the username of the commenter and the comment that they wrote. Another feature I love about the comment forum is the shape of the commet box which is made to mimick Iphone chat.
