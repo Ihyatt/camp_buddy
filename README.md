@@ -1,3 +1,3 @@
 # camp_buddy
 
-<img camp_buddy_demo.gif>
+<img src="/static/img/camp_buddy_demo.gif">
