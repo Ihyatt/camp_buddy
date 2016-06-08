@@ -381,16 +381,16 @@ def add_comment():
               'comment_timestamp': commented_item.comment_timestamp,
               'user_id': comment_author.user_id}
 
-    notify_author_comment(commented_item.comment, question_author.email, question_info.question, question_info.title_question, comment_author.username)
+    notify_author_comment(commented_item.comment, question_author.email, question_author.username, question_info.question, question_info.title_question, comment_author.username)
 
 
     return jsonify(result)
 
 
-def notify_author_comment(comment, author_email, question, question_title, comment_author):
+def notify_author_comment(comment, author_email, author_username ,question, question_title, comment_author):
     """notifies author of question when a user has commented on their question"""
 
-    content = "The fellow camper, " + comment_author + " has commented on your question:" + "\n" + question_title + "\n" + question + "! They have stated the following: " + "\n" + comment
+    content = "Hello " + author_username + ","+ "\n" +  "\n" + "Fellow camper, " + comment_author + " has commented on your question:" + "\n" + question_title + "\n" + question + "!" + "\n" +  "\n" +"They have stated the following: " + "\n" + comment
     send_mail(to=author_email, from_="admin@campbuddy.com", content=content)
 
 def send_mail(to=None, from_=None, content=None):
