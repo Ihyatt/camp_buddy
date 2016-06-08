@@ -462,7 +462,7 @@ def return_search_question():
 
 if __name__ == "__main__":
   
-    app.debug = True
+    app.debug = False
 
     connect_to_db(app)
 

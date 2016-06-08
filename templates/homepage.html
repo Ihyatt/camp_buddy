@@ -1,6 +1,35 @@
-{% extends 'base.html' %}
-{% block content %}
-<h1> Friendly homepage </h1>
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>{% block title %} Camp Buddy {% endblock %}</title> 
+  <script src="https://www.atlasestateagents.co.uk/javascript/tether.min.js"></script><!-- Tether for Bootstrap --> 
+
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/static/styles.css" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 
 
-{% endblock %}
+
+</head>
+
+<body id="different-background">
+
+	<div id="homepage-title">
+		<img src="/static/img/camp.jpg" width="500px">
+	</div>
+	
+	<a href="/login">
+	<div id="homepage-background">
+		<img src="/static/img/bracketflame.jpg" width="500px">
+	</div>	
+</a>
+
+
+
+</body>
+</html>

@@ -385,4 +385,32 @@ background-color: white;
  border-color:#87ba3c;
 }
 
+#different-background{
+ /* background-image: url(/static/img/bootcamp.jpg);*/
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-attachment: fixed;
+  background-image: linear-gradient(
+      rgba(255, 255, 255, 0.9), 
+      rgba(255, 255, 255, 0.9)
+    ),
+url(/static/img/bootcamp.jpg);
+
+}
+
+#homepage-background{
+  z-index: -100;
+  position: fixed;
+  bottom: 0px;
+  right: 0px;
+  opacity: 0.1;
+}
+
+#homepage-title{
+  z-index: -100;
+  position: fixed;
+  top: 0px;
+  left: 50px;
+  opacity: 0.1;
+}
 
