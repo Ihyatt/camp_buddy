@@ -255,6 +255,7 @@ border-radius: 25px;
 
 #timestamp{
   font-size:8px;
+  margin-top: 20px;
 }
 #comment-wrapper{
   text-align: center;
@@ -374,6 +375,7 @@ background-color: white;
 .time-stamp{
   text-align: right;
   font-size:8px;
+
 }
 
 .btn-primary{
@@ -412,5 +414,9 @@ url(/static/img/bootcamp.jpg);
   top: 0px;
   left: 50px;
   opacity: 0.1;
+}
+
+.username{
+  text-align: left;
 }
 
