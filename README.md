@@ -10,6 +10,8 @@ Camp Buddy is a fun social platform that is designed to allow coding boot-camper
 * Technologies Used
 * Features
 * User Profile Page
+* Questions
+* Notes
 * Search Function
 * Comment Forum
 
@@ -34,29 +36,39 @@ Camp Buddy is a fun social platform that is designed to allow coding boot-camper
 ####Current
 
 - [x] User login and registration
-- [x] Editable profile page with a Flask image upload 
-- [x] User may ask questions which are then searchable by other users
+- [x] Editable profile information
+- [x] Search page that renders matched query results
 - [x] User may view past written questions
 - [x] User my write private notes
-- [x] User my edit or delete private notes. Notes are deleted in real time using an AJAX request
-- [x] User may search for posted questions which are then relayed on the same page using an AJAX request
-- [x] User may comment on other user's questions in a comment forum. Comments are posted through an AJAX request. Users may also vote on the helpfulness of a comment 
+- [x] Editable or deletable notes
+- [x] Comment forum where comments are voteable and comments on a question are counted
+- [x] Author of questions are notified whenever a comment is made in response to a question
 
 ####Future
 
-- [ ] AJAX request on image upload where visually the upload reflects current uploaded image
-- [ ] Graphs using D3 to illustrate user interaction with Camp Buddy
+- [ ] AJAX request for image upload
+- [ ] Include Chart.js to illustrate user interaction with Camp Buddy
 - [ ] Message inbox for each user
 - [ ] OAuth for user login using either Facebook or Google
+- [ ] Private chat messaging for users
+- [ ] Page that shows all questions within Camp Buddy with real time updates
 
 #####User Profile Page
 
-When a user registers with Camp Buddy, their information is immediately saved into a SQLAlchemy database. This information is both editable and displayed on their profile page. 
+The user's profile information is saves within a PostgreSQL. User interaction with Camp Buddy which includes questions asked and questions answered are a set of methods within my model.py (where my classes are where database information is instantiated). Information from the database is queried using flask-SQLAlchemy based on user's id and displayed via jinja. 
+
+#####Questions
+
+User questions again are queried based on a specific user, iterated over using a flask loop and displayed using jinja. The users image is a clickable link that links to a user's profile page and a questions is a clickable link that links to a question's comment forum. When a user asks a questions, a modal window appears and the question is taken into the flask server via an AJAX request and then committed into the database. 
+
+#####Notes
+
+User notes gain are queried based on a specific user, iterated over using a flask loop and displayed using jinja.The users image is a clickable link that links to a user's profile page. Notes that apear on the list of notes are deletable via an AJAX request. A user may also view a single note and edit that note via an AJAX request. When a user writes a note, a modal window appears and the note is taken into the flask server via an AJAX request and then committed into the database. 
 
 #####Search Function
 
-When a user is on the "search" page, they are able to input a set of keywords seperated by commas to search past written questions. The result of this search is then rendered in real time on the search page via an AJAX request. Within the AJAX request url, there is a query, that queries the question database. The matches along with relevant information of the author is placed into a JSON object and then deleviered back and displayed on the search page.  
+When a user types in a set of phrases seperated by sentences and the search button is pressed, that information is then taken via JQuery and an AJAX request, queried within my flask server, returned as a JSON object, and the results are iterated over  by question id and displayed on the search page
 
 #####Comment Forum
 
-The comment forum is one of my favorie features of Camp Buddy. Next to the comment box, there is the current user's profile image. When a user comments on a question, the author of th question is immediatley notified via MailDev. This notification includes the username of the commenter and the comment that they wrote. Another feature I love about the comment forum is the shape of the commet box which is made to mimick Iphone chat.
+Every question has its own comment forum. When a page is reloaded or visited, comments that are back referenced to a questions are displayed on the page with a flask loop. There are two AJAX requests on this page, the first is an AJAX request for a comment and the other is for votes. When a comment is created, the ".click" event for the vote is nested within the success function within the comment AJAX request success function so that the vote is interactable with the comment is created.  
