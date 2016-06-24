@@ -11,8 +11,9 @@
          
         <div class="text-center" id = "register-image">
            <h1>Edit {{user.username}} Profile</h1>
-          <img src="/static/images/{{user.images[0].image}}" class="img-thumbnail img-responsive" alt="Cinque Terre" width="300">  
-            <label class="btn btn-default btn-file">Upload!<input type="file" name="image-upload" id="upload" style="display: none;"></label>
+          <img  src="/static/images/{{user.images[0].image}}" class="img-thumbnail img-responsive profile-pic" alt="Cinque Terre" width="300">  
+            <div class="upload-button">Upload Image</div>
+            <input type="file" name="image-upload" class="file-upload" id="upload" style="display: none;" accept="image/*" >
         </div>
       </div>
       
@@ -115,7 +116,35 @@
 
 </form>
 
+<script>
 
+$(document).ready(function() {
+
+    
+    var readURL = function(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('.profile-pic').attr('src', e.target.result);
+            }
+    
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    
+
+    $(".file-upload").on('change', function(){
+        readURL(this);
+    });
+    
+    $(".upload-button").on('click', function() {
+       $(".file-upload").click();
+    });
+});
+
+
+</script>
 
 {% endblock %}
 
