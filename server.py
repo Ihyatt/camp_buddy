@@ -416,8 +416,8 @@ def add_vote():
 
     comment = Comment.query.get(int(comment_id))
     
-    user_id = session['user_id']
-    vote_check = Vote.query.filter(Vote.comment_id == int(comment_id), Vote.user_id == user_id).first()
+    
+    vote_check = Vote.query.filter(Vote.comment_id == int(comment_id), Vote.user_id == session['user_id']).first()
     if vote_check:
         db.session.delete(vote_check)
         db.session.commit()
