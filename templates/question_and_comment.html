@@ -129,21 +129,27 @@ function getQuestionId() {
   return componenets[idx]
 }
 $("#add-comment").on("click", submitComment);
+
 // *******************************************
+
+
 function updateVote(results) {
   var updated_vote = results["vote"];
   $("#"+results['comment_id']).text(updated_vote);
   console.log("Vote added")
 }
+
 function submitVote(evt) {
   var voted_item = {
     "voted_item": $(evt.target).data("direction"),
     "comment_id": $(evt.target).data("comment-id")
   }
   
-  $.get("/add-vote.json", voted_item, updateVote);
+  $.post("/add-vote.json", voted_item, updateVote);
+    console.log("going to post request")
 }
 $(".vote").click(submitVote);
+
 </script>
 
 

@@ -7,7 +7,7 @@ from flask import Flask, render_template, redirect, request, flash, session, jso
 
 from flask_debugtoolbar import DebugToolbarExtension
 
-from model import User, ProfilePage, Image, Question, Note, Comment, connect_to_db, db
+from model import User, ProfilePage, Image, Question, Note, Comment, Vote, connect_to_db, db
 from werkzeug import secure_filename
 import smtplib
 from email.mime.text import MIMEText
@@ -22,8 +22,6 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 app.secret_key = "19kittiesareawesome89"
-
-
 
 app.jinja_env.undefined = StrictUndefined
 
@@ -329,7 +327,7 @@ def view_question_comments(question_id):
     user_asker = User.query.filter(User.user_id == ask.user_id).first()
     asker_image = user_asker.images[0]
     
-    comments = ask.comments
+    comments = ask.comments #comments related to the ask(question)
     comment_id = []
     for comment in comments:
         comment_id.append(comment.comment_id)
@@ -345,7 +343,7 @@ def view_question_comments(question_id):
         comment_deets["comment_id"] = comm_id
         comment_deets["user"] = user_commenter.username
         comment_deets["image"] = user_commenter.images[0].image
-        comment_deets["vote"] = comment_obj.vote
+        comment_deets["vote"] = comment_obj.vote_count()
         comment_deets["comment_timestamp"] = comment_obj.comment_timestamp
         comment_deets["user_id"] = user_commenter.user_id
        
@@ -366,7 +364,7 @@ def add_comment():
     question_author = User.query.filter(User.user_id == question_info.user_id).first()
 
     date_string = datetime.today().strftime('%Y-%m-%d')
-    commented_item = Comment(user_id = session["user_id"], comment_timestamp = date_string, question_id = question_id, comment = comment, vote = 0) 
+    commented_item = Comment(user_id = session["user_id"], comment_timestamp = date_string, question_id = question_id, comment = comment) 
     db.session.add(commented_item)
     db.session.commit()
 
@@ -375,7 +373,7 @@ def add_comment():
     
 
     result = {'comment_id': commented_item.comment_id, 
-              'vote': commented_item.vote,
+              'vote': commented_item.vote_count(),
               'comment_author': comment_author.username,
               'comment_auth_image':comment_auth_image.image, 
               'comment_timestamp': commented_item.comment_timestamp,
@@ -407,24 +405,32 @@ def send_mail(to=None, from_=None, content=None):
 
 
 
-@app.route("/add-vote.json", methods=['GET']) 
+@app.route("/add-vote.json", methods=['POST']) 
 def add_vote():
     """allows user to add a vote to a comment"""
     
 
-    comment_id = request.args.get("comment_id")
-    voted_item = request.args.get("voted_item")
+    comment_id = request.form.get("comment_id")
+    voted_item = request.form.get("voted_item")
+
 
     comment = Comment.query.get(int(comment_id))
     
-    if voted_item == "up":
-        comment.vote += 1
+    user_id = session['user_id']
+    vote_check = Vote.query.filter(Vote.comment_id == int(comment_id), Vote.user_id == user_id).first()
+    if vote_check:
+        db.session.delete(vote_check)
+        db.session.commit()
+    else:
+        vote_added = Vote(user_id = session['user_id'], comment_id = int(comment_id), up_vote = True)
+        db.session.add(vote_added)
+        db.session.commit()
 
-
-    db.session.commit()
         
-    result = {'vote': comment.vote, "comment_id": comment_id}
+   
+    result = {'vote': comment.vote_count(), "comment_id": comment_id}
     return jsonify(result)
+
 
 
 @app.route("/search-questions")
@@ -462,7 +468,7 @@ def return_search_question():
 
 if __name__ == "__main__":
   
-    app.debug = False
+    app.debug = True
 
     connect_to_db(app)
 

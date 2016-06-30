@@ -134,7 +134,6 @@ class Comment(db.Model):
     comment_timestamp = db.Column(db.String(100), nullable=True)
     question_id = db.Column(db.Integer, db.ForeignKey('questions.question_id'))
     comment = db.Column(db.String(1000), nullable=True)
-    vote = db.Column(db.Integer)
     
 
     question = db.relationship("Question", backref=db.backref("comments"))
@@ -142,11 +141,34 @@ class Comment(db.Model):
 
     user = db.relationship('User', backref = db.backref('comments'))
 
+    def vote_count(self):
+        count = 0 
+        for vote in self.votes:
+            count += 1
+        return count
+
 
 
     def __repr__(self):
         return "<Comment comment_id=%s user_id=%s comment_timestamp=%s question_id=%s comment=%s>" % (
-            self.comment_id, self.user_id, self.comment_timestamp, self.question_id, self.comment) 
+            self.comment_id, self.user_id, self.comment_timestamp, self.question_id, self.comment)
+
+##############################################################################
+
+class Vote(db.Model):
+    """Vote informatio"""
+    __tablename__ = "votes"
+
+    vote_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+    comment_id = db.Column(db.Integer, db.ForeignKey('comments.comment_id'))
+    up_vote = db.Column(db.Boolean, nullable = True)
+
+    comment =  db.relationship('Comment', backref=db.backref('votes'))
+
+    user = db.relationship('User', backref=db.backref('votes'))
+
+
 
 
 
