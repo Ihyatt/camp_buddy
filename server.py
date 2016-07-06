@@ -41,18 +41,18 @@ def register_form():
 @app.route('/register', methods=['POST'])
 def register_process():
     """Process registration."""
-    username = request.form["username"]
-    email = request.form["email"]
-    password = request.form["password"]
-    age = int(request.form["age"])
-    city = request.form["city"]
-    state = request.form["state"]
-    boot_camp_name = request.form["boot_camp_name"]
-    languages = request.form["languages"]
-    linkedin_url = request.form["languages"]
-    github_url = request.form["github_url"]
-    file_ = request.files["image-upload"]
-    about_user = request.form["about"]
+    username = request.form.get("username")
+    email = request.form.get("email")
+    password = request.form.get("password")
+    age = int(request.form.get("age"))
+    city = request.form.get("city")
+    state = request.form.get("state")
+    boot_camp_name = request.form.get("boot_camp_name")
+    languages = request.form.get("languages")
+    linkedin_url = request.form.get("languages")
+    github_url = request.form.get("github_url")
+    file_ = request.files.get("image-upload")
+    about_user = request.form.get("about")
 
 
     if User.query.filter(User.email == email).all():
@@ -63,8 +63,48 @@ def register_process():
         flash('That username is taken!')
         return render_template("register_form.html")
 
-    else:
+    elif password == '':
+        flash('Please type in a password')
+        return render_template("register_form.html")
 
+    elif boot_camp_name == '':
+        flash('Please type in a bootcamp')
+        return render_template("register_form.html")
+
+    elif city == '':
+        flash('Please type in a city')
+        return render_template("register_form.html")
+
+    elif state == '':
+        flash('Please type in a state')
+        return render_template("register_form.html")
+
+    elif linkedin_url == '':
+        flash('Please type in your LinkedIn address')
+        return render_template("register_form.html")
+
+    elif github_url == '':
+        flash('Please type in your GitHub address')
+        return render_template("register_form.html")
+
+    elif languages == '':
+        flash('Please type your skills')
+        return render_template("register_form.html")
+
+    elif about_user == '':
+        flash('Please type about yourself')
+        return render_template("register_form.html")
+
+    elif email == '':
+        flash('Please type in your email')
+        return render_template("register_form.html")
+
+    elif username == '':
+        flash('Please type in your username')
+        return render_template("register_form.html")
+
+
+    else:
         
         flash('You were successfully logged in')
     
@@ -72,30 +112,31 @@ def register_process():
         if file_:
             filename = secure_filename(file_.filename)
             file_.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        
+
 
         date_string = datetime.today().strftime('%Y-%m-%d')
-        new_user = User(username=username, member_since = date_string, email=email, password=password, age=age, city=city, state=state, boot_camp_name=boot_camp_name, languages=languages, linkedin_url=linkedin_url, github_url=github_url, about_user=about_user)
-        db.session.add(new_user)
+        user = User(username=username, member_since = date_string, email=email, password=password, age=age, city=city, state=state, boot_camp_name=boot_camp_name, languages=languages, linkedin_url=linkedin_url, github_url=github_url, about_user=about_user)
+        db.session.add(user)
+        db.session.commit()
       
 
-        user = User.query.filter_by(email=email).first()
+       
         session["user_id"] = user.user_id
 
-        user_image = Image(user_id=session["user_id"],image=filename)
+        user_image = Image(user_id=session["user_id"], image=filename)
 
         db.session.add(user_image)
 
-        profile = ProfilePage(user_id=new_user.user_id)
+        profile = ProfilePage(user_id=session["user_id"])
         
         db.session.add(profile)
         db.session.commit()
 
-        user = User.query.filter_by(email=email).first()
-        session["user_id"] = user.user_id
 
-        flash("Hello %s!" % username)
+        flash("Hello %s!" % user.username)
 
-        return redirect("/users/%s" % new_user.user_id)
+        return redirect("/users/%s" % user.user_id)
 
 
 @app.route('/login', methods=['GET'])
@@ -108,8 +149,8 @@ def login_form():
 @app.route('/login', methods=['POST'])
 def login_process():
     "Process login"
-    email = request.form["email"]
-    password = request.form["password"]
+    email = request.form.get("email")
+    password = request.form.get("password")
 
     user = User.query.filter_by(email=email).first()
 
@@ -141,22 +182,24 @@ def logout():
 @app.route("/users/<int:user_id>")
 def user_page(user_id):
     """Users profile"""
-
+   
     user = User.query.get(user_id)
-    profile = user.user_profile
-    image = user.images[0]
+       
+    return render_template("profile_page.html", user=user)
 
-    
-    return render_template("profile_page.html", user=user, profile=profile, image=image)
+
 
 
 @app.route('/edit-profile')
 def view_profile():
     """Allows user to edit their profile"""
-    user = User.query.get(session["user_id"])
-    profile = user.user_profile
-
-    return render_template("editable_profile_page.html", user=user, profile=profile)
+    user_id = session.get("user_id")
+    if user_id:
+        user = User.query.get(session["user_id"])
+       
+        return render_template("editable_profile_page.html", user=user)
+    else:
+         return redirect("/login")
 
 
 @app.route("/update-profile", methods=['POST'])
@@ -179,8 +222,47 @@ def update_user_data():
     user.about_user = request.form.get("about")
     user.password = request.form.get("password")
     file_ = request.files["image-upload"]
-    
-    
+
+    if password == '':
+        flash('Please type in a password')
+        return render_template("register_form.html")
+
+    elif boot_camp_name == '':
+        flash('Please type in a bootcamp')
+        return render_template("register_form.html")
+
+    elif city == '':
+        flash('Please type in a city')
+        return render_template("register_form.html")
+
+    elif state == '':
+        flash('Please type in a state')
+        return render_template("register_form.html")
+
+    elif linkedin_url == '':
+        flash('Please type in your LinkedIn address')
+        return render_template("register_form.html")
+
+    elif github_url == '':
+        flash('Please type in your GitHub address')
+        return render_template("register_form.html")
+
+    elif languages == '':
+        flash('Please type your skills')
+        return render_template("register_form.html")
+
+    elif about_user == '':
+        flash('Please type about yourself')
+        return render_template("register_form.html")
+
+    elif email == '':
+        flash('Please type in your email')
+        return render_template("register_form.html")
+
+    elif username == '':
+        flash('Please type in your username')
+        return render_template("register_form.html")
+
     if file_:
             filename = secure_filename(file_.filename)
             file_.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
@@ -254,10 +336,14 @@ def view_questions():
 
         user_info = User.query.filter(User.user_id == user_id).first()
         image = user_info.images[0]
-        
-        
-    return render_template("question_list.html", questions = questions, user_info=user_info, image=image)
 
+        return render_template("question_list.html", questions = questions, user_info=user_info, image=image)
+
+    else: 
+        return redirect("/login")
+
+        
+    
 
 @app.route("/view_notes")
 def view_notes():
@@ -271,7 +357,9 @@ def view_notes():
         user_info = User.query.filter(User.user_id == user_id).first()
         image = user_info.images[0]
 
-    return render_template("notes.html", notes = notes, user_info=user_info, image=image)
+        return render_template("notes.html", notes = notes, user_info=user_info, image=image)
+    else:
+        return redirect("/login")
 
 @app.route("/view_note/<int:note_id>")
 def view_note(note_id):
@@ -287,8 +375,9 @@ def view_note(note_id):
     
         user_note = Note.query.get(note_id)
 
-    return render_template("view_note.html", user_note=user_note, user_info=user_info, image=image, notes=notes)
-
+        return render_template("view_note.html", user_note=user_note, user_info=user_info, image=image, notes=notes)
+    else:
+        return redirect("/login")
 
 @app.route("/delete_note_from_list", methods=["POST"])
 def delete_note_from_list():
@@ -321,37 +410,46 @@ def delete_note(note_id):
 
 @app.route("/question_and_comment/<int:question_id>")
 def view_question_comments(question_id):
-    user = User.query.get(session["user_id"])
 
-    ask = Question.query.get(question_id) 
-    user_asker = User.query.filter(User.user_id == ask.user_id).first()
-    asker_image = user_asker.images[0]
-    
-    comments = ask.comments #comments related to the ask(question)
-    comment_id = []
-    for comment in comments:
-        comment_id.append(comment.comment_id)
-    comment_id.sort()
+    user_id = session.get("user_id")
 
-    comments = []
-    for comm_id in comment_id:
-        comment_deets = {}
-        comment_obj = Comment.query.get(comm_id)
-        comment_deets["comment"] = comment_obj.comment
+    if user_id:
+        
+        user = User.query.get(session["user_id"])
 
-        user_commenter = User.query.filter(User.user_id == comment_obj.user_id).first()
-        comment_deets["comment_id"] = comm_id
-        comment_deets["user"] = user_commenter.username
-        comment_deets["image"] = user_commenter.images[0].image
-        comment_deets["vote"] = comment_obj.vote_count()
-        comment_deets["comment_timestamp"] = comment_obj.comment_timestamp
-        comment_deets["user_id"] = user_commenter.user_id
-       
-    
-        comments.append(comment_deets)
-    
+        ask = Question.query.get(question_id) 
+        user_asker = User.query.filter(User.user_id == ask.user_id).first()
+        asker_image = user_asker.images[0]
+        
+        comments = ask.comments #comments related to the ask(question)
+        comment_id = []
+        for comment in comments:
+            comment_id.append(comment.comment_id)
+        comment_id.sort()
 
-    return render_template("question_and_comment.html", ask=ask, comments=comments, user_asker=user_asker, asker_image=asker_image, user=user)
+        comments = []
+        for comm_id in comment_id:
+            comment_deets = {}
+            comment_obj = Comment.query.get(comm_id)
+            comment_deets["comment"] = comment_obj.comment
+
+            user_commenter = User.query.filter(User.user_id == comment_obj.user_id).first()
+            comment_deets["comment_id"] = comm_id
+            comment_deets["user"] = user_commenter.username
+            comment_deets["image"] = user_commenter.images[0].image
+            comment_deets["vote"] = comment_obj.vote_count()
+            comment_deets["comment_timestamp"] = comment_obj.comment_timestamp
+            comment_deets["user_id"] = user_commenter.user_id
+           
+        
+            comments.append(comment_deets)
+        
+
+        return render_template("question_and_comment.html", ask=ask, comments=comments, user_asker=user_asker, asker_image=asker_image, user=user)
+
+    else: 
+        return redirect("/login")
+
 
 
 @app.route("/add-comment.json", methods=['POST'])
@@ -435,9 +533,15 @@ def add_vote():
 
 @app.route("/search-questions")
 def search_question(): 
+    user_id = session.get("user_id")
 
+    if user_id:
    
-    return render_template("question_search.html")
+        return render_template("question_search.html")
+
+    else: 
+        return redirect("/login")
+
 
 
 @app.route('/return-search')
@@ -448,10 +552,10 @@ def return_search_question():
     search_list = []
     search = request.args.get("search_item")
   
-    splitted_search = search.split(" ")#returns list of searched words
+    splitted_search = search.split(" ")
     
     for word in splitted_search:
-        search_match = Question.query.filter(Question.question.like('%' + word + '%') ).all() #returns a list of objects
+        search_match = Question.query.filter(Question.question.like('%' + word + '%') ).all() 
         search_list.extend(search_match)
         search_match = Question.query.filter(Question.title_question.like('%' + word + '%') ).all()
         search_list.extend(search_match)

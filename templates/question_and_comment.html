@@ -2,30 +2,30 @@
 {% extends 'base.html' %}
 {% block content %}
 <!-- question page -->
-<div class="row" id="full-question-layout">
- 
-  <div class="col-md-2 col-md-offset-1" id="question-image">
- 
-    <a href="/users/{{user_asker.user_id}}">
-      <div id="question-image-layout">
-        <img src="/static/images/{{user_asker.images[0].image}}" class="img-thumbnail img-responsive" width="100">
-      </div>
-    </a>
-    <span>{{user_asker.username}}</span>
-  </div>
-  <div class="col-md-5" id="question-layout">
-    <span class="tip tip-left"></span>
-    <div>
-      {{ask.title_question}}:
-      <br> {{ask.question}}
-    </div>
-    <div id="timestamp">{{ask.question_created}}</div>
-  </div>
-  <ul class="nav nav-pills">
-   <li>Comments  <span class="badge" id="comment-count">{{ ask.comment_on_question_count() }}</span></li>
-  </ul>
-  <div class="col-md-4"></div>
+
+
+<div class="row" id="full-question-layout" >
+        <div class="col-md-2 col-md-offset-1" id="question-image">
+          <a href = "/users/{{user_asker.user_id}}">
+            <div id ="question-image-layout">
+              <img src="/static/images/{{user_asker.images[0].image}}" class="img-thumbnail img-responsive" width="100">
+            </div>
+          </a>
+        </div>
+       
+        <div class="panel panel-default col-md-8" >
+          <span class="tip tip-left"></span>
+              <div class="panel-heading">{{user_asker.username}} <span class="asked-on">asked on {{ask.question_created}} </span> <span class="comments-on">{{ ask.comment_on_question_count() }} comments</span>
+              </div>
+          <div class="panel-body">
+            <div class ='title-ques'>{{ask.title_question}}</div><br>
+          <div>{{ask.question}}</div>
+          </div>
+        </div>
+      
 </div>
+
+
 
 
 
@@ -38,36 +38,34 @@
 
     {% for comment in comments %}
     <li>
-      <div class="row" id="full-comment-layout">
-       
 
-        <div class="col-md-6 col-md-offset-1" id="comment-layout">
-          <span class="tip-right tip-two"></span>
-          
-          <div>
-            {{comment.comment}}
-          </div>
-          <div id="timestamp">
-          {{comment.comment_timestamp}}
-          </div>
-          <div>
+    <div class="row" id="full-question-layout" >
+      
+       
+        <div class="panel panel-default col-md-7 col-md-offset-1" >
+          <span class="tip tip-right"></span>
+              <div class="panel-heading">{{comment.user}} <span class="asked-on">replied on {{comment.comment_timestamp}} </span> 
+              </div>
+          <div class="panel-body">
+           
+          <div>{{comment.comment}}</div>
           </div>
         </div>
 
-         <div class="col-md-2" id="comment-image">
-          
-          <a href="/users/{{comment.user_id}}">
-            <div id="comment-image-layout">
-              <img src="/static/images/{{comment.image}}" width="100" class="img-thumbnail img-responsive">
+        <div class="col-md-2" id="question-image">
+          <a href = "/users/{{comment.user_id}}">
+            <div id ="question-image-layout">
+              <img src="/static/images/{{comment.image}}" class="img-thumbnail img-responsive" width="100">
             </div>
           </a>
-          <span >{{comment.user}}</span>
-       
         </div>
+
         <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
         <button class="vote" data-direction="up" data-comment-id="{{comment.comment_id}}" id="{{comment.comment_id}}"> {{comment.vote}}</button>
         
       </div>
+      
+
     </li>
     {% endfor %}
   </ul>
@@ -102,15 +100,9 @@ function showResult(resp){
   var commentCount = parseInt($("#comment-count").text());
     commentCount += 1
     $("#comment-count").text(commentCount)
-  $("#comments").append("<li>" + '<div class="row" id="full-comment-layout">' + 
-       '<div class="col-md-6 col-md-offset-1" id="comment-layout">' +
-          '<span class="tip-right tip-two">' + '</span>' + '<div>' + $("#write-comment").val() + '</div>' + '<div id="timestamp">'+ 
-          resp.comment_timestamp + '</div>' + '<div>' + '</div>' + '</div>' + '<div class="col-md-2" id="comment-image">'
-            + '<a href="/users/' +  resp.user_id + '">' + '<div id="comment-image-layout">' + 
-              '<img src="/static/images/' + resp.comment_auth_image + '" width="100" class="img-thumbnail img-responsive">' + 
-            '</div>' + '</a>'   + '<span>' + resp.comment_author + '</span>' +'</div>' + ' <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>' + 
-        ' <button class="vote" data-direction="up" data-comment-id="' + resp.comment_id + '" id="' +  resp.comment_id + '" >' +  resp.vote +  '</button>'+ '</div>'
-+ "</li>");
+  $("#comments").append("<li>" + '<div class="row" id="full-question-layout">' + 
+       '<div class="panel panel-default col-md-7 col-md-offset-1" >' +
+          '<span class="tip tip-right">' + '</span>' + '<div class="panel-heading">' + resp.comment_author + '<span class="asked-on"> replied on ' + resp.comment_timestamp + '</span>' + '</div>' + '<div class="panel-body">' + '<div>' +  $("#write-comment").val() + '</div>' + '</div>' + '</div>' + '<div class="col-md-2" id="question-image">' + '<a href="/users/' +  resp.user_id + '">' + '<div id ="question-image-layout">' + '<img src="/static/images/' + resp.comment_auth_image + '"class="img-thumbnail img-responsive" width="100">' + '</div>' + '</a>'  + '</div>' + ' <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>' + ' <button class="vote" data-direction="up" data-comment-id="' + resp.comment_id + '" id="' +  resp.comment_id + '" >' +  resp.vote +  '</button>'+ '</div>'+ "</li>");
     
   $("#write-comment").val("");
   $(".vote").click(submitVote);
