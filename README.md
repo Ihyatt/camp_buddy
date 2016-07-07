@@ -43,14 +43,10 @@ Camp Buddy is a fun social platform that is designed to allow coding boot-camper
 - [x] Editable or deletable notes
 - [x] Comment forum where comments are voteable and comments on a question are counted
 - [x] Author of questions are notified whenever a comment is made in response to a question
+- [x] Database checks to ensure a user gets one vote per comment
 
 ####Future
 
-- [ ] AJAX request for image upload
-- [ ] Include Chart.js to illustrate user interaction with Camp Buddy
-- [ ] Message inbox for each user
-- [ ] OAuth for user login using either Facebook or Google
-- [ ] Private chat messaging for users
 - [ ] Page that shows all questions within Camp Buddy with real time updates
 
 #####User Profile Page
