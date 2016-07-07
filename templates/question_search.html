@@ -35,9 +35,9 @@ function showResults(results){
 								'<img src="/static/images/' + returnedQuestions[key][3] + '" class="img-thumbnail img-responsive" width="100">' + 
 							'</div>' + 
 						'</a>' +
-						'</div>' + '<a href = "/question_and_comment/' + key + '">' + 
+						'</div>' + '<a href = "/question_and_comment/' + key + '" id = "invisible-tag">' + 
 
-						'<div class="panel panel-default col-md-8" >' + '<span class="tip tip-left">' + '</span>' + '<div class="panel-heading">' + returnedQuestions[key][2] + '<span class="asked-on"> asked on' + returnedQuestions[key][6] + '</span>' + '<span class="comments-on">' + returnedQuestions[key][4] + ' comments</span>' + ' </div>' + ' <div class="panel-body">' + ' <div class ="title-ques">' + returnedQuestions[key][1] + '</div>' + '<br>' + '<div>' + returnedQuestions[key][0] + '</div>' + '</div>' + '</div>' +'</a>' + '</div>' + "</li>")		
+						'<div class="panel panel-default col-md-8" >' + '<span class="tip tip-left">' + '</span>' + '<div class="panel-heading">' + returnedQuestions[key][2] + '<span class="asked-on"> asked on ' + returnedQuestions[key][6] + '</span>' + '<span class="comments-on">' + returnedQuestions[key][4] + ' comments</span>' + ' </div>' + ' <div class="panel-body">' + ' <div class ="title-ques">' + returnedQuestions[key][1] + '</div>' + '<br>' + '<div>' + returnedQuestions[key][0] + '</div>' + '</div>' + '</div>' +'</a>' + '</div>' + "</li>")		
 	};
 	$("#search").val("")
 console.log("im here");

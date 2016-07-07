@@ -12,10 +12,11 @@
 						</div>
 					</a>
 				</div>
+				
 				<a href = '/question_and_comment/{{ask.question_id}}' id = 'invisible-tag'>
 				<div class="panel panel-default col-md-8" >
 					<span class="tip tip-left"></span>
-  						<div class="panel-heading">{{user_info.username}} <span class="asked-on">asked on {{ask.question_created}} </span> <span class="comments-on">{{ ask.comment_on_question_count() }} comments</span>
+  						<div class="panel-heading">{{user_info.username}} <span class="asked-on">asked on {{ask.question_created}} </span> <div class="comments-on">{{ ask.comment_on_question_count() }} comments</div>
   						</div>
   				<div class="panel-body">
     				<div class ='title-ques'>{{ask.title_question}}</div><br>
