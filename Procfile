@@ -1,0 +1,1 @@
+web: DEBUG=false python server.py
