@@ -1,1 +1,1 @@
-web: DEBUG=false python server.py
+web: DEBUG=false gunicorn --bind 0.0.0.0:${PORT} server:app

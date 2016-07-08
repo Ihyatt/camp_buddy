@@ -573,15 +573,13 @@ def return_search_question():
 
 if __name__ == "__main__":
   
-    app.debug = os.getenv("DEBUG", "true") == "true"
+    app.debug = True
 
     connect_to_db(app)
-
-    port = int(os.getenv("PORT", "5000"))
 
     if app.debug:
         DebugToolbarExtension(app)
 
-    app.run(port=port)
+    app.run()
 
 
