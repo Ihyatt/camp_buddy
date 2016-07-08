@@ -21,7 +21,8 @@ app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
-app.secret_key = "19kittiesareawesome89"
+app.secret_key = os.getenv("SECRET_KEY", "19kittiesareawesome89")
+
 
 app.jinja_env.undefined = StrictUndefined
 
@@ -572,13 +573,15 @@ def return_search_question():
 
 if __name__ == "__main__":
   
-    app.debug = True
+    app.debug = os.getenv("DEBUG", "true") == "true"
 
     connect_to_db(app)
 
-  
-    DebugToolbarExtension(app)
+    port = int(os.getenv("PORT", "5000"))
 
-    app.run()
+    if app.debug:
+        DebugToolbarExtension(app)
+
+    app.run(port=port)
 
 
