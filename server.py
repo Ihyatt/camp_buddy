@@ -52,7 +52,7 @@ def register_process():
     languages = request.form.get("languages")
     linkedin_url = request.form.get("languages")
     github_url = request.form.get("github_url")
-    file_ = request.files.get("image-upload")
+    # file_ = request.files.get("image-upload")
     about_user = request.form.get("about")
 
 
@@ -110,9 +110,9 @@ def register_process():
         flash('You were successfully logged in')
     
        
-        if file_:
-            filename = secure_filename(file_.filename)
-            file_.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        # if file_:
+        #     filename = secure_filename(file_.filename)
+        #     file_.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         
 
 
@@ -125,9 +125,9 @@ def register_process():
        
         session["user_id"] = user.user_id
 
-        user_image = Image(user_id=session["user_id"], image=filename)
+        # user_image = Image(user_id=session["user_id"], image=filename)
 
-        db.session.add(user_image)
+        # db.session.add(user_image)
 
         profile = ProfilePage(user_id=session["user_id"])
         
@@ -149,7 +149,7 @@ def login_form():
 
 @app.route('/login', methods=['POST'])
 def login_process():
-    "Process login"
+    """Process login"""
     email = request.form.get("email")
     password = request.form.get("password")
 
