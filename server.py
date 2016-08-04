@@ -110,9 +110,9 @@ def register_process():
         flash('You were successfully logged in')
     
        
-        # if file_:
-        #     filename = secure_filename(file_.filename)
-        #     file_.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        if file_:
+            filename = secure_filename(file_.filename)
+            file_.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         
 
 
@@ -125,9 +125,9 @@ def register_process():
        
         session["user_id"] = user.user_id
 
-        # user_image = Image(user_id=session["user_id"], image=filename)
+        user_image = Image(user_id=session["user_id"], image=filename)
 
-        # db.session.add(user_image)
+        db.session.add(user_image)
 
         profile = ProfilePage(user_id=session["user_id"])
         
