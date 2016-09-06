@@ -19,9 +19,10 @@ ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 app = Flask(__name__)
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['TEMPLATES_AUTO_RELOAD'] = True
 
 
-app.secret_key = os.getenv("SECRET_KEY", "19kittiesareawesome89")
+app.secret_key = "19kittiesareawesome89"
 
 
 app.jinja_env.undefined = StrictUndefined
@@ -52,7 +53,7 @@ def register_process():
     languages = request.form.get("languages")
     linkedin_url = request.form.get("languages")
     github_url = request.form.get("github_url")
-    # file_ = request.files.get("image-upload")
+    file_ = request.files.get("image-upload")
     about_user = request.form.get("about")
 
 
@@ -573,12 +574,11 @@ def return_search_question():
 
 if __name__ == "__main__":
   
-    app.debug = True
+    app.debug = False
 
     connect_to_db(app)
 
-    if app.debug:
-        DebugToolbarExtension(app)
+    DebugToolbarExtension(app)
 
     app.run()
 
