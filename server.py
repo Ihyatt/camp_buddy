@@ -19,7 +19,7 @@ ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 app = Flask(__name__)
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.config['TEMPLATES_AUTO_RELOAD'] = True
+# app.config['TEMPLATES_AUTO_RELOAD'] = True
 
 
 app.secret_key = "19kittiesareawesome89"
@@ -196,12 +196,11 @@ def user_page(user_id):
 def view_profile():
     """Allows user to edit their profile"""
     user_id = session.get("user_id")
-    if user_id:
-        user = User.query.get(session["user_id"])
+  
+    user = User.query.get(session["user_id"])
        
-        return render_template("editable_profile_page.html", user=user)
-    else:
-         return redirect("/login")
+    return render_template("editable_profile_page.html", user=user)
+   
 
 
 @app.route("/update-profile", methods=['POST'])
@@ -223,45 +222,46 @@ def update_user_data():
     user.github_url = request.form.get("github_url")
     user.about_user = request.form.get("about")
     user.password = request.form.get("password")
+    print user.password
     file_ = request.files["image-upload"]
 
-    if password == '':
+    if user.password == '':
         flash('Please type in a password')
         return render_template("register_form.html")
 
-    elif boot_camp_name == '':
+    elif user.boot_camp_name == '':
         flash('Please type in a bootcamp')
         return render_template("register_form.html")
 
-    elif city == '':
+    elif user.city == '':
         flash('Please type in a city')
         return render_template("register_form.html")
 
-    elif state == '':
+    elif user.state == '':
         flash('Please type in a state')
         return render_template("register_form.html")
 
-    elif linkedin_url == '':
+    elif user.linkedin_url == '':
         flash('Please type in your LinkedIn address')
         return render_template("register_form.html")
 
-    elif github_url == '':
+    elif user.github_url == '':
         flash('Please type in your GitHub address')
         return render_template("register_form.html")
 
-    elif languages == '':
+    elif user.languages == '':
         flash('Please type your skills')
         return render_template("register_form.html")
 
-    elif about_user == '':
+    elif user.about_user == '':
         flash('Please type about yourself')
         return render_template("register_form.html")
 
-    elif email == '':
+    elif user.email == '':
         flash('Please type in your email')
         return render_template("register_form.html")
 
-    elif username == '':
+    elif user.username == '':
         flash('Please type in your username')
         return render_template("register_form.html")
 
