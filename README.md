@@ -102,4 +102,4 @@ Every question has its own comment forum. When a page is reloaded or visited, co
   * Then type password
 * Second Terminal
   * type `telnet localhost 25`
-* Go to localhost:5000 to see the comments posted
+* Go to http://localhost:8081/#/ to see the comments posted
