@@ -30,6 +30,8 @@ Camp Buddy is a fun social platform that is designed to allow coding boot-camper
 * [Bootstrap](http://getbootstrap.com/)
 * [MailDev](https://www.npmjs.com/package/maildev)
 * [Sessions](http://www.allaboutcookies.org/cookies/session-cookies-used-for.html)
+* [Node.js](https://nodejs.org/en/)
+
 
 ### <a name="features"></a>Features
 
