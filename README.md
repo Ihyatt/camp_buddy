@@ -88,7 +88,7 @@ Every question has its own comment forum. When a page is reloaded or visited, co
 ##### General Setup
 * Set up and activate a python virtualenv, and install all dependencies:
     * `pip install -r requirements.txt`
-* Make sure you have PostgreSQL running. Create a new database in psql named camp_buddy:
+* Make sure you have PostgreSQL running. Create a new database named camp_buddy:
   * `createdb camp_buddy`
 * Create the tables in your database:
     * `python -i model.py`
