@@ -88,15 +88,14 @@ Every question has its own comment forum. When a page is reloaded or visited, co
 ##### General Setup
 * Set up and activate a python virtualenv, and install all dependencies:
     * `pip install -r requirements.txt`
-  * Make sure you have PostgreSQL running. Create a new database in psql named camp_buddy:
-	* `psql`
-  	* `createdb camp_buddy`
- * Create the tables in your database:
+* Make sure you have PostgreSQL running. Create a new database in psql named camp_buddy:
+  * `createdb camp_buddy`
+* Create the tables in your database:
     * `python -i model.py`
     * While in interactive mode, create tables: `db.create_all()`
- * Start up the flask server:
+* Start up the flask server:
     * `python server.py`
- * Go to localhost:5000 to see the web app
+* Go to localhost:5000 to see the web app
 
 ##### Maildev Setup
 * Open two new tabs on your currently running terminal. First terminal
