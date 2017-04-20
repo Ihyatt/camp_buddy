@@ -128,7 +128,7 @@ $("#add-comment").on("click", submitComment);
 function updateVote(results) {
   var updated_vote = results["vote"];
   $("#"+results['comment_id']).text(updated_vote);
-  console.log("Vote added")
+  
 }
 
 function submitVote(evt) {
@@ -138,7 +138,7 @@ function submitVote(evt) {
   }
   
   $.post("/add-vote.json", voted_item, updateVote);
-    console.log("going to post request")
+    
 }
 $(".vote").click(submitVote);
 

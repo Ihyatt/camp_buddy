@@ -222,7 +222,7 @@ def update_user_data():
     user.github_url = request.form.get("github_url")
     user.about_user = request.form.get("about")
     user.password = request.form.get("password")
-    print user.password
+    
     file_ = request.files["image-upload"]
 
     if user.password == '':

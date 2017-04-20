@@ -1,5 +1,5 @@
 function showNote(results){
-  console.log("note added");
+ 
   location.reload(true);
 }
 
@@ -23,7 +23,7 @@ $("#note-submit").click(submitNote)
 // Update question
 
 function showQuestion(results){
-  console.log("question added");
+ 
   var questionCount = parseInt($("#question-count").text());
   questionCount += 1
   $("#question-count").text(questionCount)
