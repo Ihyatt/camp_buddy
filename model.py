@@ -52,21 +52,6 @@ class User(db.Model):
 
 
 ##############################################################################
-
-class ProfilePage(db.Model):
-    """Profile page info"""
-
-    __tablename__ = "profile_pages"
-
-    profile_page_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
-
-    def __repr__(self):
-        return "<ProfilePage profile_page_id=%s user_id=%s linkedin_url=%s github_url=%s>" % (
-            self.profile_page_id, self.user_id, self.linkedin_url, self.github_url)
-
-
-##############################################################################
 class Image(db.Model):
     """points to direction of users image"""
     __tablename__ = "images"
